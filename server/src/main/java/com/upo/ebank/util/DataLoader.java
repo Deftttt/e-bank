@@ -37,7 +37,7 @@ public class DataLoader {
         client.setFirstName("John");
         client.setLastName("Doe");
         client.setPhoneNumber("123456789");
-        client.setPesel("user Atribute xd");
+        client.setPesel("CLIENT PESEL");
 
         Address address = new Address();
         address.setCity("City");

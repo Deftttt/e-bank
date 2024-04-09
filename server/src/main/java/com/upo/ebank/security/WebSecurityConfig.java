@@ -60,6 +60,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/users/**").hasAuthority(RoleName.ROLE_ADMIN.toString())
+                        .requestMatchers("/clients/**").permitAll()
+                        .requestMatchers("/employees/**").permitAll()
 
                         .anyRequest().authenticated()
                 );
