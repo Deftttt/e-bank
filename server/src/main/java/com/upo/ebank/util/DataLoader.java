@@ -1,6 +1,7 @@
 package com.upo.ebank.util;
 
 import com.upo.ebank.model.*;
+import com.upo.ebank.repository.PositionRepository;
 import com.upo.ebank.service.ClientService;
 import com.upo.ebank.service.EmployeeService;
 import com.upo.ebank.service.UserService;
@@ -20,6 +21,7 @@ public class DataLoader {
     private final UserService userService;
     private final ClientService clientService;
     private final EmployeeService employeeService;
+    private final PositionRepository positionRepository;
 
 
     @EventListener(ApplicationReadyEvent.class)
@@ -47,7 +49,12 @@ public class DataLoader {
         address.setCountry("Country");
         client.setAddress(address);
 
-
+        Position position = new Position(
+                null,
+                "Emp_Position_1",
+                5600.0,
+                Set.of(new Right(null, RightName.VIEW_CLIENTS), new Right(null, RightName.VIEW_EMPLOYEES)));
+        positionRepository.save(position);
 
         Employee employee = new Employee();
         employee.setEmail("piotrstasicki@gmail.com");
@@ -55,11 +62,9 @@ public class DataLoader {
         employee.setFirstName("Piotr");
         employee.setLastName("Stasicki");
         employee.setPhoneNumber("728119146");
-        employee.setEmployeeAtribute("Employee atrubisadjaksjd");
+        employee.setDepartment(Department.DEPARTMENT_1);
+        employee.setPosition(position);
 
-        Role roleManager = new Role(null, RoleName.ROLE_MANAGER);
-        Role roleAdmin = new Role(null, RoleName.ROLE_ADMIN);
-        employee.setRoles(Set.of(roleAdmin, roleManager));
 
 
         Address address2 = new Address();

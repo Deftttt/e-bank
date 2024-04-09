@@ -1,7 +1,6 @@
 package com.upo.ebank.security;
 
-import com.upo.ebank.model.Role;
-import com.upo.ebank.model.RoleName;
+import com.upo.ebank.model.RightName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,9 +58,9 @@ public class WebSecurityConfig {
                         //.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/users/**").hasAuthority(RoleName.ROLE_ADMIN.toString())
-                        .requestMatchers("/clients/**").permitAll()
-                        .requestMatchers("/employees/**").permitAll()
+                        .requestMatchers("/users/**").authenticated()
+                        .requestMatchers("/clients/**").hasAuthority(RightName.VIEW_CLIENTS.toString())
+                        .requestMatchers("/employees/**").hasAuthority(RightName.VIEW_EMPLOYEES.toString())
 
                         .anyRequest().authenticated()
                 );

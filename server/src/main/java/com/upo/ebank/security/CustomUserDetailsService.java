@@ -2,8 +2,8 @@ package com.upo.ebank.security;
 
 import com.upo.ebank.model.Client;
 import com.upo.ebank.model.Employee;
-import com.upo.ebank.model.Role;
-import com.upo.ebank.model.RoleName;
+import com.upo.ebank.model.Right;
+import com.upo.ebank.model.RightName;
 import com.upo.ebank.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,12 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         if (user instanceof Employee) {
-            for (Role role : ((Employee) user).getRoles()) {
-                authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
+            for (Right right : ((Employee) user).getPosition().getRights()) {
+                authorities.add(new SimpleGrantedAuthority(right.getName().toString()));
             }
         } else if (user instanceof Client) {
-            authorities.add(new SimpleGrantedAuthority(RoleName.ROLE_USER.toString()));
+            authorities.add(new SimpleGrantedAuthority(RightName.USER_RIGHTS.toString()));
         }
+
         return UserPrincipal.builder()
                 .userId(user.getId())
                 .email(user.getEmail())

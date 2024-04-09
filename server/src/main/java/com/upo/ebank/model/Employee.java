@@ -15,13 +15,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class Employee extends User {
 
-    private String employeeAtribute;
+    @Enumerated(EnumType.STRING)
+    private Department department;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "employee_role",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @OneToOne
+    private Position position;
+
 }
