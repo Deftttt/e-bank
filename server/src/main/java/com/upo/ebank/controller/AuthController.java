@@ -1,9 +1,6 @@
 package com.upo.ebank.controller;
 
-import com.upo.ebank.model.Client;
-import com.upo.ebank.model.LoginRequest;
-import com.upo.ebank.model.LoginResponse;
-import com.upo.ebank.model.SignUpRequest;
+import com.upo.ebank.model.*;
 import com.upo.ebank.service.AuthService;
 import com.upo.ebank.service.ClientService;
 import com.upo.ebank.service.UserService;
@@ -13,6 +10,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +32,7 @@ public class AuthController {
         if(userService.isEmailTaken(request.getEmail())){
             throw new Exception("Email exists!");
         }
+
         Client client = clientService.addClient(new Client(
                 null,
                 request.getEmail(),
@@ -40,7 +40,8 @@ public class AuthController {
                 request.getFirstName(),
                 request.getLastName(),
                 request.getPhoneNumber(),
-                null,
+                List.of(new Address(null, request.getCity(), request.getStreet(), request.getLocalNumber(),
+                        request.getPostCode(), request.getCountry())),
                 request.getPesel()
         ));
 
