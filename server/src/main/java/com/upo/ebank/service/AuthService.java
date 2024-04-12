@@ -1,6 +1,6 @@
 package com.upo.ebank.service;
 
-import com.upo.ebank.model.LoginResponse;
+import com.upo.ebank.model.dto.LoginResponse;
 import com.upo.ebank.security.JwtIssuer;
 import com.upo.ebank.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;

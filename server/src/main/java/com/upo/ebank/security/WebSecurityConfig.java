@@ -1,6 +1,6 @@
 package com.upo.ebank.security;
 
-import com.upo.ebank.model.RightName;
+import com.upo.ebank.model.enums.RightName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +61,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/users/**").authenticated()
                         .requestMatchers("/clients/**").hasAuthority(RightName.VIEW_CLIENTS.toString())
                         .requestMatchers("/employees/**").hasAuthority(RightName.VIEW_EMPLOYEES.toString())
+                        .requestMatchers("/accounts/**").permitAll()
+                        .requestMatchers("/transactions/**").permitAll()
 
                         .anyRequest().authenticated()
                 );

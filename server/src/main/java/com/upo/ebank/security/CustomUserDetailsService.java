@@ -3,7 +3,7 @@ package com.upo.ebank.security;
 import com.upo.ebank.model.Client;
 import com.upo.ebank.model.Employee;
 import com.upo.ebank.model.Right;
-import com.upo.ebank.model.RightName;
+import com.upo.ebank.model.enums.RightName;
 import com.upo.ebank.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
