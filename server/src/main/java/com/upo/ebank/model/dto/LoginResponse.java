@@ -1,4 +1,4 @@
-package com.upo.ebank.model;
+package com.upo.ebank.model.dto;
 
 import lombok.Builder;
 import lombok.Data;

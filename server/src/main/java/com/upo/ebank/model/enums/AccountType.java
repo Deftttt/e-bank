@@ -1,4 +1,4 @@
-package com.upo.ebank.model;
+package com.upo.ebank.model.enums;
 
 public enum AccountType {
     PERSONAL_ACCOUNT,

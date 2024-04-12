@@ -5,8 +5,13 @@ spring:
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  sql:
+    init:
+      mode: always
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
     show-sql: true
@@ -21,3 +26,4 @@ security:
 logging:
   level:
     org.springframework.security: DEBUG
+

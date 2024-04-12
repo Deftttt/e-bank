@@ -1,5 +1,6 @@
 package com.upo.ebank.model;
 
+import com.upo.ebank.model.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -22,12 +22,10 @@ public class BankAccount {
 
     private Date openingDate;
 
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-
-    @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions;
 }
