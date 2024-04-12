@@ -1,5 +1,6 @@
 package com.upo.ebank.model;
 
+import com.upo.ebank.model.enums.RightName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
