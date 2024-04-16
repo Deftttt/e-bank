@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# Ignore environment variables file
+.env
+
 # Package Files #
 *.jar
 *.war
