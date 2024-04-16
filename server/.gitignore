@@ -4,12 +4,6 @@
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
 # Package Files #
 *.jar
 *.war
@@ -32,9 +26,6 @@ gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# Cache of project
-.cache/
-
 # IntelliJ IDEA files
 .idea/
 *.iws
@@ -53,5 +44,11 @@ out/
 # Java build tool files
 target/
 !.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot specific artifacts
+spring-boot-devtools/
+spring-boot-starter-actuator/
+spring-boot-starter-web/
+spring-boot-starter-data-jpa/
 
 # End of .gitignore
