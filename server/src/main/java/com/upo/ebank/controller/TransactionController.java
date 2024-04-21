@@ -30,6 +30,12 @@ public class TransactionController {
         return transactionService.getTransactionBySenderAccountNumber(accountNumber, transactionType);
     }
 
+    @GetMapping("/client/{clientId}")
+    public List<TransactionDto> getTransactionByClientId(@PathVariable Long clientId,
+                                                                    @RequestParam(required = false) String transactionType) {
+        return transactionService.getTransactionByClientId(clientId, transactionType);
+    }
+
     @PostMapping
     public Transaction createTransaction(@RequestBody CreateTransactionDTO createTransactionDTO) {
         return transactionService.createTransaction(createTransactionDTO);

@@ -61,4 +61,19 @@ public class TransactionService {
                 .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
                 .collect(Collectors.toList());
     }
+
+    public List<TransactionDto> getTransactionByClientId(Long clientId, String transactionType) {
+        List<Transaction> transactions;
+        if("outgoing".equals(transactionType)) {
+            transactions = transactionRepository.findOutgoingTransactionsByClientId(clientId);
+        } else if ("incoming".equals(transactionType)) {
+            transactions = transactionRepository.findIncomingTransactionsByClientId(clientId);
+        } else {
+            transactions = transactionRepository.findTransactionsByClientId(clientId);
+        }
+
+        return transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -18,5 +18,13 @@ public interface TransactionRepository  extends JpaRepository<Transaction, Long>
     @Query("SELECT t FROM Transaction t WHERE t.recipientAccount.accountNumber = :accountNumber")
     List<Transaction> findIncomingTransactionsByAccountNumber(@Param("accountNumber") String accountNumber);
 
+    @Query("SELECT t FROM Transaction t " +
+            "WHERE t.senderAccount.client.id = :clientId OR t.recipientAccount.client.id = :clientId")
+    List<Transaction> findTransactionsByClientId (@Param("clientId") Long clientId);
 
+    @Query("SELECT t FROM Transaction t WHERE t.senderAccount.client.id = :clientId")
+    List<Transaction> findOutgoingTransactionsByClientId(@Param("clientId") Long clientId);
+
+    @Query("SELECT t FROM Transaction t WHERE t.recipientAccount.client.id = :clientId")
+    List<Transaction> findIncomingTransactionsByClientId(@Param("clientId") Long clientId);
 }
