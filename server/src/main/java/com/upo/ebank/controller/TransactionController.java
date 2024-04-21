@@ -21,6 +21,21 @@ public class TransactionController {
         return transactionService.getAllTransactions();
     }
 
+    @GetMapping("/{id}")
+    public TransactionDto getTransactionById(@PathVariable Long id) { return transactionService.getTransactionById(id);}
+
+    @GetMapping("/account/{accountNumber}")
+    public List<TransactionDto> getTransactionBySenderAccountNumber(@PathVariable String accountNumber,
+                                                                    @RequestParam(required = false) String transactionType) {
+        return transactionService.getTransactionBySenderAccountNumber(accountNumber, transactionType);
+    }
+
+    @GetMapping("/client/{clientId}")
+    public List<TransactionDto> getTransactionByClientId(@PathVariable Long clientId,
+                                                                    @RequestParam(required = false) String transactionType) {
+        return transactionService.getTransactionByClientId(clientId, transactionType);
+    }
+
     @PostMapping
     public Transaction createTransaction(@RequestBody CreateTransactionDTO createTransactionDTO) {
         return transactionService.createTransaction(createTransactionDTO);
