@@ -41,4 +41,24 @@ public class TransactionService {
 
         return transaction;
     }
+
+    public TransactionDto getTransactionById(Long id) {
+        Transaction transaction = transactionRepository.findById(id).orElseThrow();
+        return modelMapper.map(transaction, TransactionDto.class);
+    }
+
+    public List<TransactionDto> getTransactionBySenderAccountNumber(String accountNumber, String transactionType) {
+        List<Transaction> transactions;
+        if("outgoing".equals(transactionType)) {
+            transactions = transactionRepository.findOutgoingTransactionsBySenderAccountNumber(accountNumber);
+        } else if ("incoming".equals(transactionType)) {
+            transactions = transactionRepository.findIncomingTransactionsByAccountNumber(accountNumber);
+        } else {
+            transactions = transactionRepository.findTransactionsByAccountNumber(accountNumber);
+        }
+
+        return transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
+                .collect(Collectors.toList());
+    }
 }
