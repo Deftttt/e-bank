@@ -1,0 +1,4 @@
+SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/ebank_database
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=Kabanoss1!
+JWT_SECRET_KEY=alamakotakotmaaleblablabla

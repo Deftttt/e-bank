@@ -30,4 +30,11 @@ public class BankAccountService {
     }
 
 
+    public List<BankAccountDto> getBankAccountsByClientId(Long clientId){
+        List<BankAccount> bankAccounts = bankAccountRepository.findByClientId(clientId);
+        return bankAccounts.stream()
+                .map(bankAccount -> modelMapper.map(bankAccount, BankAccountDto.class))
+                .collect(Collectors.toList());
+    }
+
 }
