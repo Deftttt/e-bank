@@ -1,9 +1,8 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Copyright } from "@mui/icons-material";
-import { Container, CssBaseline, Box, Avatar, Typography, Grid, TextField, FormControlLabel, Checkbox, Button } from "@mui/material";
+import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { RegisterData, register } from './services/AuthService';
 import useAuth from '../hooks/useAuth';
+import { RegisterData, register } from './services/AuthService';
 
 const RegisterPage = () => {
     const navigate = useNavigate();

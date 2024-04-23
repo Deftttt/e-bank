@@ -1,7 +1,6 @@
-import React from 'react';
-import { Container, Typography, Box, Button } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './shared/Navbar';
+import Navbar from './shared/ui/Navbar';
 
 const SecuredPage = () => {
     const navigate = useNavigate();

@@ -1,13 +1,12 @@
-import './App.css'
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './HomePage';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import SecuredPage from './SecuredPage';
 import LoginPage from './auth/LoginPage';
 import RegisterPage from './auth/RegisterPage';
-import { LayersOutlined } from '@mui/icons-material';
-import Layout from './Layout';
-import RequireAuth from './RequireAuth';
-import MissingPage from './MissingPage';
-import SecuredPage from './SecuredPage';
+import MissingPage from './error/MissingPage';
+import HomePage from './home/HomePage';
+import Layout from './utils/Layout';
+import RequireAuth from './utils/RequireAuth';
 
 function App() {
 
