@@ -1,12 +1,14 @@
-import { Copyright } from '@mui/icons-material';
-import { Container, CssBaseline, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 import { LoginData, login } from './services/AuthService';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
+
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -16,7 +18,8 @@ const LoginPage = () => {
             password: data.get('password') as string,
         };
         try {
-            await login(loginData);
+            const response = await login(loginData);
+            setAuth(response.accessToken);
             navigate('/');
         } catch (error) {
             console.error('Error while logging in:', error);

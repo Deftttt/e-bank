@@ -1,17 +1,31 @@
-import './App.css'
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './HomePage';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import SecuredPage from './SecuredPage';
 import LoginPage from './auth/LoginPage';
 import RegisterPage from './auth/RegisterPage';
+import MissingPage from './error/MissingPage';
+import HomePage from './home/HomePage';
+import Layout from './utils/Layout';
+import RequireAuth from './utils/RequireAuth';
 
 function App() {
 
   return (
     <>
        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<Layout />}>
+            
+            <Route path="/" element={<HomePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+
+            <Route element={<RequireAuth />}>
+              <Route path="/secured" element={<SecuredPage />} />
+            </Route>
+
+
+            <Route path="*" element={<MissingPage />} />
+          </Route>
        </Routes>
     </>
 
