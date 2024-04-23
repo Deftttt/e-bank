@@ -56,14 +56,14 @@ export const register = (registerData: RegisterData) =>{
 
 
 export const authHeader = () => {
-  const token = JSON.parse(localStorage.getItem("accessToken"));
+  const token = JSON.parse(localStorage.getItem("accessToken") as string);
   if (token) {
       return { Authorization: "Bearer " + token }; 
   } else {
-    return {};
+    return {};  
   }
 }
 
 export const getToken = () => {
-  return JSON.parse(localStorage.getItem("accessToken"));
+  return JSON.parse(localStorage.getItem("accessToken")  as string);
 };

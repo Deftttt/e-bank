@@ -3,9 +3,11 @@ import { Copyright } from "@mui/icons-material";
 import { Container, CssBaseline, Box, Avatar, Typography, Grid, TextField, FormControlLabel, Checkbox, Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterData, register } from './services/AuthService';
+import useAuth from '../hooks/useAuth';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
     
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,7 +26,8 @@ const RegisterPage = () => {
             country: data.get('country') as string,
         };
         try {
-            await register(registerData);
+            const response = await register(registerData);
+            setAuth(response.accessToken);
             navigate('/');
         } catch (error) {
             console.error('Error while registering:', error);

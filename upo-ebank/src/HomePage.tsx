@@ -1,16 +1,37 @@
-import Container from "@mui/material/Container";
-import Navbar from "./shared/Navbar";
+import { Container, Typography, Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Navbar from './shared/Navbar';
+import useAuth from './hooks/useAuth';
 
 const HomePage = () => {
-    return (
-        <>
-        <Navbar />
-        <Container maxWidth={false}>
-            <h1>Welcome to the Home Pagaaaaaaaaaaaaaaaaaaae</h1>
-            <p>This is the content of the home page.</p>
-        </Container>
-        </>
-    );
+  const navigate = useNavigate();
+  const { auth } = useAuth();
+
+  return (
+    <>
+      <Navbar />
+      <Container maxWidth={false}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          height="80vh"
+        >
+          <Typography variant="h1" component="div" gutterBottom>
+            Welcome to the Home Page
+          </Typography>
+          <Typography variant="body1" component="div" gutterBottom>
+          </Typography>
+          {auth && (
+            <Button variant="contained" color="primary" onClick={() => navigate('/secured')}>
+              Go to Secured Page
+            </Button>
+          )}
+        </Box>
+      </Container>
+    </>
+  );
 };
 
 export default HomePage;

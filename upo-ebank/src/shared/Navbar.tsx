@@ -11,20 +11,18 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useState, MouseEvent, useContext } from 'react';
-import { getToken } from '../auth/services/AuthService';
+import { getToken, logout } from '../auth/services/AuthService';
+import Button from '@mui/material/Button';
+import useAuth from '../hooks/useAuth';
 
 export default function MenuAppBar() {
-  const auth = getToken();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const { auth, setAuth } = useAuth();
 
-  const handleMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleLogout = () => {
+    logout();
+    setAuth(null);
+  }
 
   return (
       <AppBar position="static">
@@ -39,40 +37,18 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
+            Upo E-Bank
           </Typography>
-          {auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          )}
+          {!auth ? (
+          <div>
+            <Button color="inherit" href='/login'>Login</Button>
+            <Button color="inherit" href='/register'>Register</Button>
+          </div>
+        ) : (
+          <div>
+            <Button color="inherit" onClick={handleLogout}>Logout</Button>
+          </div>
+        )}
         </Toolbar>
       </AppBar>
   );
