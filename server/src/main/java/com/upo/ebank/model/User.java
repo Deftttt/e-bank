@@ -20,15 +20,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 40, nullable = false, unique = true)
     private String email;
 
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
+    @Column(length = 60, nullable = false)
     private String firstName;
 
+    @Column(length = 60, nullable = false)
     private String lastName;
 
+    @Column(length = 16)
     private String phoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL)
