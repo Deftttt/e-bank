@@ -15,14 +15,19 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 60, nullable = false)
     private String city;
 
+    @Column(length = 60, nullable = false)
     private String street;
 
+    @Column(length = 10)
     private String localNumber;
 
+    @Column(length = 10, nullable = false)
     private String postCode;
 
+    @Column(length = 60, nullable = false)
     private String country;
 
 
