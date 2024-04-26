@@ -41,10 +41,10 @@ public class DataLoader {
         Address address4 = new Address(null, "Kraków", "Norymberska", "10a/37", "36-721", "Polska");
 
         Client client = new Client(null, "client@example.com", passwordEncoder.encode("password"),
-                "John", "Doe", "123456789", List.of(address1, address2), "CLIENT PESEL");
+                "John", "Doe", "123456789", List.of(address1, address2), "89123458901", true);
 
         Client client2 = new Client(null, "client2@example.com", passwordEncoder.encode("password"),
-                "Mariusz", "Czerkawski", "997888096", List.of(address3), "CLIENT2 PESEL");
+                "Mariusz", "Czerkawski", "997888096", List.of(address3), "02779856702", true);
 
 
 
@@ -53,8 +53,8 @@ public class DataLoader {
         positionRepository.save(position);
 
 
-        Employee employee = new Employee(null, "piotrstasicki@gmail.com", passwordEncoder.encode("password"),
-                "Piotr", "Stasicki", "728119146", List.of(address4), Department.DEPARTMENT_1, position);
+        Employee employee = new Employee(null, "piotrstasicki2@gmail.com", passwordEncoder.encode("password"),
+                "Piotr", "Stasicki", "728119146", List.of(address4), Department.DEPARTMENT_1, position, true);
 
         clientService.addClient(client);
         clientService.addClient(client2);
