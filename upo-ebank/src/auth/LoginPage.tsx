@@ -1,13 +1,15 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { LoginData, login } from './services/AuthService';
 
 const LoginPage = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const { setAuth } = useAuth();
+    const response = location.state?.response;
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +40,13 @@ const LoginPage = () => {
             alignItems: 'center',
           }}
         >
+
+        {response && (
+          <Alert severity="info" sx={{ width: '100%', marginBottom: 2 }} severity="success" variant="filled">
+            {`${response}`}
+          </Alert>
+        )}
+          
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>

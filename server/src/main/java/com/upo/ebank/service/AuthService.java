@@ -1,5 +1,6 @@
 package com.upo.ebank.service;
 
+import com.upo.ebank.exception.InvalidRegisterConfirmTokenException;
 import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.model.User;
 import com.upo.ebank.model.dto.SignUpRequest;
@@ -60,7 +61,7 @@ public class AuthService {
     public String confirmToken(String token) {
         RegisterConfirmationToken confirmationToken = tokenRepository.findByToken(token);
         if (confirmationToken == null || confirmationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "Token is invalid or expired";
+            throw new InvalidRegisterConfirmTokenException("Token is invalid or expired");
         }
         User user = confirmationToken.getUser();
         user.setEnabled(true);

@@ -54,6 +54,21 @@ export const register = (registerData: RegisterData) =>{
     });
 }
 
+export const confirmRegistration = async (token: string) => {
+  try {
+    const response = await api.get(`/signup/confirm?token=${token}`);
+    return { status: response.status, data: response.data };
+  } catch (error) {
+    if (error.response) {
+      return { status: error.response.status, data: error.response.data };
+    } else {
+      return { status: 500, data: 'Network error' };
+    }
+  }
+};
+
+
+
 
 export const authHeader = () => {
   const token = JSON.parse(localStorage.getItem("accessToken") as string);

@@ -1,12 +1,10 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from '../hooks/useAuth';
 import { RegisterData, register } from './services/AuthService';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
-    const { setAuth } = useAuth();
     
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -26,8 +24,7 @@ const RegisterPage = () => {
         };
         try {
             const response = await register(registerData);
-            setAuth(response.accessToken);
-            navigate('/');
+            navigate('/login', { state: { response: response } });
         } catch (error) {
             console.error('Error while registering:', error);
         }

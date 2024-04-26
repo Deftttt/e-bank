@@ -35,12 +35,12 @@ public class AuthController {
         RegisterConfirmationToken confirmationToken = authService.createToken(request.getEmail());
         emailService.sendConfirmationEmail(request.getEmail(), confirmationToken.getToken());
 
-        return ResponseEntity.ok("User registered successfully. Please check your email to activate your account.");
+        return ResponseEntity.ok("Registered successfully! Please check your email to activate your account.");
     }
 
     @GetMapping("/signup/confirm")
-    public String confirmRegistration(@RequestParam("token") String token) {
-        return authService.confirmToken(token);
+    public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token) {
+        return ResponseEntity.ok(authService.confirmToken(token));
     }
 
 
