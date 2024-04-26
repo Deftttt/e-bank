@@ -1,17 +1,17 @@
 package com.upo.ebank.controller;
 
+import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.model.dto.LoginRequest;
 import com.upo.ebank.model.dto.LoginResponse;
 import com.upo.ebank.model.dto.SignUpRequest;
 import com.upo.ebank.service.AuthService;
 import com.upo.ebank.service.ClientService;
+import com.upo.ebank.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +20,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final ClientService clientService;
+    private final EmailService emailService;
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request){
@@ -27,11 +28,19 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public LoginResponse signUp(@Valid @RequestBody SignUpRequest request) throws Exception {
+    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest request) throws Exception {
         authService.validateSignUpRequest(request);
         clientService.addClient(request);
 
-        return authService.attemptLogin(request.getEmail(), request.getPassword());
+        RegisterConfirmationToken confirmationToken = authService.createToken(request.getEmail());
+        emailService.sendConfirmationEmail(request.getEmail(), confirmationToken.getToken());
+
+        return ResponseEntity.ok("Registered successfully! Please check your email to activate your account.");
+    }
+
+    @GetMapping("/signup/confirm")
+    public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token) {
+        return ResponseEntity.ok(authService.confirmToken(token));
     }
 
 

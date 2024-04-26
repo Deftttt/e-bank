@@ -27,4 +27,10 @@ public class Employee extends User {
         this.position = position;
     }
 
+    public Employee(Long id, String email, String password, String firstName, String lastName, String phoneNumber, List<Address> addresses, Department department, Position position, boolean enabled) {
+        super(id, email, password, firstName, lastName, phoneNumber, addresses, enabled);
+        this.department = department;
+        this.position = position;
+    }
+
 }

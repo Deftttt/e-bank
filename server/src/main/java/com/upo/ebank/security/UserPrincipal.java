@@ -20,6 +20,7 @@ public class UserPrincipal implements UserDetails {
     private final String password;
 
     private final Collection<? extends GrantedAuthority> authorities;
+    private final boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -53,6 +54,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

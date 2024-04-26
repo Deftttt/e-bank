@@ -40,4 +40,17 @@ public class User {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Address> addresses;
 
+    @JsonIgnore
+    private boolean enabled = false;
+
+    public User(Long id, String email, String password, String firstName, String lastName, String phoneNumber, List<Address> addresses) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.addresses = addresses;
+    }
+
 }
