@@ -24,6 +24,7 @@ const HomePage = () => {
           <Typography variant="body1" component="div" gutterBottom>
           </Typography>
           {auth && (
+
             <Button variant="contained" color="primary" onClick={() => navigate('/secured')}>
               Go to Secured Page
             </Button>

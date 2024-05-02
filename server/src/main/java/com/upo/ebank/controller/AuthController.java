@@ -43,5 +43,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.confirmToken(token));
     }
 
+    @PostMapping("/signup/resend-confirmation")
+    public ResponseEntity<String> resendConfirmationToken(@RequestParam String email) {
+        authService.resendConfirmationToken(email);
+        return ResponseEntity.ok("Confirmation token resent successfully! Please check your email.");
+    }
+
 
 }

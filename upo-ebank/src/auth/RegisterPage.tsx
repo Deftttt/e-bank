@@ -24,7 +24,7 @@ const RegisterPage = () => {
         };
         try {
             const response = await register(registerData);
-            navigate('/login', { state: { response: response } });
+            navigate('/register-instructions', { state: { email: registerData.email } });
         } catch (error) {
             console.error('Error while registering:', error);
         }

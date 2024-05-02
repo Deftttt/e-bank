@@ -8,6 +8,7 @@ import HomePage from './home/HomePage';
 import Layout from './utils/Layout';
 import RequireAuth from './utils/RequireAuth';
 import RegisterConfirmPage from './auth/RegisterConfirmPage';
+import RegistrationInstructionsPage from './auth/RegistrationInstructionsPage';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="register-instructions" element={<RegistrationInstructionsPage />} />
             <Route path="register-confirm" element={<RegisterConfirmPage />} />
 
             <Route element={<RequireAuth />}>

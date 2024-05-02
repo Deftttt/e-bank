@@ -20,15 +20,18 @@ public class RegisterConfirmationToken {
 
     private String token;
 
+    private LocalDateTime createdAt;
+
     private LocalDateTime expiryDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public RegisterConfirmationToken(User user) {
         this.user = user;
         this.token = UUID.randomUUID().toString();
-        this.expiryDate = LocalDateTime.now().plusDays(1); // Token ważny 24h
+        this.createdAt = LocalDateTime.now();
+        this.expiryDate = LocalDateTime.now().plusDays(1);
     }
 
 }

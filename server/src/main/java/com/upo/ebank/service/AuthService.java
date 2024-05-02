@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -66,7 +67,7 @@ public class AuthService {
         User user = confirmationToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
-        tokenRepository.delete(confirmationToken);
+        tokenRepository.deleteByUser(user);
         return "Account activated successfully";
     }
 
@@ -76,6 +77,25 @@ public class AuthService {
         return tokenRepository.save(token);
     }
 
+
+    public void resendConfirmationToken(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        if (user.isEnabled()) {
+            throw new IllegalStateException("User is already enabled, no need to resend the confirmation token");
+        }
+
+        RegisterConfirmationToken lastToken = tokenRepository.findTopByUserOrderByCreatedAtDesc(user);
+        LocalDateTime now = LocalDateTime.now();
+        if (lastToken != null && lastToken.getCreatedAt().plusSeconds(30).isAfter(now)) {
+            throw new IllegalStateException("You must wait at least 30 seconds before resending the token");
+        }
+
+        RegisterConfirmationToken confirmationToken = createToken(email);
+        emailService.sendConfirmationEmail(email, confirmationToken.getToken());
+    }
 
 
 

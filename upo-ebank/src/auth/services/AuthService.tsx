@@ -26,14 +26,14 @@ export type RegisterData = {
 
 export const login = (loginData: LoginData) =>{
     return api
-        .post("/login", loginData, {headers: { 'Content-type': 'application/json' }})
-        .then((response) => {
-        if (response.data.accessToken) {
-            localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
-        }
+      .post("/login", loginData, {headers: { 'Content-type': 'application/json' }})
+      .then((response) => {
+      if (response.data.accessToken) {
+          localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
+      }
 
-        return response.data;
-        });
+      return response.data;
+      });
 }
 
 
@@ -46,10 +46,6 @@ export const register = (registerData: RegisterData) =>{
   return api
     .post("/signup", registerData, {headers: { 'Content-type': 'application/json' }})
     .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
-      }
-
       return response.data;
     });
 }
@@ -67,6 +63,14 @@ export const confirmRegistration = async (token: string) => {
   }
 };
 
+
+export const resendConfirmationEmail = (email: String) => {
+  return api
+    .post(`/signup/resend-confirmation?email=${email}`,  {headers: { 'Content-type': 'application/json' }})
+    .then((response) => {
+      return response.data;
+    });
+};
 
 
 

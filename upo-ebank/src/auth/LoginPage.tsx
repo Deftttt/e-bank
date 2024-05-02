@@ -9,7 +9,6 @@ const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { setAuth } = useAuth();
-    const response = location.state?.response;
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,11 +40,7 @@ const LoginPage = () => {
           }}
         >
 
-        {response && (
-          <Alert severity="info" sx={{ width: '100%', marginBottom: 2 }} severity="success" variant="filled">
-            {`${response}`}
-          </Alert>
-        )}
+
           
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
