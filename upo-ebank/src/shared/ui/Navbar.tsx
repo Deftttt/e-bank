@@ -4,17 +4,15 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { logout } from '../../auth/services/AuthService';
 import useAuth from '../../hooks/useAuth';
 import { Box } from '@mui/material';
 
 export default function MenuAppBar() {
 
-  const { auth, setAuth } = useAuth();
+  const { auth, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
-    setAuth(null);
   }
 
   return (

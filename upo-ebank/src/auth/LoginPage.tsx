@@ -3,12 +3,12 @@ import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormContr
 import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { LoginData, login } from './services/AuthService';
+import { LoginData } from './services/AuthService';
 
 const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { setAuth } = useAuth();
+    const { login } = useAuth();
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,8 +19,7 @@ const LoginPage = () => {
             password: data.get('password') as string,
         };
         try {
-            const response = await login(loginData);
-            setAuth(response.accessToken);
+            await login(loginData);
             navigate('/');
         } catch (error) {
             console.error('Error while logging in:', error);
@@ -83,8 +82,8 @@ const LoginPage = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+                <Link to="/forgot-password" variant="body2">
+                  {"Forgot password?"}
                 </Link>
               </Grid>
               <Grid item>

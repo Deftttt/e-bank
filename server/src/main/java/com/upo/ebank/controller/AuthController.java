@@ -3,6 +3,7 @@ package com.upo.ebank.controller;
 import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.model.dto.LoginRequest;
 import com.upo.ebank.model.dto.LoginResponse;
+import com.upo.ebank.model.dto.ResetPasswordRequest;
 import com.upo.ebank.model.dto.SignUpRequest;
 import com.upo.ebank.service.AuthService;
 import com.upo.ebank.service.ClientService;
@@ -47,6 +48,18 @@ public class AuthController {
     public ResponseEntity<String> resendConfirmationToken(@RequestParam String email) {
         authService.resendConfirmationToken(email);
         return ResponseEntity.ok("Confirmation token resent successfully! Please check your email.");
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        authService.forgotPassword(email);
+        return ResponseEntity.ok("Password reset email sent successfully! Please check your email.");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        authService.resetPassword(request);
+        return ResponseEntity.ok("Password reset successfully!");
     }
 
 

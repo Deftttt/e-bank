@@ -1,6 +1,5 @@
 package com.upo.ebank.service;
 
-import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.util.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,9 +29,15 @@ public class EmailService {
 
     @Async
     public void sendConfirmationEmail(String email, String token) {
-        String confirmationUrl = Constants.CONFIRMATION_URL + token;
-        sendSimpleMessage(email, Constants.CONFIRMATION_EMAIL_SUBJECT,
-                Constants.CONFIRMATION_EMAIL_MESSAGE + confirmationUrl);
+        String confirmationUrl = Constants.REGISTRATION_CONFIRMATION_URL + token;
+        sendSimpleMessage(email, Constants.REGISTRATION_CONFIRMATION_EMAIL_SUBJECT,
+                Constants.REGISTRATION_CONFIRMATION_EMAIL_MESSAGE + confirmationUrl);
     }
 
+    @Async
+    public void sendPasswordResetEmail(String email, String token) {
+        String confirmationUrl = Constants.RESET_PASSWORD_URL + token;
+        sendSimpleMessage(email, Constants.RESET_PASSWORD_EMAIL_SUBJECT,
+                Constants.RESET_PASSWORD_EMAIL_MESSAGE + confirmationUrl);
+    }
 }

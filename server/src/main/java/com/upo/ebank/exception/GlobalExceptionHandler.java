@@ -15,4 +15,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleInvalidRegisterConfirmTokenException(Exception exception, WebRequest request) {
         return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(InvalidPasswordResetTokenException.class)
+    public ResponseEntity<?> handleInvalidPasswordResetTokenException(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
 }

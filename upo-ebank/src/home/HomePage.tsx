@@ -6,6 +6,7 @@ import Navbar from '../shared/ui/Navbar';
 const HomePage = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
+  console.log('Auth:', auth);
 
   return (
     <>
