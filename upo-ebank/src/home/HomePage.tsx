@@ -6,6 +6,7 @@ import Navbar from '../shared/ui/Navbar';
 const HomePage = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
+  console.log('Auth:', auth);
 
   return (
     <>
@@ -24,6 +25,7 @@ const HomePage = () => {
           <Typography variant="body1" component="div" gutterBottom>
           </Typography>
           {auth && (
+
             <Button variant="contained" color="primary" onClick={() => navigate('/secured')}>
               Go to Secured Page
             </Button>
