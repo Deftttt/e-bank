@@ -8,6 +8,10 @@ import HomePage from './home/HomePage';
 import Layout from './utils/Layout';
 import RequireAuth from './utils/RequireAuth';
 import RegisterConfirmPage from './auth/RegisterConfirmPage';
+import TransactionByAccount from './transactions/TransactionByAccount';
+import TransactionByClientId from './transactions/TransactionByClientId';
+import TransactionAll from './transactions/TransactionAll';
+import TransactionDetail from './transactions/TransactionDetail';
 
 function App() {
 
@@ -20,7 +24,10 @@ function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="register-confirm" element={<RegisterConfirmPage />} />
-
+            <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
+            <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
+            <Route path="/transactions/:id" element={<TransactionDetail />} />
+            <Route path="/transactions" element={<TransactionAll />} />
             <Route element={<RequireAuth />}>
               <Route path="/secured" element={<SecuredPage />} />
             </Route>
