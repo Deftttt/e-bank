@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import SecuredPage from './SecuredPage';
+import SecuredPage from './home/SecuredPage';
 import LoginPage from './auth/LoginPage';
 import RegisterPage from './auth/RegisterPage';
 import MissingPage from './error/MissingPage';
@@ -12,6 +12,10 @@ import TransactionByAccount from './transactions/TransactionByAccount';
 import TransactionByClientId from './transactions/TransactionByClientId';
 import TransactionAll from './transactions/TransactionAll';
 import TransactionDetail from './transactions/TransactionDetail';
+import RegistrationInstructionsPage from './auth/RegistrationInstructionsPage';
+import ForgotPasswordPage from './auth/ForgotPasswordPage';
+import ResetPasswordPage from './auth/ResetPasswordPage';
+
 
 function App() {
 
@@ -23,11 +27,18 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="register-instructions" element={<RegistrationInstructionsPage />} />
             <Route path="register-confirm" element={<RegisterConfirmPage />} />
+
             <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
             <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
             <Route path="/transactions/:id" element={<TransactionDetail />} />
             <Route path="/transactions" element={<TransactionAll />} />
+
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="reset-password" element={<ResetPasswordPage />} />
+
+
             <Route element={<RequireAuth />}>
               <Route path="/secured" element={<SecuredPage />} />
             </Route>

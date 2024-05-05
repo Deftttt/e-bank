@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useAuth from '../../hooks/useAuth'
 
 const api = axios.create({
   baseURL: 'http://localhost:8080/auth', 
@@ -23,33 +24,26 @@ export type RegisterData = {
     country: string;
 }
 
-
-export const login = (loginData: LoginData) =>{
-    return api
-        .post("/login", loginData, {headers: { 'Content-type': 'application/json' }})
-        .then((response) => {
-        if (response.data.accessToken) {
-            localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
-        }
-
-        return response.data;
-        });
+export type ResetPasswordData = {
+  token: string;
+  newPassword: string;
 }
 
 
-export const logout = () => {
-    localStorage.removeItem("accessToken");
-};
+export const login = (loginData: LoginData) =>{
+    return api
+      .post("/login", loginData, {headers: { 'Content-type': 'application/json' }})
+      .then((response) => {
+        return response.data;
+      });
+}
+
 
 
 export const register = (registerData: RegisterData) =>{
   return api
     .post("/signup", registerData, {headers: { 'Content-type': 'application/json' }})
     .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
-      }
-
       return response.data;
     });
 }
@@ -67,6 +61,30 @@ export const confirmRegistration = async (token: string) => {
   }
 };
 
+
+export const resendConfirmationEmail = (email: String) => {
+  return api
+    .post(`/signup/resend-confirmation?email=${email}`,  {headers: { 'Content-type': 'application/json' }})
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const resetPassword = (data: ResetPasswordData) => {
+  return api
+    .post('/reset-password', data, {headers: { 'Content-type': 'application/json' }})
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const sendForgotPasswordEmail = (email: String) => {
+  return api
+    .post(`/forgot-password?email=${email}`,  {headers: { 'Content-type': 'application/json' }})
+    .then((response) => {
+      return response.data;
+    });
+};
 
 
 
