@@ -1,10 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 import {jwtDecode} from 'jwt-decode';  
 import { LoginData, login as authServiceLogin } from '../auth/services/AuthService';
+import Loading from "../shared/ui/Loading";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
@@ -13,13 +15,19 @@ export const AuthProvider = ({ children }) => {
                 const decodedToken = jwtDecode(token);
                 setAuth({
                     token,
-                    email: decodedToken.e, 
+                    email: decodedToken.e,
+                    roles: decodedToken.a
                 });
             } catch (error) {
                 console.error('Failed to decode token', error);
             }
         }
+        setIsLoading(false);
     }, []);
+
+    if (isLoading) {
+        return <Loading />;
+    }
 
     const login = async (loginData: LoginData) => {
         const response = await authServiceLogin(loginData);
@@ -28,7 +36,8 @@ export const AuthProvider = ({ children }) => {
             const decodedToken = jwtDecode(response.accessToken);
             setAuth({
                 token: response.accessToken,
-                email: decodedToken.e, 
+                email: decodedToken.e,
+                roles: decodedToken.a 
             });
         }
     };
