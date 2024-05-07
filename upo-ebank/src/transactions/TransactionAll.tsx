@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Transaction, getAllTransactions } from './TransactionService';
-import TransactionTable from './TransactionsTable';
+import { Transaction, getAllTransactions } from './services/TransactionService';
+import TransactionTable from './ui/TransactionsTable';
 import { Container } from '@mui/material';
 import Navbar from '../shared/ui/Navbar';
 

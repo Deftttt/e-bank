@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, Typography, Grid, Container } from '@mui/material';
-import { Transaction, getTransactionById } from './TransactionService';
+import { Transaction, getTransactionById } from './services/TransactionService';
 import Navbar from '../shared/ui/Navbar';
 
 const TransactionDetail = () => {

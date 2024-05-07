@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Card, CardContent, Divider, Typography, Grid } from '@mui/material';
-import { Client, getClient } from './ClientService';
-import ClientTable from './ClientTable';
+import { Client, getClient } from './services/ClientService';
+import ClientTable from './ui/ClientTable';
 import { useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
 

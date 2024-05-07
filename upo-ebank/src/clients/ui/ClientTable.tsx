@@ -1,7 +1,7 @@
 // TransactionTable.js
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { ClientDto } from './ClientService';
+import { ClientDto } from '../services/ClientService';
 
 
 const ClientTable = ( { clients }: { clients: ClientDto[] } ) => {

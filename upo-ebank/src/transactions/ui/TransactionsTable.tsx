@@ -1,7 +1,7 @@
 // TransactionTable.js
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { Transaction } from './TransactionService';
+import { Transaction } from '../services/TransactionService';
 
 const TransactionTable = ( { transactions }: { transactions: Transaction[] } ) => {
   return (
