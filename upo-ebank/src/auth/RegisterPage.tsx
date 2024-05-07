@@ -2,9 +2,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterData, register } from './services/AuthService';
+import { useState } from 'react';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
     
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -26,7 +28,9 @@ const RegisterPage = () => {
             const response = await register(registerData);
             navigate('/register-instructions', { state: { email: registerData.email } });
         } catch (error) {
-            console.error('Error while registering:', error);
+          if (error.response && error.response.data && error.response.data.errors) {
+            setErrors(error.response.data.errors);
+          }
         }
 
     };
@@ -59,6 +63,8 @@ const RegisterPage = () => {
                     id="firstName"
                     label="First Name"
                     autoFocus
+                    error={!!errors.firstName}
+                    helperText={errors.firstName}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -69,6 +75,8 @@ const RegisterPage = () => {
                     label="Last Name"
                     name="lastName"
                     autoComplete="family-name"
+                    error={!!errors.lastName}
+                    helperText={errors.lastName}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -79,6 +87,8 @@ const RegisterPage = () => {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    error={!!errors.email}
+                    helperText={errors.email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -90,6 +100,8 @@ const RegisterPage = () => {
                     type="password"
                     id="password"
                     autoComplete="new-password"
+                    error={!!errors.password}
+                    helperText={errors.password}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -99,6 +111,8 @@ const RegisterPage = () => {
                     name="phoneNumber"
                     label="phoneNumber"
                     id="phoneNumber"
+                    error={!!errors.phoneNumber}
+                    helperText={errors.phoneNumber}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -108,6 +122,8 @@ const RegisterPage = () => {
                     name="pesel"
                     label="pesel"
                     id="pesel"
+                    error={!!errors.pesel}
+                    helperText={errors.pesel}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -118,6 +134,8 @@ const RegisterPage = () => {
                     id="city"
                     label="city"
                     autoFocus
+                    error={!!errors.city}
+                    helperText={errors.city}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -127,6 +145,8 @@ const RegisterPage = () => {
                     id="postCode"
                     label="postCode"
                     name="postCode"
+                    error={!!errors.postCode}
+                    helperText={errors.postCode}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -137,6 +157,8 @@ const RegisterPage = () => {
                     id="street"
                     label="street"
                     autoFocus
+                    error={!!errors.street}
+                    helperText={errors.street}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -146,6 +168,8 @@ const RegisterPage = () => {
                     id="localNumber"
                     label="localNumber"
                     name="localNumber"
+                    error={!!errors.localNumber}
+                    helperText={errors.localNumber}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -155,6 +179,8 @@ const RegisterPage = () => {
                     name="country"
                     label="country"
                     id="country"
+                    error={!!errors.country}
+                    helperText={errors.country}
                   />
                 </Grid>
                 

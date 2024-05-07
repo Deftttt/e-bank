@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Form, useLocation, useNavigate } from 'react-router-dom';
-import { Container, TextField, Button, Typography } from '@mui/material';
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { ResetPasswordData, resetPassword } from '../auth/services/AuthService';
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
   const token = new URLSearchParams(location.search).get('token');
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setPassword(event.target.value);
   };
 
@@ -24,12 +26,21 @@ const ResetPasswordPage = () => {
       navigate('/login')
       
     } catch (error) {
-      console.error('Error while registering:', error);
-    }
+    if (error && (error as any).response && (error as any).response.data && (error as any).response.data.errors) {
+      setError((error as any).response.data.errors.newPassword);
+  }
+}
   };
 
   return (
     <Container maxWidth="sm">
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        height="50vh"
+      >
       <Typography variant="h6" gutterBottom>
         Reset Your Password
       </Typography>
@@ -46,6 +57,8 @@ const ResetPasswordPage = () => {
           autoComplete="current-password"
           value={password}
           onChange={handlePasswordChange}
+          error={!!error}
+          helperText={error}
         />
         <Button
           type="submit"
@@ -56,6 +69,7 @@ const ResetPasswordPage = () => {
           Reset Password
         </Button>
       </form>
+      </Box>
     </Container>
   );
 };

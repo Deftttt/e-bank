@@ -26,6 +26,13 @@ const RegistrationInstructionsPage = () => {
 
   return (
     <Container maxWidth="sm">
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        height="50vh"
+      >
       <Typography variant="h6" gutterBottom>
         Confirm Your Registration
       </Typography>
@@ -37,8 +44,14 @@ const RegistrationInstructionsPage = () => {
           Resend Confirmation Email
         </Button>
       </Box>
-      {isButtonDisabled && <Typography variant="body2" color="textSecondary">You can resend the email in {Math.ceil(30 - new Date().getSeconds() / 1000)} seconds.</Typography>}
+      {isButtonDisabled && (
+          <Typography variant="body2"  align="center">
+            Please try again in 30 seconds.
+          </Typography>
+        )}
+      </Box>
     </Container>
+    
   );
 };
 
