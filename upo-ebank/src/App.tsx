@@ -18,8 +18,9 @@ import ResetPasswordPage from './auth/ResetPasswordPage';
 import ClientAll from './clients/ClientAll';
 import ClientById from './clients/ClientById';
 import RequireRole from './utils/RequireRoles';
-
-
+import AccountAll from './accounts/AccountsAll';
+import AccountsByClientId from './accounts/AccountsByClientId';
+import AccountsByNumber from './accounts/AccountsByNumber';
 
 function App() {
 
@@ -51,6 +52,13 @@ function App() {
                 <Route path="/clients" element={<ClientAll />} />
 
               </Route>
+
+                {/* <Route element={<RequireRole requiredRole={'VIEW_ACCOUNTS'} />}> */}
+                  <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
+                  <Route path="/accounts/clients/:clientId" element={<AccountsByClientId />} />
+                  <Route path="/accounts" element={<AccountAll />} />
+                {/* </Route> */}
+
             </Route>
 
 
