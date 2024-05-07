@@ -15,6 +15,9 @@ import TransactionDetail from './transactions/TransactionDetail';
 import RegistrationInstructionsPage from './auth/RegistrationInstructionsPage';
 import ForgotPasswordPage from './auth/ForgotPasswordPage';
 import ResetPasswordPage from './auth/ResetPasswordPage';
+import ClientAll from './clients/ClientAll';
+import ClientById from './clients/ClientById';
+
 
 
 function App() {
@@ -38,6 +41,8 @@ function App() {
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
             <Route path="reset-password" element={<ResetPasswordPage />} />
 
+            <Route path="/clients/:id" element={<ClientById />} />
+            <Route path="/clients" element={<ClientAll />} />
 
             <Route element={<RequireAuth />}>
               <Route path="/secured" element={<SecuredPage />} />
