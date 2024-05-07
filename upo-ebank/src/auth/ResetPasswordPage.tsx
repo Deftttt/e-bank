@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, useLocation, useNavigate } from 'react-router-dom';
-import { Container, TextField, Button, Typography } from '@mui/material';
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { ResetPasswordData, resetPassword } from '../auth/services/AuthService';
 
 const ResetPasswordPage = () => {
@@ -34,6 +34,13 @@ const ResetPasswordPage = () => {
 
   return (
     <Container maxWidth="sm">
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        height="50vh"
+      >
       <Typography variant="h6" gutterBottom>
         Reset Your Password
       </Typography>
@@ -61,12 +68,8 @@ const ResetPasswordPage = () => {
         >
           Reset Password
         </Button>
-        {isButtonDisabled && (
-          <Typography variant="body2"  align="center">
-            Please try again in 30 seconds.
-          </Typography>
-        )}
       </form>
+      </Box>
     </Container>
   );
 };

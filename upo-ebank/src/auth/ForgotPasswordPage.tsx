@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Typography } from '@mui/material';
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { sendForgotPasswordEmail } from './services/AuthService';
 
 const ForgotPasswordPage = () => {
@@ -33,6 +33,13 @@ const ForgotPasswordPage = () => {
 
   return (
     <Container maxWidth="sm">
+      <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      height="50vh"
+      >
       <Typography variant="h6" gutterBottom>
         Forgot Your Password?
       </Typography>
@@ -67,6 +74,7 @@ const ForgotPasswordPage = () => {
           </Typography>
         )}
       </form>
+      </Box>
     </Container>
   );
 };

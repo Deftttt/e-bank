@@ -36,7 +36,7 @@ const RegisterConfirmPage = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                height="100vh"
+                height="50vh"
             >
                 <Alert severity={severity} variant='filled' sx={{ width: '100%', marginBottom: 2 }}>
                 <AlertTitle>Registration Confirmation</AlertTitle>
