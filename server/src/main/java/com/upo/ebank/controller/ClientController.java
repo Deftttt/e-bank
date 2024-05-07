@@ -1,6 +1,7 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.Client;
+import com.upo.ebank.model.dto.ClientDto;
 import com.upo.ebank.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping("/clients")
-    public List<Client> getClients() {
+    public List<ClientDto> getClients() {
         return clientService.getClients();
     }
 
