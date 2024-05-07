@@ -1,7 +1,6 @@
 package com.upo.ebank.service;
 
-import com.upo.ebank.exception.InvalidPasswordResetTokenException;
-import com.upo.ebank.exception.InvalidRegisterConfirmTokenException;
+import com.upo.ebank.exception.*;
 import com.upo.ebank.model.PasswordResetToken;
 import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.model.User;
@@ -57,7 +56,7 @@ public class AuthService {
 
     public void validateSignUpRequest(SignUpRequest request) throws Exception {
         if (isEmailTaken(request.getEmail())) {
-            throw new Exception("Entered email already is in use.");
+            throw new EmailExistsException("Entered email already is in use.");
         }
     }
 
@@ -88,16 +87,16 @@ public class AuthService {
     public void resendConfirmationToken(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
+            throw new NoUserWithEmailException("User not found with email: " + email);
         }
         if (user.isEnabled()) {
-            throw new IllegalStateException("User is already enabled, no need to resend the confirmation token");
+            throw new UserAlreadyEnabledException("User is already enabled, no need to resend the confirmation token");
         }
 
         RegisterConfirmationToken lastToken = tokenRepository.findTopByUserOrderByCreatedAtDesc(user);
         LocalDateTime now = LocalDateTime.now();
         if (lastToken != null && lastToken.getCreatedAt().plusSeconds(30).isAfter(now)) {
-            throw new IllegalStateException("You must wait at least 30 seconds before resending the token");
+            throw new ResendTokenTooSoonException("You must wait at least 30 seconds before resending the token");
         }
 
         RegisterConfirmationToken confirmationToken = createToken(email);
@@ -107,13 +106,13 @@ public class AuthService {
     public void forgotPassword(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
+            throw new NoUserWithEmailException("User not found with email: " + email);
         }
 
         PasswordResetToken lastToken = passwordResetTokenRepository.findTopByUserOrderByCreatedAtDesc(user);
         LocalDateTime now = LocalDateTime.now();
         if (lastToken != null && lastToken.getCreatedAt().plusSeconds(30).isAfter(now)) {
-            throw new IllegalStateException("You must wait at least 30 seconds to resend password reset link");
+            throw new ResendTokenTooSoonException("You must wait at least 30 seconds to resend password reset link");
         }
 
         PasswordResetToken token = new PasswordResetToken(user);

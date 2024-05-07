@@ -7,9 +7,11 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
   const token = new URLSearchParams(location.search).get('token');
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setPassword(event.target.value);
   };
 
@@ -24,8 +26,10 @@ const ResetPasswordPage = () => {
       navigate('/login')
       
     } catch (error) {
-      console.error('Error while registering:', error);
-    }
+    if (error && (error as any).response && (error as any).response.data && (error as any).response.data.errors) {
+      setError((error as any).response.data.errors.newPassword);
+  }
+}
   };
 
   return (
@@ -46,6 +50,8 @@ const ResetPasswordPage = () => {
           autoComplete="current-password"
           value={password}
           onChange={handlePasswordChange}
+          error={!!error}
+          helperText={error}
         />
         <Button
           type="submit"
@@ -55,6 +61,11 @@ const ResetPasswordPage = () => {
         >
           Reset Password
         </Button>
+        {isButtonDisabled && (
+          <Typography variant="body2"  align="center">
+            Please try again in 30 seconds.
+          </Typography>
+        )}
       </form>
     </Container>
   );

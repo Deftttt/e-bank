@@ -5,6 +5,7 @@ import { sendForgotPasswordEmail } from './services/AuthService';
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -16,6 +17,9 @@ const ForgotPasswordPage = () => {
     try {
       const response = await sendForgotPasswordEmail(email);
     } catch (error) {
+      if (error && (error as any).response && (error as any).response.data) {
+        setError((error as any).response.data.message);
+      }
       console.error('Error while sending forgot password email:', error);
     }
 };
@@ -45,6 +49,8 @@ const ForgotPasswordPage = () => {
           autoFocus
           value={email}
           onChange={handleEmailChange}
+          error={!!error}
+          helperText={error}
         />
         <Button
           type="submit"
@@ -55,6 +61,11 @@ const ForgotPasswordPage = () => {
         >
           Send Reset Password Email
         </Button>
+        {isButtonDisabled && (
+          <Typography variant="body2"  align="center">
+            Please try again in 30 seconds.
+          </Typography>
+        )}
       </form>
     </Container>
   );
