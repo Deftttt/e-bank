@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Client, getClients } from './ClientService';
-import ClientTable from './ClientTable';
+import { Client, getClients } from './services/ClientService';
+import ClientTable from './ui/ClientTable';
 import { Container } from '@mui/material';
 import Navbar from '../shared/ui/Navbar';
 

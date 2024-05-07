@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container } from '@mui/material';
-import { Transaction, getTransactionsByAccount } from './TransactionService';
-import TransactionTable from './TransactionsTable';
+import { Transaction, getTransactionsByAccount } from './services/TransactionService';
+import TransactionTable from './ui/TransactionsTable';
 import { useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
 

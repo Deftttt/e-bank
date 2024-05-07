@@ -39,6 +39,7 @@ public class DataLoader {
         Address address2 = new Address(null,"Rzeszów", "Rejtana", "50", "37-800", "Polska");
         Address address3 = new Address(null, "Zamosc", "Polna", "48", "38-997", "Polska");
         Address address4 = new Address(null, "Kraków", "Norymberska", "10a/37", "36-721", "Polska");
+        Address address5 = new Address(null, "Kraków", "Zachodnia", "51", "36-721", "Polska");
 
         Client client = new Client(null, "client@example.com", passwordEncoder.encode("password"),
                 "John", "Doe", "123456789", List.of(address1, address2), "89123458901", true);
@@ -52,13 +53,21 @@ public class DataLoader {
                 Set.of(new Right(null, RightName.VIEW_CLIENTS), new Right(null, RightName.VIEW_EMPLOYEES), new Right(null, RightName.VIEW_ACCOUNTS)));
         positionRepository.save(position);
 
+        Position position2 = new Position(null, "Emp_Position_1", 5600.0,
+                Set.of(new Right(null, RightName.VIEW_CLIENTS)));
+        positionRepository.save(position2);
+
 
         Employee employee = new Employee(null, "piotrstasicki2@gmail.com", passwordEncoder.encode("password"),
                 "Piotr", "Stasicki", "728119146", List.of(address4), Department.DEPARTMENT_1, position, true);
 
+        Employee employee2 = new Employee(null, "piotrstasicki3@gmail.com", passwordEncoder.encode("password"),
+                "Kong", "Strong", "889381290", List.of(address5), Department.DEPARTMENT_2, position2, true);
+
         clientService.addClient(client);
         clientService.addClient(client2);
         employeeService.addEmployee(employee);
+        employeeService.addEmployee(employee2);
 
 
         BankAccount account1 = new BankAccount("1234567890", BigDecimal.valueOf(1000),
