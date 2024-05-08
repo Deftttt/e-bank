@@ -35,21 +35,24 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public LoginResponse attemptLogin(String email, String password){
+        try {
+            var authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        var authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            var principal = (UserPrincipal) authentication.getPrincipal();
+            var roles = principal.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
 
-        var principal = (UserPrincipal) authentication.getPrincipal();
-        var roles = principal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-
-        var token = jwtIssuer.issue(principal.getUserId(), principal.getEmail(), roles);
-        return LoginResponse.builder()
-                .accessToken(token)
-                .build();
+            var token = jwtIssuer.issue(principal.getUserId(), principal.getEmail(), roles);
+            return LoginResponse.builder()
+                    .accessToken(token)
+                    .build();
+        } catch (Exception e) {
+            throw new BadCredentialsException("Incorrect email or password");
+        }
     }
 
 
