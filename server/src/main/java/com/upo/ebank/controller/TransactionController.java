@@ -3,7 +3,6 @@ package com.upo.ebank.controller;
 import com.upo.ebank.model.Transaction;
 import com.upo.ebank.model.dto.CreateTransactionDTO;
 import com.upo.ebank.model.dto.TransactionDto;
-import com.upo.ebank.service.BankAccountService;
 import com.upo.ebank.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
