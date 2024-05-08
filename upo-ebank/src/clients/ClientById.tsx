@@ -1,22 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Card, CardContent, Divider, Typography, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Container, Card, CardContent, Typography, Grid } from '@mui/material';
 import { Client, getClient } from './services/ClientService';
-import ClientTable from './ui/ClientTable';
 import { useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
+import Loading from '../shared/ui/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const ClientById = () => {
   const { id } = useParams<{ id: string }>();
   const [client, setClients] = useState<Client>();
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClient = async () => {
-      const data = await getClient(id);
-      setClients(data);
+      setIsLoading(true);
+      try {
+        const data = await getClient(id);
+        setClients(data);
+      } catch (error) {
+        console.error('Error loading client:', error);
+        navigate('/error', { state: { message: `Failed to load client ID: ${id}` } });
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchClient();
-  }, [id]);
+  }, [id, navigate]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

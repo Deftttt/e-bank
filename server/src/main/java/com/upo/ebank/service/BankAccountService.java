@@ -29,12 +29,21 @@ public class BankAccountService {
         return modelMapper.map(bankAccount, BankAccountDto.class);
     }
 
+    public BankAccount getBankAccount(String accountNumber){
+        return bankAccountRepository.findById(accountNumber).orElseThrow();
+    }
+
 
     public List<BankAccountDto> getBankAccountsByClientId(Long clientId){
         List<BankAccount> bankAccounts = bankAccountRepository.findByClientId(clientId);
         return bankAccounts.stream()
                 .map(bankAccount -> modelMapper.map(bankAccount, BankAccountDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkAccountOwner(String accountNumber, Long customerId) {
+        BankAccount bankAccount = getBankAccount(accountNumber);
+        return bankAccount.getClient().getId().equals(customerId);
     }
 
 }

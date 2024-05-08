@@ -20,7 +20,7 @@ export const getTransactionById = async (id: string): Promise<Transaction | null
       return response.data;
     } catch (error) {
       console.error('Error fetching transaction by id:', error);
-      return null;
+      throw error;
     }
   };
 
@@ -30,7 +30,7 @@ export const getAllTransactions = async (): Promise<Transaction[]> => {
       return response.data;
     } catch (error) {
       console.error('Error fetching all transactions:', error);
-      return [];
+      throw error;
     }
   };
 
@@ -40,7 +40,7 @@ export const getTransactionsByAccount = async (accountNumber: string): Promise<T
     return response.data;
   } catch (error) {
     console.error('Error fetching transactions by account:', error);
-    return [];
+    throw error;
   }
 };
 
@@ -50,7 +50,7 @@ export const getTransactionsByClient = async (clientId: string): Promise<Transac
       return response.data;
     } catch (error) {
       console.error('Error fetching transactions by client:', error);
-      return [];
+      throw error;
     }
   };
 

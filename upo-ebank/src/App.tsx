@@ -17,10 +17,11 @@ import ForgotPasswordPage from './auth/ForgotPasswordPage';
 import ResetPasswordPage from './auth/ResetPasswordPage';
 import ClientAll from './clients/ClientAll';
 import ClientById from './clients/ClientById';
-import RequireRole from './utils/RequireRoles';
 import AccountAll from './accounts/AccountsAll';
 import AccountsByClientId from './accounts/AccountsByClientId';
 import AccountsByNumber from './accounts/AccountsByNumber';
+import ErrorPage from './error/ErrorPage';
+import RequireRole from './utils/RequireRoles';
 
 function App() {
 
@@ -41,27 +42,23 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="/secured" element={<SecuredPage />} />
 
-              <Route element={<RequireRole requiredRole={'VIEW_CLIENTS'} />}>
                 <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
                 <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
                 <Route path="/transactions/:id" element={<TransactionDetail />} />
                 <Route path="/transactions" element={<TransactionAll />} />
 
+                <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
+                <Route path="/accounts/clients/:clientId" element={<AccountsByClientId />} />
+                <Route path="/accounts" element={<AccountAll />} />
 
-                <Route path="/clients/:id" element={<ClientById />} />
-                <Route path="/clients" element={<ClientAll />} />
-
-              </Route>
-
-                {/* <Route element={<RequireRole requiredRole={'VIEW_ACCOUNTS'} />}> */}
-                  <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
-                  <Route path="/accounts/clients/:clientId" element={<AccountsByClientId />} />
-                  <Route path="/accounts" element={<AccountAll />} />
-                {/* </Route> */}
+                <Route element={<RequireRole requiredRole={'VIEW_CLIENTS'} />}>
+                  <Route path="/clients/:id" element={<ClientById />} />
+                  <Route path="/clients" element={<ClientAll />} />
+                </Route>
 
             </Route>
 
-
+            <Route path="/error" element={<ErrorPage />} />
             <Route path="*" element={<MissingPage />} />
           </Route>
        </Routes>

@@ -47,6 +47,10 @@ public class TransactionService {
         return modelMapper.map(transaction, TransactionDto.class);
     }
 
+    private Transaction getTransaction(Long transactionId) {
+        return transactionRepository.findById(transactionId).orElseThrow();
+    }
+
     public List<TransactionDto> getTransactionBySenderAccountNumber(String accountNumber, String transactionType) {
         List<Transaction> transactions;
         if("outgoing".equals(transactionType)) {
@@ -76,4 +80,13 @@ public class TransactionService {
                 .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
                 .collect(Collectors.toList());
     }
+
+    public boolean checkTransactionOwner(Long transactionId, Long userId) {
+        Transaction transaction = getTransaction(transactionId);
+        return (transaction.getSenderAccount().getClient().getId().equals(userId)
+                || transaction.getRecipientAccount().getClient().getId().equals(userId));
+    }
+
+
+
 }
