@@ -59,9 +59,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/clients/**").permitAll()
+                        .requestMatchers("/clients/**").hasAuthority(RightName.VIEW_CLIENTS.toString())
                         .requestMatchers("/employees/**").hasAuthority(RightName.VIEW_EMPLOYEES.toString())
-                        .requestMatchers("/accounts/**").permitAll()
+                        .requestMatchers("/accounts/**").authenticated()
                         .requestMatchers("/transactions/**").authenticated()
 
                         .anyRequest().authenticated()

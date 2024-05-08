@@ -25,6 +25,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentialsException(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResendTokenTooSoonException.class)
+    public ResponseEntity<?> handleResendTokenTooSoonException(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(EmailExistsException.class)
     public ResponseEntity<ExceptionDetails> emailInUseExceptionHandling(Exception exception, WebRequest request) {
         Map<String, String> errors = new HashMap<>();

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authHeader } from '../utils/AuthHeader';
+import { authHeader } from '../../utils/AuthHeader';
 
 const API_BASE_URL = 'http://localhost:8080/accounts';
 
@@ -17,7 +17,7 @@ export const getAccountByNumber = async (accountNumber: string): Promise<BankAcc
     return response.data;
   } catch (error) {
     console.error('Error fetching account by number:', error);
-    return null;
+    throw error;
   }
 };
 
@@ -27,7 +27,7 @@ export const getAllAccounts = async (): Promise<BankAccount[]> => {
     return response.data;
   } catch (error) {
     console.error('Error fetching all accounts:', error);
-    return [];
+    throw error;
   }
 };
 
@@ -37,6 +37,6 @@ export const getAccountsByClient = async (clientId: string): Promise<BankAccount
     return response.data;
   } catch (error) {
     console.error('Error fetching accounts by client:', error);
-    return [];
+    throw error;
   }
 };

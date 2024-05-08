@@ -33,25 +33,23 @@ export interface ClientDto {
 
 
 const API_BASE_URL = 'http://localhost:8080/clients';
-//wszyscy
 export const getClients = async (): Promise<ClientDto[]> => {
   try {
     const response = await axios.get<ClientDto[]>(`${API_BASE_URL}`, { headers: authHeader() });
     return response.data;
   } catch (error) {
     console.error('Error fetching all clients:', error);
-    return [];
+    throw error;
   }
 };
 
-//po id
 export const getClient = async (id: string): Promise<Client | null> => {
     try {
       const response = await axios.get<Client>(`${API_BASE_URL}/${id}`, { headers: authHeader() });
       return response.data;
     } catch (error) {
       console.error('Error fetching clients by id:', error);
-      return null;
+      throw error;
     }
   };
 

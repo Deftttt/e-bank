@@ -17,11 +17,13 @@ import java.util.List;
 public class BankAccountController {
     private final BankAccountService bankAccountService;
 
+    @PreAuthorize("hasAuthority('VIEW_ACCOUNTS')")
     @GetMapping()
     public List<BankAccountDto> getAllAccounts() {
         return bankAccountService.getBankAccounts();
     }
 
+    @PreAuthorize("hasAuthority('VIEW_ACCOUNTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
     @GetMapping("/{accountNumber}")
     public BankAccountDto getAccount(@PathVariable String accountNumber) {
         return bankAccountService.getBankAccountByAccountNumber(accountNumber);

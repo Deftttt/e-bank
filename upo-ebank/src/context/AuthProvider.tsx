@@ -16,7 +16,8 @@ export const AuthProvider = ({ children }) => {
                 setAuth({
                     token,
                     email: decodedToken.e,
-                    roles: decodedToken.a
+                    roles: decodedToken.a,
+                    id: decodedToken.sub
                 });
             } catch (error) {
                 console.error('Failed to decode token', error);
@@ -37,7 +38,8 @@ export const AuthProvider = ({ children }) => {
             setAuth({
                 token: response.accessToken,
                 email: decodedToken.e,
-                roles: decodedToken.a 
+                roles: decodedToken.a,
+                id: decodedToken.sub
             });
         }
     };

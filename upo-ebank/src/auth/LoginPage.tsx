@@ -1,6 +1,6 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { LoginData } from './services/AuthService';
@@ -8,6 +8,7 @@ import { LoginData } from './services/AuthService';
 const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const [error, setError] = useState({});
     const { login } = useAuth();
 
 
@@ -23,6 +24,7 @@ const LoginPage = () => {
             navigate('/');
         } catch (error) {
             console.error('Error while logging in:', error);
+            setError(error.response.data);
         }
 
     };
@@ -57,6 +59,7 @@ const LoginPage = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              error={!!error.message}
             />
             <TextField
               margin="normal"
@@ -67,11 +70,13 @@ const LoginPage = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={!!error.message}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            {error.message && (
+              <Typography variant="body2" color="error" align="center" sx={{ fontWeight: 'bold' }}>
+                {error.message}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth

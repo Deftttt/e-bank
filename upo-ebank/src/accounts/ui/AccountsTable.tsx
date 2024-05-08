@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { BankAccount } from './AccountsService';
+import { BankAccount } from '../services/AccountsService';
 
 interface Props {
   accounts: BankAccount[];
