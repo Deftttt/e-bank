@@ -3,8 +3,7 @@ package com.upo.ebank.model.dto;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class MfaVerificationRequest {
     private String email;
-    private String password;
-    private String mfaCode;
+    private String code;
 }

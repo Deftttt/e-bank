@@ -43,6 +43,11 @@ public class User {
     @JsonIgnore
     private boolean enabled = false;
 
+    private boolean mfaEnabled = false;
+
+    @JsonIgnore
+    private String secret;
+
     public User(Long id, String email, String password, String firstName, String lastName, String phoneNumber, List<Address> addresses) {
         this.id = id;
         this.email = email;
@@ -53,4 +58,14 @@ public class User {
         this.addresses = addresses;
     }
 
+    public User(Long id, String email, String password, String firstName, String lastName, String phoneNumber, List<Address> addresses, boolean enabled) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.addresses = addresses;
+        this.enabled = enabled;
+    }
 }

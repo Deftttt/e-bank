@@ -4,6 +4,7 @@ import com.upo.ebank.exception.*;
 import com.upo.ebank.model.PasswordResetToken;
 import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.model.User;
+import com.upo.ebank.model.dto.MfaVerificationRequest;
 import com.upo.ebank.model.dto.ResetPasswordRequest;
 import com.upo.ebank.model.dto.SignUpRequest;
 import com.upo.ebank.model.dto.LoginResponse;
@@ -15,6 +16,7 @@ import com.upo.ebank.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,9 +34,10 @@ public class AuthService {
     private final RegisterConfirmationTokenRepository tokenRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final EmailService emailService;
+    private final MfaService mfaService;
     private final PasswordEncoder passwordEncoder;
 
-    public LoginResponse attemptLogin(String email, String password){
+    public LoginResponse attemptLogin(String email, String password, String mfaCode) {
         try {
             var authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
@@ -42,6 +45,14 @@ public class AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             var principal = (UserPrincipal) authentication.getPrincipal();
+            User user = userRepository.findByEmail(principal.getEmail());
+
+            if (user.isMfaEnabled()) {
+                if (mfaCode == null || !mfaService.isOtpValid( user.getSecret(), mfaCode)) {
+                    throw new BadCredentialsException("MFA is enabled, and the required MFA code is missing or invalid.");
+                }
+            }
+
             var roles = principal.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .toList();
@@ -50,10 +61,11 @@ public class AuthService {
             return LoginResponse.builder()
                     .accessToken(token)
                     .build();
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             throw new BadCredentialsException("Incorrect email or password");
         }
     }
+
 
 
     public void validateSignUpRequest(SignUpRequest request) {
@@ -67,6 +79,28 @@ public class AuthService {
     }
 
 
+    public String setupMfa(String email){
+        User user = userRepository.findByEmail(email);
+        if (user.getSecret() == null) {
+            String secretKey = mfaService.generateNewSecret();
+            user.setSecret(secretKey);
+            userRepository.save(user);
+        }
+        String qrCodeUrl = mfaService.generateQrCodeImageUri(user.getSecret());
+        return qrCodeUrl;
+    }
+
+    public void verifyMfaSetup(MfaVerificationRequest request){
+        User user = userRepository.findByEmail(request.getEmail());
+        String mfaCode = request.getCode();
+        if (!mfaService.isOtpValid(user.getSecret(), mfaCode)) {
+            throw new BadCredentialsException("Invalid MFA code. Please make sure you've scanned the QR code correctly.");
+        }
+        user.setMfaEnabled(true);
+        userRepository.save(user);
+    }
+
+
     public String confirmToken(String token) {
         RegisterConfirmationToken confirmationToken = tokenRepository.findByToken(token);
         if (confirmationToken == null || confirmationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
@@ -76,8 +110,10 @@ public class AuthService {
         user.setEnabled(true);
         userRepository.save(user);
         tokenRepository.deleteByUser(user);
+
         return "Account activated successfully";
     }
+
 
     public RegisterConfirmationToken createToken(String email) {
         User user = userRepository.findByEmail(email);
