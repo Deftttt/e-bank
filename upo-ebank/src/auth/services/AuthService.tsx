@@ -8,6 +8,7 @@ const api = axios.create({
 export type LoginData = {
     email: string;
     password: string;
+    mfaCode?: string;
 }
 
 export type RegisterData = {
@@ -27,6 +28,11 @@ export type RegisterData = {
 export type ResetPasswordData = {
   token: string;
   newPassword: string;
+}
+
+export type MfaVerification = {
+  email: string;
+  code: string;
 }
 
 
@@ -86,16 +92,33 @@ export const sendForgotPasswordEmail = (email: String) => {
     });
 };
 
+export const getMfaQrCode = () => {
+  console.log(authHeader())
+  return api
+    .post('/setup-mfa', {}, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const verifyMfaSetup = (data: MfaVerification) => {
+  return api
+    .post('/verify-mfa', data, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
 
 
 export const authHeader = () => {
-  const token = JSON.parse(localStorage.getItem("accessToken") as string);
+  const token = localStorage.getItem("accessToken") as string;
   if (token) {
-      return { Authorization: "Bearer " + token }; 
+       return { Authorization: "Bearer " + token }; 
   } else {
-    return {};  
+    return {};
   }
 }
+
 
 export const getToken = () => {
   return JSON.parse(localStorage.getItem("accessToken")  as string);

@@ -22,6 +22,7 @@ import AccountsByClientId from './accounts/AccountsByClientId';
 import AccountsByNumber from './accounts/AccountsByNumber';
 import ErrorPage from './error/ErrorPage';
 import RequireRole from './utils/RequireRoles';
+import SetupMfaPage from './auth/SetupMfaPage';
 
 function App() {
 
@@ -55,6 +56,9 @@ function App() {
                   <Route path="/clients/:id" element={<ClientById />} />
                   <Route path="/clients" element={<ClientAll />} />
                 </Route>
+
+
+                <Route path="/setup-mfa" element={<SetupMfaPage />} />
 
             </Route>
 

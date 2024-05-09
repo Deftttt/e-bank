@@ -10,6 +10,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const [error, setError] = useState({});
     const { login } = useAuth();
+    const [showMfaInput, setShowMfaInput] = useState(false);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -18,6 +19,7 @@ const LoginPage = () => {
         const loginData: LoginData = {
             email: data.get('email') as string,
             password: data.get('password') as string,
+            mfaCode: data.get('mfaCode') as string,
         };
         try {
             await login(loginData);
@@ -27,6 +29,10 @@ const LoginPage = () => {
             setError(error.response.data);
         }
 
+    };
+
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setShowMfaInput(event.target.checked);
     };
 
   return (
@@ -72,11 +78,27 @@ const LoginPage = () => {
               autoComplete="current-password"
               error={!!error.message}
             />
+
+            {showMfaInput && (
+              <TextField
+              margin="normal"
+              fullWidth
+              name="mfaCode"
+              label="Mfa code"
+              id="mfaCode"
+              />
+            )}
             {error.message && (
               <Typography variant="body2" color="error" align="center" sx={{ fontWeight: 'bold' }}>
                 {error.message}
               </Typography>
             )}
+            <Box display="flex" justifyContent="center">
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" onChange={handleCheckboxChange} />}
+                label="Show MFA input"
+              />
+            </Box>
             <Button
               type="submit"
               fullWidth
