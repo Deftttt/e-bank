@@ -66,8 +66,6 @@ public class AuthService {
         }
     }
 
-
-
     public void validateSignUpRequest(SignUpRequest request) {
         if (isEmailTaken(request.getEmail())) {
             throw new EmailExistsException("Entered email already is in use.");

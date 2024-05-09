@@ -8,6 +8,7 @@ const api = axios.create({
 export type LoginData = {
     email: string;
     password: string;
+    mfaCode?: string;
 }
 
 export type RegisterData = {
