@@ -1,7 +1,6 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.User;
-import com.upo.ebank.model.dto.SignUpRequest;
 import com.upo.ebank.model.dto.UserUpdateDto;
 import com.upo.ebank.service.UserService;
 import jakarta.validation.Valid;

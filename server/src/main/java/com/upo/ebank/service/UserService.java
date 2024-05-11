@@ -3,18 +3,12 @@ package com.upo.ebank.service;
 import com.upo.ebank.model.Address;
 import com.upo.ebank.model.User;
 import com.upo.ebank.model.dto.AddressUpdateDto;
-import com.upo.ebank.model.dto.SignUpRequest;
 import com.upo.ebank.model.dto.UserUpdateDto;
 import com.upo.ebank.repository.AddressRepository;
 import com.upo.ebank.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
