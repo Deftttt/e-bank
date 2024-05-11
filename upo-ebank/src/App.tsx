@@ -23,6 +23,7 @@ import AccountsByNumber from './accounts/AccountsByNumber';
 import ErrorPage from './error/ErrorPage';
 import RequireRole from './utils/RequireRoles';
 import SetupMfaPage from './auth/SetupMfaPage';
+import UserUpdatePage from './auth/UserUpdatePage';
 
 function App() {
 
@@ -59,6 +60,8 @@ function App() {
 
 
                 <Route path="/setup-mfa" element={<SetupMfaPage />} />
+
+                <Route path="/user-update/:userId" element={<UserUpdatePage />} />
 
             </Route>
 

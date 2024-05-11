@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserService userService;
     private final ClientService clientService;
     private final EmailService emailService;
 

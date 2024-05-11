@@ -36,7 +36,7 @@ public class User {
     @Column(length = 16)
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Address> addresses;
 

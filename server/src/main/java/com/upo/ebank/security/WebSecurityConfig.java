@@ -28,6 +28,7 @@ public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -58,7 +59,7 @@ public class WebSecurityConfig {
                         //.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/users/**").authenticated()
                         .requestMatchers("/clients/**").hasAuthority(RightName.VIEW_CLIENTS.toString())
                         .requestMatchers("/employees/**").hasAuthority(RightName.VIEW_EMPLOYEES.toString())
                         .requestMatchers("/accounts/**").authenticated()
@@ -71,16 +72,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder
                 .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
         return builder.build();
     }
 
