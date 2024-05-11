@@ -1,17 +1,18 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useLocation  } from 'react-router-dom';
+import React, { useState } from 'react';
+import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
+import {
+    Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel,
+    Grid, TextField, Typography
+} from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { LoginData } from './services/AuthService';
 
-const LoginPage = () => {
-    const location = useLocation();
+const LoginPage: React.FC = () => {
     const navigate = useNavigate();
-    const [error, setError] = useState({});
     const { login } = useAuth();
     const [showMfaInput, setShowMfaInput] = useState(false);
-
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,106 +25,95 @@ const LoginPage = () => {
         try {
             await login(loginData);
             navigate('/');
-        } catch (error) {
-            console.error('Error while logging in:', error);
-            setError(error.response.data);
+        } catch (err: any) {
+            console.error('Error during login:', err);
+            setError(err?.response?.data?.message || 'Login failed');
         }
-
     };
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setShowMfaInput(event.target.checked);
+        setShowMfaInput(event.target.checked);
     };
 
-  return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            paddingTop: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-
-
-          
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              error={!!error.message}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              error={!!error.message}
-            />
-
-            {showMfaInput && (
-              <TextField
-              margin="normal"
-              fullWidth
-              name="mfaCode"
-              label="Mfa code"
-              id="mfaCode"
-              />
-            )}
-            {error.message && (
-              <Typography variant="body2" color="error" align="center" sx={{ fontWeight: 'bold' }}>
-                {error.message}
-              </Typography>
-            )}
-            <Box display="flex" justifyContent="center">
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" onChange={handleCheckboxChange} />}
-                label="Show MFA input"
-              />
-            </Box>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    paddingTop: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/forgot-password" variant="body2">
-                  {"Forgot password?"}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-  );
-}
-
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        error={!!error}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        error={!!error}
+                    />
+                    {showMfaInput && (
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            name="mfaCode"
+                            label="MFA Code"
+                            id="mfaCode"
+                        />
+                    )}
+                    {error && (
+                        <Typography variant="body2" color="error" align="center" sx={{ fontWeight: 'bold' }}>
+                            {error}
+                        </Typography>
+                    )}
+                    <Box display="flex" justifyContent="center">
+                        <FormControlLabel
+                            control={<Checkbox color="primary" onChange={handleCheckboxChange} />}
+                            label="Show MFA input"
+                        />
+                    </Box>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        Sign In
+                    </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link to="/forgot-password" variant="body2">
+                                {"Forgot password?"}
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link to="/register" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Box>
+        </Container>
+    );
+};
 
 export default LoginPage;

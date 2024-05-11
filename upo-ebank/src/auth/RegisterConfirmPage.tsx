@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, Button, Alert, AlertTitle } from '@mui/material';
+import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { confirmRegistration } from './services/AuthService';
-const RegisterConfirmPage = () => {
+import CustomAlert from '../shared/ui/CustomAlert';
+
+const RegisterConfirmPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [message, setMessage] = useState('');
-    const [severity, setSeverity] = useState('info');
-    
+    const [severity, setSeverity] = useState<'success' | 'error' | 'info'>('info');
+
     useEffect(() => {
         const token = new URLSearchParams(location.search).get('token');
         if (token) {
@@ -26,28 +28,33 @@ const RegisterConfirmPage = () => {
                     setSeverity('error');
                 });
         }
-    }, []);
-
+    }, [location]);
 
     return (
         <Container maxWidth="sm">
-            <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                height="50vh"
-            >
-                <Alert severity={severity} variant='filled' sx={{ width: '100%', marginBottom: 2 }}>
-                <AlertTitle>Registration Confirmation</AlertTitle>
-                    {message}
-                </Alert>
-                <Button variant="contained" color="primary" onClick={() => navigate('/login')}>
-                    Go to Login Page
-                </Button>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            height="50vh"
+          >
+            <Box pb={2}>
+              <CustomAlert 
+                severity={severity} 
+                title="Registration Confirmation" 
+                message={message + "... You will be redirected to the login page in 5 seconds."} 
+                open={!!message} 
+                onClose={() => navigate('/login')}
+                autoCloseTime={5000}
+              />
             </Box>
+            <Button variant="contained" color="primary" onClick={() => navigate('/login')}>
+              Go to Login Page
+            </Button>
+          </Box>
         </Container>
-    );
+      );
 };
 
 export default RegisterConfirmPage;

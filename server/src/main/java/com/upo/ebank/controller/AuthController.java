@@ -1,15 +1,12 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.RegisterConfirmationToken;
-import com.upo.ebank.model.User;
 import com.upo.ebank.model.dto.*;
 import com.upo.ebank.security.UserPrincipal;
 import com.upo.ebank.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserService userService;
     private final ClientService clientService;
     private final EmailService emailService;
 
@@ -64,8 +60,7 @@ public class AuthController {
 
     @PostMapping("/setup-mfa")
     public String setupMfa(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        String qrCodeUrl = authService.setupMfa(userPrincipal.getEmail());
-        return qrCodeUrl;
+        return authService.setupMfa(userPrincipal.getEmail());
     }
 
     @PostMapping("/verify-mfa")

@@ -1,15 +1,12 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.User;
+import com.upo.ebank.model.dto.UserUpdateDto;
 import com.upo.ebank.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,10 +20,17 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @PreAuthorize("#id == principal.userId")
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable Long id) {
 
         return userService.getUser(id);
+    }
+
+    @PreAuthorize("#id == principal.userId")
+    @PutMapping("/users/{id}")
+    public User updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
+        return userService.updateUser(id, userUpdateDto);
     }
 
 }
