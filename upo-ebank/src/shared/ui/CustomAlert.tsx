@@ -8,16 +8,17 @@ interface CustomAlertProps {
   severity: 'error' | 'warning' | 'info' | 'success';
   open: boolean;
   onClose: () => void;
+  autoCloseTime?: number;
 }
 
-const CustomAlert: React.FC<CustomAlertProps> = ({ title, message, severity, open, onClose }) => {
+const CustomAlert: React.FC<CustomAlertProps> = ({ title, message, severity, open, onClose, autoCloseTime }) => {
 
   useEffect(() => {
     let timerId: NodeJS.Timeout;
     if (open) {
       timerId = setTimeout(() => {
         onClose(); 
-      }, 3000);
+      }, autoCloseTime);
     }
     return () => clearTimeout(timerId); 
   }, [open, onClose]);
