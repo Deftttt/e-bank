@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -37,10 +37,10 @@ public class Loan {
     private LoanStatus status;
 
     @Column(name = "application_date")
-    private Date applicationDate;
+    private LocalDateTime applicationDate;
 
     @Column(name = "decision_date")
-    private Date decisionDate;
+    private LocalDateTime decisionDate;
 
     @Column(name = "loan_purpose")
     private String loanPurpose;
@@ -49,7 +49,7 @@ public class Loan {
     private Integer loanTermMonths;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "interest_rate")
     private Double interestRate;

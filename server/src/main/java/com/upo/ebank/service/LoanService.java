@@ -3,19 +3,24 @@ package com.upo.ebank.service;
 import com.upo.ebank.model.Client;
 import com.upo.ebank.model.Employee;
 import com.upo.ebank.model.Loan;
-import com.upo.ebank.model.dto.LoanDecisionDTO;
+import com.upo.ebank.model.dto.LoanDecision;
+import com.upo.ebank.model.dto.LoanDto;
 import com.upo.ebank.model.dto.LoanRequest;
 import com.upo.ebank.model.enums.LoanStatus;
 import com.upo.ebank.repository.ClientRepository;
 import com.upo.ebank.repository.EmployeeRepository;
 import com.upo.ebank.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +28,46 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
+    private final ModelMapper modelMapper;
 
-    public List<Loan> getAllLoans() {
-        return loanRepository.findAll();
+    public List<LoanDto> getLoans(LoanStatus status, Pageable pageable) {
+        Page<Loan> loans;
+        if (status != null) {
+            loans = loanRepository.findByStatus(status, pageable);
+        } else {
+            loans = loanRepository.findAll(pageable);
+        }
+        return loans.stream()
+                .map(loan -> modelMapper.map(loan, LoanDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<LoanDto> getLoansByEmployee(Long employeeId, LoanStatus status, Pageable pageable) {
+        Page<Loan> loans;
+        if (status != null) {
+            loans = loanRepository.findByEmployeeIdAndStatus(employeeId, status, pageable);
+        } else {
+            loans = loanRepository.findByEmployeeId(employeeId, pageable);
+        }
+        return loans.stream()
+                .map(loan -> modelMapper.map(loan, LoanDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<LoanDto> getLoansByClient(Long clientId, LoanStatus status, Pageable pageable) {
+        Page<Loan> loans;
+        if (status != null) {
+            loans = loanRepository.findByClientIdAndStatus(clientId, status, pageable);
+        } else {
+            loans = loanRepository.findByClientId(clientId, pageable);
+        }
+        return loans.stream()
+                .map(loan -> modelMapper.map(loan, LoanDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public Loan getLoan(Long id){
+        return loanRepository.findById(id).orElseThrow();
     }
 
 
@@ -38,7 +80,7 @@ public class LoanService {
                 .employee(assignedEmployee)
                 .amount(loanRequest.getAmount())
                 .status(LoanStatus.REQUESTED)
-                .applicationDate(new Date())
+                .applicationDate(LocalDateTime.now())
                 .startDate(loanRequest.getStartDate())
                 .loanTermMonths(loanRequest.getLoanTermMonths())
                 .loanPurpose(loanRequest.getLoanPurpose())
@@ -47,11 +89,11 @@ public class LoanService {
         return loanRepository.save(newLoan);
     }
 
-    public Loan approveOrRejectLoan(Long loanId, LoanDecisionDTO decisionDTO) {
+    public Loan approveOrRejectLoan(Long loanId, LoanDecision decisionDTO) {
         Loan loan = loanRepository.findById(loanId).orElseThrow();
 
         loan.setStatus(decisionDTO.isApprove() ? LoanStatus.APPROVED : LoanStatus.REJECTED);
-        loan.setDecisionDate(new Date());
+        loan.setDecisionDate(LocalDateTime.now());
         loan.setComment(decisionDTO.getComment());
 
         if (decisionDTO.isApprove()) {
@@ -71,16 +113,18 @@ public class LoanService {
     }
 
 
-    public Employee requestLoan2(Long clientId, LoanRequest loanRequest) {
-        Client client = clientRepository.findById(clientId).orElseThrow();
-        return employeeRepository.findWithLeastAssignedLoans();
-    }
-
     public boolean isAssignedEmployee(Long employeeId, Long loanId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         Loan loan = loanRepository.findById(loanId).orElseThrow();
 
         return employee.getId().equals(loan.getEmployee().getId());
+    }
+
+    public boolean isAssignedClient(Long clientId, Long loanId) {
+        Client client = clientRepository.findById(clientId).orElseThrow();
+        Loan loan = loanRepository.findById(loanId).orElseThrow();
+
+        return client.getId().equals(loan.getClient().getId());
     }
 
 

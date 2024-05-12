@@ -3,8 +3,10 @@ package com.upo.ebank.util;
 import com.upo.ebank.model.*;
 import com.upo.ebank.model.enums.AccountType;
 import com.upo.ebank.model.enums.Department;
+import com.upo.ebank.model.enums.LoanStatus;
 import com.upo.ebank.model.enums.RightName;
 import com.upo.ebank.repository.BankAccountRepository;
+import com.upo.ebank.repository.LoanRepository;
 import com.upo.ebank.repository.PositionRepository;
 import com.upo.ebank.repository.TransactionRepository;
 import com.upo.ebank.service.ClientService;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +34,7 @@ public class DataLoader {
     private final PositionRepository positionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
+    private final LoanRepository loanRepository;
 
 
     @EventListener(ApplicationReadyEvent.class)
@@ -98,6 +103,14 @@ public class DataLoader {
         transactionRepository.save(transaction2);
         transactionRepository.save(transaction3);
 
+
+        Loan loan1 = new Loan(null, client, employee, BigDecimal.valueOf(15000), LoanStatus.REQUESTED, LocalDateTime.now(), null, "Zakup motocykla", 10, LocalDate.now().plusDays(10), null, null, null, null);
+        Loan loan2 = new Loan(null, client, employee3, BigDecimal.valueOf(20000), LoanStatus.REQUESTED, LocalDateTime.now(), null, "Remont mieszkania", 16, LocalDate.now().plusDays(15), null, null, null, null);
+        Loan loan3 = new Loan(null, client2, employee, BigDecimal.valueOf(40000), LoanStatus.REQUESTED, LocalDateTime.now(), null, "Budowa działki", 24, LocalDate.now().plusDays(20), null, null, null, null);
+
+        loanRepository.save(loan1);
+        loanRepository.save(loan2);
+        loanRepository.save(loan3);
     }
 
 
