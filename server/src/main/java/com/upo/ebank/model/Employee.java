@@ -18,7 +18,8 @@ public class Employee extends User {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @OneToOne
+    @ManyToOne()
+    @JoinColumn(name = "position_id")
     private Position position;
 
     public Employee(Long id, String email, String password, String firstName, String lastName, String phoneNumber, List<Address> addresses, Department department, Position position) {
