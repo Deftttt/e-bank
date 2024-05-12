@@ -60,4 +60,6 @@ public class Loan {
     @Column(name = "total_repayment_amount")
     private BigDecimal totalRepaymentAmount;
 
+    @Column(name = "comment")
+    private String comment;
 }

@@ -2,11 +2,13 @@ package com.upo.ebank.controller;
 
 import com.upo.ebank.model.Employee;
 import com.upo.ebank.model.Loan;
+import com.upo.ebank.model.dto.LoanDecisionDTO;
 import com.upo.ebank.model.dto.LoanRequest;
 import com.upo.ebank.security.UserPrincipal;
 import com.upo.ebank.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,13 @@ public class LoanController {
     @PostMapping("/request")
     public ResponseEntity<?> requestLoan(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody LoanRequest loanRequest) {
         Loan loan = loanService.requestLoan(userPrincipal.getUserId(), loanRequest);
+        return ResponseEntity.ok(loan);
+    }
+
+    @PreAuthorize("@loanService.isAssignedEmployee(principal.userId, #loanId)")
+    @PostMapping("/{loanId}/decision")
+    public ResponseEntity<Loan> approveOrRejectLoan(@PathVariable Long loanId, @RequestBody LoanDecisionDTO decisionDTO) {
+        Loan loan = loanService.approveOrRejectLoan(loanId, decisionDTO);
         return ResponseEntity.ok(loan);
     }
 

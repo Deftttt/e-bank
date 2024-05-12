@@ -51,7 +51,7 @@ public class DataLoader {
 
 
         Position position = new Position(null, "Loan Analyst", 7400.0,
-                Set.of(new Right(null, RightName.VIEW_CLIENTS), new Right(null, RightName.VIEW_EMPLOYEES), new Right(null, RightName.VIEW_ACCOUNTS)));
+                Set.of(new Right(null, RightName.VIEW_CLIENTS), new Right(null, RightName.VIEW_EMPLOYEES), new Right(null, RightName.VIEW_ACCOUNTS), new Right(null, RightName.APPROVE_LOANS)));
         positionRepository.save(position);
 
         Position position2 = new Position(null, "Emp_Position_1", 5600.0,

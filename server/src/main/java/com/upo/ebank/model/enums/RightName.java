@@ -6,5 +6,6 @@ public enum RightName {
     VIEW_EMPLOYEES,
     VIEW_ACCOUNTS,
     EDIT_EMPLOYEES,
-    USER_RIGHTS
+    USER_RIGHTS,
+    APPROVE_LOANS
 }
