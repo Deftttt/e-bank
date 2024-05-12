@@ -3,8 +3,10 @@ package com.upo.ebank.util;
 import com.upo.ebank.model.*;
 import com.upo.ebank.model.enums.AccountType;
 import com.upo.ebank.model.enums.Department;
+import com.upo.ebank.model.enums.LoanStatus;
 import com.upo.ebank.model.enums.RightName;
 import com.upo.ebank.repository.BankAccountRepository;
+import com.upo.ebank.repository.LoanRepository;
 import com.upo.ebank.repository.PositionRepository;
 import com.upo.ebank.repository.TransactionRepository;
 import com.upo.ebank.service.ClientService;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +34,7 @@ public class DataLoader {
     private final PositionRepository positionRepository;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
+    private final LoanRepository loanRepository;
 
 
     @EventListener(ApplicationReadyEvent.class)
@@ -40,6 +45,7 @@ public class DataLoader {
         Address address3 = new Address(null, "Zamosc", "Polna", "48", "38-997", "Polska");
         Address address4 = new Address(null, "Kraków", "Norymberska", "10a/37", "36-721", "Polska");
         Address address5 = new Address(null, "Kraków", "Zachodnia", "51", "36-721", "Polska");
+        Address address6 = new Address(null, "Kraków", "Pawia", "4", "36-721", "Polska");
 
         Client client = new Client(null, "client@example.com", passwordEncoder.encode("password"),
                 "John", "Doe", "123456789", List.of(address1, address2), "89123458901", true);
@@ -49,8 +55,8 @@ public class DataLoader {
 
 
 
-        Position position = new Position(null, "Emp_Position_1", 5600.0,
-                Set.of(new Right(null, RightName.VIEW_CLIENTS), new Right(null, RightName.VIEW_EMPLOYEES), new Right(null, RightName.VIEW_ACCOUNTS)));
+        Position position = new Position(null, "Loan Analyst", 7400.0,
+                Set.of(new Right(null, RightName.VIEW_CLIENTS), new Right(null, RightName.VIEW_EMPLOYEES), new Right(null, RightName.VIEW_ACCOUNTS), new Right(null, RightName.APPROVE_LOANS)));
         positionRepository.save(position);
 
         Position position2 = new Position(null, "Emp_Position_1", 5600.0,
@@ -63,11 +69,14 @@ public class DataLoader {
 
         Employee employee2 = new Employee(null, "piotrstasicki3@gmail.com", passwordEncoder.encode("password"),
                 "Kong", "Strong", "889381290", List.of(address5), Department.DEPARTMENT_2, position2, true);
+        Employee employee3 = new Employee(null, "piotrstasicki4@gmail.com", passwordEncoder.encode("password"),
+                "Kong2", "Strong2", "889381291", List.of(address6), Department.DEPARTMENT_2, position, true);
 
         clientService.addClient(client);
         clientService.addClient(client2);
         employeeService.addEmployee(employee);
         employeeService.addEmployee(employee2);
+        employeeService.addEmployee(employee3);
 
 
         BankAccount account1 = new BankAccount("1234567890", BigDecimal.valueOf(1000),
@@ -94,6 +103,14 @@ public class DataLoader {
         transactionRepository.save(transaction2);
         transactionRepository.save(transaction3);
 
+
+        Loan loan1 = new Loan(null, client, employee, BigDecimal.valueOf(15000), LoanStatus.REQUESTED, LocalDateTime.now(), null, "Zakup motocykla", 10, LocalDate.now().plusDays(10), null, null, null, null);
+        Loan loan2 = new Loan(null, client, employee3, BigDecimal.valueOf(20000), LoanStatus.REQUESTED, LocalDateTime.now(), null, "Remont mieszkania", 16, LocalDate.now().plusDays(15), null, null, null, null);
+        Loan loan3 = new Loan(null, client2, employee, BigDecimal.valueOf(40000), LoanStatus.REQUESTED, LocalDateTime.now(), null, "Budowa działki", 24, LocalDate.now().plusDays(20), null, null, null, null);
+
+        loanRepository.save(loan1);
+        loanRepository.save(loan2);
+        loanRepository.save(loan3);
     }
 
 
