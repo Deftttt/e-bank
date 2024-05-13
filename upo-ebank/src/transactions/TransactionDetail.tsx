@@ -4,7 +4,9 @@ import { useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, CardContent, Typography, Grid } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Button } from '@mui/material';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFFile } from './PDFFile';
 
 const TransactionDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,7 +34,7 @@ const TransactionDetail = () => {
   if (isLoading) {
     return <Loading />;
   }
-
+  
   return (
     <>
       <Navbar />
@@ -59,6 +61,16 @@ const TransactionDetail = () => {
                   <Typography variant="body2" sx={{ marginBottom: '10px' }}>
                     Recipient Account Number: {transaction.recipientAccountNumber}
                   </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <PDFDownloadLink
+                    document={<PDFFile transaction={transaction} />}
+                    fileName="transaction.pdf"
+                  >
+                    {({ blob, url, loading, error }) =>
+                      loading ? 'Loading document...' : <Button variant="contained">Download Transaction Detail</Button>
+                    }
+                  </PDFDownloadLink>
                 </Grid>
               </Grid>
             </CardContent>
