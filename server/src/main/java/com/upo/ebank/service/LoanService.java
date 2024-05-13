@@ -89,14 +89,14 @@ public class LoanService {
         return loanRepository.save(newLoan);
     }
 
-    public Loan approveOrRejectLoan(Long loanId, LoanDecision decisionDTO) {
+    public Loan approveOrDenyLoanByEmployee(Long loanId, LoanDecision decisionDTO) {
         Loan loan = loanRepository.findById(loanId).orElseThrow();
 
-        loan.setStatus(decisionDTO.isApprove() ? LoanStatus.APPROVED : LoanStatus.REJECTED);
+        loan.setStatus(decisionDTO.isApproved() ? LoanStatus.APPROVED : LoanStatus.DENIED);
         loan.setDecisionDate(LocalDateTime.now());
         loan.setComment(decisionDTO.getComment());
 
-        if (decisionDTO.isApprove()) {
+        if (decisionDTO.isApproved()) {
             // Tutaj jakas funkcyjna co obliczy na podstawie czasu, kwoty, etc.
             double interestRate = 3.5;
             loan.setInterestRate(interestRate);
@@ -110,6 +110,23 @@ public class LoanService {
         }
 
         return loanRepository.save(loan);
+    }
+
+
+    public Loan acceptOrRejectLoanByClient(Long loanId, boolean accepted) {
+        Loan loan = loanRepository.findById(loanId).orElseThrow();
+
+        if (loan.getStatus() == LoanStatus.APPROVED) {
+            if (accepted) {
+                loan.setStatus(LoanStatus.ACCEPTED);
+            }
+            else{
+                loan.setStatus(LoanStatus.REJECTED);
+            }
+            return loanRepository.save(loan);
+        } else {
+            throw new IllegalStateException("Loan is not approved and cannot be accepted or rejected by the client");
+        }
     }
 
 
