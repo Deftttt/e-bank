@@ -18,7 +18,7 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ title, message, severity, ope
     if (open) {
       timerId = setTimeout(() => {
         onClose(); 
-      }, autoCloseTime);
+      }, autoCloseTime===undefined ? 5000 : autoCloseTime);
     }
     return () => clearTimeout(timerId); 
   }, [open, onClose]);
