@@ -28,29 +28,29 @@ public class LoanController {
     @PreAuthorize("hasAuthority('APPROVE_LOANS')")
     @GetMapping("")
     public List<LoanDto> getAllLoans(@RequestParam(required = false) LoanStatus status,
-                                     @PageableDefault(sort = "amount", direction = Sort.Direction.ASC) Pageable pageable) {
+                                     @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return loanService.getLoans(status, pageable);
     }
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS') or #employeeId == principal.userId")
+    @PreAuthorize("hasAuthority('APPROVE_LOANS')")
     @GetMapping("/employee/{employeeId}")
     public List<LoanDto> getLoansByEmployee(@PathVariable Long employeeId,
                                             @RequestParam(required = false) LoanStatus status,
-                                            @PageableDefault(sort = "amount", direction = Sort.Direction.ASC) Pageable pageable) {
+                                            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return loanService.getLoansByEmployee(employeeId, status, pageable);
     }
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS') or #clientId == principal.userId")
+    @PreAuthorize("hasAuthority('APPROVE_LOANS')")
     @GetMapping("/client/{clientId}")
     public List<LoanDto> getLoansByClient(@PathVariable Long clientId,
                                           @RequestParam(required = false) LoanStatus status,
-                                          @PageableDefault(sort = "amount", direction = Sort.Direction.ASC) Pageable pageable) {
+                                          @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return loanService.getLoansByClient(clientId, status, pageable);
     }
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS') or @loanService.isAssignedClient(principal.userId, #id)")
     @GetMapping("/{id}")
-    public Loan getAllLoans(@PathVariable Long id) {
+    public Loan getLoan(@PathVariable Long id) {
         return loanService.getLoan(id);
     }
 
@@ -63,7 +63,14 @@ public class LoanController {
     @PreAuthorize("@loanService.isAssignedEmployee(principal.userId, #loanId)")
     @PostMapping("/{loanId}/decision")
     public ResponseEntity<Loan> approveOrRejectLoan(@PathVariable Long loanId, @RequestBody LoanDecision decisionDTO) {
-        Loan loan = loanService.approveOrRejectLoan(loanId, decisionDTO);
+        Loan loan = loanService.approveOrDenyLoanByEmployee(loanId, decisionDTO);
+        return ResponseEntity.ok(loan);
+    }
+
+    @PreAuthorize("@loanService.isAssignedClient(principal.userId, #loanId)")
+    @PutMapping("/{loanId}/client-decision")
+    public ResponseEntity<Loan> clientDecision(@PathVariable Long loanId, @RequestParam boolean accepted) {
+        Loan loan = loanService.acceptOrRejectLoanByClient(loanId, accepted);
         return ResponseEntity.ok(loan);
     }
 

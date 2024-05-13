@@ -24,6 +24,7 @@ import ErrorPage from './error/ErrorPage';
 import RequireRole from './utils/RequireRoles';
 import SetupMfaPage from './auth/SetupMfaPage';
 import UserUpdatePage from './auth/UserUpdatePage';
+import LoansAllPage from './loans/LoansAllPage';
 
 function App() {
 
@@ -57,6 +58,8 @@ function App() {
                   <Route path="/clients/:id" element={<ClientById />} />
                   <Route path="/clients" element={<ClientAll />} />
                 </Route>
+
+                <Route path="/loans" element={<LoansAllPage />} />
 
 
                 <Route path="/setup-mfa" element={<SetupMfaPage />} />

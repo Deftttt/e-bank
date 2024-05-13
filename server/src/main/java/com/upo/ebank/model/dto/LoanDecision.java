@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class LoanDecision {
-    private boolean approve;
+    private boolean approved;
     private String comment;
 }

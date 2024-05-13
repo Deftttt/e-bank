@@ -39,7 +39,7 @@ public class DataLoader {
 
     @EventListener(ApplicationReadyEvent.class)
     public void get(){
-
+        /*
         Address address1 = new Address(null, "Przemysl", "Opalinskiego", "23/24", "37-700", "Polska");
         Address address2 = new Address(null,"Rzeszów", "Rejtana", "50", "37-800", "Polska");
         Address address3 = new Address(null, "Zamosc", "Polna", "48", "38-997", "Polska");
@@ -111,6 +111,8 @@ public class DataLoader {
         loanRepository.save(loan1);
         loanRepository.save(loan2);
         loanRepository.save(loan3);
+         */
+
     }
 
 
