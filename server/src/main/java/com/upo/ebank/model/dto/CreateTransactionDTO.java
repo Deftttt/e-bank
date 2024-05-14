@@ -1,5 +1,6 @@
 package com.upo.ebank.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -16,8 +17,7 @@ public class CreateTransactionDTO {
     @Positive(message = "Kwota musi być dodatnia")
     private BigDecimal amount;
     private Date transactionDate = new Date();
-    @NotBlank(message = "Pole nie może być puste")
-    private String senderAccountNumber;
+    private String message;
     @NotBlank(message = "Pole nie może być puste")
     private String recipientAccountNumber;
 }

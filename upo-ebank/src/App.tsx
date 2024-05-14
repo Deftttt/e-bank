@@ -50,7 +50,7 @@ function App() {
                 <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
                 <Route path="/transactions/:id" element={<TransactionDetail />} />
                 <Route path="/transactions" element={<TransactionAll />} />
-                <Route path="/transactions/transfer" element={<MoneyTransferPage />} />
+                <Route path="/transactions/account/:accountNumber/transfer" element={<MoneyTransferPage />} />
 
                 <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
                 <Route path="/accounts/clients/:clientId" element={<AccountsByClientId />} />

@@ -4,7 +4,7 @@ import AccountsTable from './ui/AccountsTable';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
-import { Container } from '@mui/material';
+import { Button, Container } from '@mui/material';
 
 const AccountsByNumber = () => {
   const { accountNumber } = useParams<{ accountNumber: string }>();
@@ -40,6 +40,8 @@ const AccountsByNumber = () => {
         {account && (
           <AccountsTable accounts={[account]} />
         )}
+        
+        <Button onClick={() => navigate(`/transactions/account/${accountNumber}/transfer`)}>Transfer money from this account</Button>
       </Container>
     </>
   );

@@ -11,18 +11,31 @@ export interface Transaction {
   recipientAccountNumber: string;
 }
 
+export interface TransactionDetailDTO {
+  id: number;
+  amount: number;
+  transactionDate: string;
+  message: string;
+  senderAccountNumber: string;
+  senderName: string;
+  senderSurname: string;
+  recipientAccountNumber: string;
+  recipientName: string;
+  recipientSurname: string;
+}
+
 export interface CreateTransactionDTO {
   amount: number;
-  senderAccountNumber: string;
+  message: string;
   recipientAccountNumber: string;
 }
 
 
 const API_BASE_URL = 'http://localhost:8080/transactions';
 
-export const getTransactionById = async (id: string): Promise<Transaction | null> => {
+export const getTransactionById = async (id: string): Promise<TransactionDetail | null> => {
     try {
-      const response = await axios.get<Transaction>(`${API_BASE_URL}/${id}`, { headers: authHeader() });
+      const response = await axios.get<TransactionDetail>(`${API_BASE_URL}/${id}`, { headers: authHeader() });
       return response.data;
     } catch (error) {
       console.error('Error fetching transaction by id:', error);
@@ -30,9 +43,9 @@ export const getTransactionById = async (id: string): Promise<Transaction | null
     }
   };
 
-  export const createTransaction = async (data: CreateTransactionDTO): Promise<any> => {
+  export const createTransaction = async (accountNumber: string, data: CreateTransactionDTO): Promise<any> => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/transfer`, data, { headers: authHeader() });
+      const response = await axios.post(`${API_BASE_URL}/account/${accountNumber}/transfer`, data, { headers: authHeader() });
       return response.data;
     } catch (error) {
       console.error('Error creating transaction:', error);

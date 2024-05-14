@@ -3,14 +3,16 @@ package com.upo.ebank.service;
 import com.upo.ebank.model.BankAccount;
 import com.upo.ebank.model.Transaction;
 import com.upo.ebank.model.dto.CreateTransactionDTO;
-import com.upo.ebank.model.dto.TransactionDetailsDTO;
+import com.upo.ebank.model.dto.TransactionDetailsDto;
 import com.upo.ebank.model.dto.TransactionDto;
 import com.upo.ebank.repository.BankAccountRepository;
 import com.upo.ebank.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,23 +32,11 @@ public class TransactionService {
 
     }
 
-    public Transaction createTransaction(CreateTransactionDTO createTransactionDTO) {
-        BankAccount sender = bankAccountRepository.findById(createTransactionDTO.getSenderAccountNumber()).orElseThrow();
-        BankAccount recipient = bankAccountRepository.findById(createTransactionDTO.getRecipientAccountNumber()).orElseThrow();
 
-        Transaction transaction = modelMapper.map(createTransactionDTO, Transaction.class);
-        transaction.setSenderAccount(sender);
-        transaction.setRecipientAccount(recipient);
+    public Transaction transferMoney(String accountNumber, CreateTransactionDTO createTransactionDTO) throws Exception {
+        validateTransferRequest(createTransactionDTO, accountNumber);
 
-        transactionRepository.save(transaction);
-
-        return transaction;
-    }
-
-    public Transaction transferMoney(CreateTransactionDTO createTransactionDTO) throws Exception {
-        validateTransferRequest(createTransactionDTO);
-
-        BankAccount sender = bankAccountRepository.findById(createTransactionDTO.getSenderAccountNumber()).orElseThrow();
+        BankAccount sender = bankAccountRepository.findByAccountNumber(accountNumber);
         BankAccount recipient = bankAccountRepository.findById(createTransactionDTO.getRecipientAccountNumber()).orElseThrow();
 
         sender.setBalance(sender.getBalance().subtract(createTransactionDTO.getAmount()));
@@ -63,10 +53,9 @@ public class TransactionService {
         return transaction;
     }
 
-    public void validateTransferRequest(CreateTransactionDTO createTransactionDTO) throws Exception {
-        validateAccountExists(createTransactionDTO.getSenderAccountNumber(), "Sender account not found");
+    public void validateTransferRequest(CreateTransactionDTO createTransactionDTO, String senderAccountNumber) throws Exception {
         validateAccountExists(createTransactionDTO.getRecipientAccountNumber(), "Recipient account not found");
-        validateSufficientBalance(createTransactionDTO);
+        validateSufficientBalance(createTransactionDTO.getAmount(), senderAccountNumber);
     }
 
     private void validateAccountExists(String accountNumber, String errorMessage) throws Exception {
@@ -75,16 +64,23 @@ public class TransactionService {
         }
     }
 
-    private void validateSufficientBalance(CreateTransactionDTO createTransactionDTO) throws Exception {
-        BankAccount sender = bankAccountRepository.findById(createTransactionDTO.getSenderAccountNumber()).orElseThrow();
-        if (sender.getBalance().compareTo(createTransactionDTO.getAmount()) < 0) {
+    private void validateSufficientBalance(BigDecimal amount, String senderAccountNumber) throws Exception {
+        BankAccount sender = bankAccountRepository.findByAccountNumber(senderAccountNumber);
+        if (sender.getBalance().compareTo(amount) < 0) {
             throw new Exception("Insufficient balance");
         }
     }
 
-    public TransactionDto getTransactionById(Long id) {
+    public TransactionDetailsDto getTransactionById(Long id) {
         Transaction transaction = transactionRepository.findById(id).orElseThrow();
-        return modelMapper.map(transaction,TransactionDto.class);
+        TransactionDetailsDto detailsDto =  modelMapper.map(transaction,TransactionDetailsDto.class);
+        detailsDto.setSenderName(transaction.getSenderAccount().getClient().getFirstName());
+        detailsDto.setSenderSurname(transaction.getSenderAccount().getClient().getLastName());
+
+        detailsDto.setRecipientName(transaction.getRecipientAccount().getClient().getFirstName());
+        detailsDto.setRecipientSurname(transaction.getRecipientAccount().getClient().getLastName());
+
+        return detailsDto;
     }
 
     private Transaction getTransaction(Long transactionId) {
