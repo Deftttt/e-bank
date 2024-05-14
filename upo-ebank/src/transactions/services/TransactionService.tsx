@@ -11,6 +11,12 @@ export interface Transaction {
   recipientAccountNumber: string;
 }
 
+export interface CreateTransactionDTO {
+  amount: number;
+  senderAccountNumber: string;
+  recipientAccountNumber: string;
+}
+
 
 const API_BASE_URL = 'http://localhost:8080/transactions';
 
@@ -20,6 +26,16 @@ export const getTransactionById = async (id: string): Promise<Transaction | null
       return response.data;
     } catch (error) {
       console.error('Error fetching transaction by id:', error);
+      throw error;
+    }
+  };
+
+  export const createTransaction = async (data: CreateTransactionDTO): Promise<any> => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/transfer`, data, { headers: authHeader() });
+      return response.data;
+    } catch (error) {
+      console.error('Error creating transaction:', error);
       throw error;
     }
   };

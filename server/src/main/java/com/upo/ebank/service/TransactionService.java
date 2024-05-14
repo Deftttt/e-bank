@@ -3,6 +3,7 @@ package com.upo.ebank.service;
 import com.upo.ebank.model.BankAccount;
 import com.upo.ebank.model.Transaction;
 import com.upo.ebank.model.dto.CreateTransactionDTO;
+import com.upo.ebank.model.dto.TransactionDetailsDTO;
 import com.upo.ebank.model.dto.TransactionDto;
 import com.upo.ebank.repository.BankAccountRepository;
 import com.upo.ebank.repository.TransactionRepository;
@@ -42,9 +43,48 @@ public class TransactionService {
         return transaction;
     }
 
+    public Transaction transferMoney(CreateTransactionDTO createTransactionDTO) throws Exception {
+        validateTransferRequest(createTransactionDTO);
+
+        BankAccount sender = bankAccountRepository.findById(createTransactionDTO.getSenderAccountNumber()).orElseThrow();
+        BankAccount recipient = bankAccountRepository.findById(createTransactionDTO.getRecipientAccountNumber()).orElseThrow();
+
+        sender.setBalance(sender.getBalance().subtract(createTransactionDTO.getAmount()));
+        bankAccountRepository.save(sender);
+
+        recipient.setBalance(recipient.getBalance().add(createTransactionDTO.getAmount()));
+        bankAccountRepository.save(recipient);
+
+        Transaction transaction = modelMapper.map(createTransactionDTO, Transaction.class);
+        transaction.setSenderAccount(sender);
+        transaction.setRecipientAccount(recipient);
+        transactionRepository.save(transaction);
+
+        return transaction;
+    }
+
+    public void validateTransferRequest(CreateTransactionDTO createTransactionDTO) throws Exception {
+        validateAccountExists(createTransactionDTO.getSenderAccountNumber(), "Sender account not found");
+        validateAccountExists(createTransactionDTO.getRecipientAccountNumber(), "Recipient account not found");
+        validateSufficientBalance(createTransactionDTO);
+    }
+
+    private void validateAccountExists(String accountNumber, String errorMessage) throws Exception {
+        if (!bankAccountRepository.existsById(accountNumber)) {
+            throw new Exception(errorMessage);
+        }
+    }
+
+    private void validateSufficientBalance(CreateTransactionDTO createTransactionDTO) throws Exception {
+        BankAccount sender = bankAccountRepository.findById(createTransactionDTO.getSenderAccountNumber()).orElseThrow();
+        if (sender.getBalance().compareTo(createTransactionDTO.getAmount()) < 0) {
+            throw new Exception("Insufficient balance");
+        }
+    }
+
     public TransactionDto getTransactionById(Long id) {
         Transaction transaction = transactionRepository.findById(id).orElseThrow();
-        return modelMapper.map(transaction, TransactionDto.class);
+        return modelMapper.map(transaction,TransactionDto.class);
     }
 
     private Transaction getTransaction(Long transactionId) {
