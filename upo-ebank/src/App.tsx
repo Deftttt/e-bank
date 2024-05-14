@@ -25,6 +25,7 @@ import RequireRole from './utils/RequireRoles';
 import SetupMfaPage from './auth/SetupMfaPage';
 import UserUpdatePage from './auth/UserUpdatePage';
 import LoansAllPage from './loans/LoansAllPage';
+import MoneyTransferPage from './transactions/MoneyTransferPage';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
                 <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
                 <Route path="/transactions/:id" element={<TransactionDetail />} />
                 <Route path="/transactions" element={<TransactionAll />} />
+                <Route path="/transactions/transfer" element={<MoneyTransferPage />} />
 
                 <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
                 <Route path="/accounts/clients/:clientId" element={<AccountsByClientId />} />
