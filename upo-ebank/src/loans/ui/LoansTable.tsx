@@ -1,12 +1,14 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Paper, Link } from '@mui/material';
 import { LoanDto } from '../services/LoanService';
 import LoanStatusChip from './LoanStatusChip';
+import { useNavigate } from 'react-router-dom';
 
 const LoansTable = ({ loans, onSortChange }: { loans: LoanDto[], onSortChange: (field: string) => void }) => {
     const sortBy = (field: string) => () => {
         onSortChange(field);
     };
+    const navigate = useNavigate();
 
     return (
         <TableContainer component={Paper}>
@@ -59,7 +61,11 @@ const LoansTable = ({ loans, onSortChange }: { loans: LoanDto[], onSortChange: (
                 </TableHead>
                 <TableBody>
                     {loans.map((loan) => (
-                        <TableRow key={loan.id}>
+                        <TableRow
+                        key={loan.id}
+                        onClick={() => navigate(`/loans/${loan.id}`)}
+                        style={{ cursor: 'pointer' }}
+                        >
                             <TableCell>{loan.id}</TableCell>
                             <TableCell>{loan.clientId}</TableCell>
                             <TableCell>{loan.employeeId}</TableCell>

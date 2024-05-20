@@ -1,13 +1,11 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.Loan;
-import com.upo.ebank.model.dto.LoanDecision;
-import com.upo.ebank.model.dto.LoanDto;
-import com.upo.ebank.model.dto.LoanRequest;
-import com.upo.ebank.model.dto.PagedLoanResponse;
+import com.upo.ebank.model.dto.*;
 import com.upo.ebank.model.enums.LoanStatus;
 import com.upo.ebank.security.UserPrincipal;
 import com.upo.ebank.service.LoanService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,19 +55,19 @@ public class LoanController {
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS') or @loanService.isAssignedClient(principal.userId, #id)")
     @GetMapping("/{id}")
-    public Loan getLoan(@PathVariable Long id) {
+    public LoanDetailsDto getLoan(@PathVariable Long id) {
         return loanService.getLoan(id);
     }
 
     @PostMapping("/request")
-    public ResponseEntity<Loan> requestLoan(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody LoanRequest loanRequest) {
+    public ResponseEntity<Loan> requestLoan(@AuthenticationPrincipal UserPrincipal userPrincipal, @Valid @RequestBody LoanRequest loanRequest) {
         Loan loan = loanService.requestLoan(userPrincipal.getUserId(), loanRequest);
         return ResponseEntity.ok(loan);
     }
 
     @PreAuthorize("@loanService.isAssignedEmployee(principal.userId, #loanId)")
     @PostMapping("/{loanId}/decision")
-    public ResponseEntity<Loan> approveOrRejectLoan(@PathVariable Long loanId, @RequestBody LoanDecision decisionDTO) {
+    public ResponseEntity<Loan> approveOrRejectLoan(@PathVariable Long loanId, @Valid @RequestBody LoanDecision decisionDTO) {
         Loan loan = loanService.approveOrDenyLoanByEmployee(loanId, decisionDTO);
         return ResponseEntity.ok(loan);
     }

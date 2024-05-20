@@ -23,6 +23,37 @@ export interface PagedLoanResponse {
     totalElements: number;
 }
 
+export interface Loan {
+    id: number;
+    clientId: number;
+    employeeId: number;
+    clientFullName: string;
+    employeeFullName: string;
+    amount: number;
+    status: LoanStatus;
+    applicationDate: string;
+    decisionDate: string | null;
+    loanPurpose: string;
+    loanTermMonths: number;
+    startDate: string;
+    interestRate: number;
+    monthlyRepaymentAmount: number;
+    totalRepaymentAmount: number;
+    comment: string;
+}
+
+export interface LoanRequest {
+    amount: number;
+    loanPurpose: string;
+    loanTermMonths: number;
+    startDate: string;
+}
+
+export interface LoanDecision {
+    approved: boolean;
+    comment?: string;
+}
+
 export const getAllLoans = async (status?: string, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
@@ -67,6 +98,37 @@ export const getLoansByClient = async (clientId: number, status?: string, page: 
         return response.data;
     } catch (error) {
         console.error(`Error fetching loans by client ${clientId}:`, error);
+        throw error;
+    }
+};
+
+export const getLoan = async (id: number): Promise<Loan> => {
+    try {
+        const response = await axios.get(`${API_URL}/${id}`, { headers: authHeader() });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching loan:', error);
+        throw error;
+    }
+};
+
+export const requestLoan = async (loanRequest: LoanRequest): Promise<Loan> => {
+    try {
+        const response = await axios.post(`${API_URL}/request`, loanRequest, { headers: authHeader() });
+        return response.data;
+    } catch (error) {
+        console.error('Error requesting loan:', error);
+        throw error;
+    }
+};
+
+
+export const approveOrRejectLoan = async (loanId: number, decision: LoanDecision): Promise<Loan> => {
+    try {
+        const response = await axios.post(`${API_URL}/${loanId}/decision`, decision, { headers: authHeader() });
+        return response.data;
+    } catch (error) {
+        console.error('Error approving/rejecting loan:', error);
         throw error;
     }
 };

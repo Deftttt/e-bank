@@ -26,6 +26,9 @@ import SetupMfaPage from './auth/SetupMfaPage';
 import UserUpdatePage from './auth/UserUpdatePage';
 import LoansListPage from './loans/LoansListPage';
 import MoneyTransferPage from './transactions/MoneyTransferPage';
+import LoanDetailsPage from './loans/LoanDetailsPage';
+import LoanRequestPage from './loans/LoanRequestPage';
+import LoanEmployeeDecisionPage from './loans/LoanEmployeeDecisionPage';
 
 function App() {
 
@@ -64,6 +67,18 @@ function App() {
                 <Route path="/loans" element={<LoansListPage />} />
                 <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
                 <Route path="/loans/client/:clientId" element={<LoansListPage />} />
+                <Route path="/loans/:id" element={<LoanDetailsPage />} />
+
+                <Route element={<RequireRole requiredRole={'USER_RIGHTS'} />}>
+                  <Route path="/request-loan" element={<LoanRequestPage />} />
+                </Route>
+
+                <Route element={<RequireRole requiredRole={'APPROVE_LOANS'} />}>
+                  <Route path="/loans/:loanId/decision" element={<LoanEmployeeDecisionPage />} />
+                </Route>
+
+
+                
 
 
                 <Route path="/setup-mfa" element={<SetupMfaPage />} />
