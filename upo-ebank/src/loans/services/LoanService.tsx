@@ -132,3 +132,17 @@ export const approveOrRejectLoan = async (loanId: number, decision: LoanDecision
         throw error;
     }
 };
+
+export const clientDecision = async (loanId: number, accepted: boolean): Promise<Loan> => {
+    try {
+        const response = await axios.put(`${API_URL}/${loanId}/client-decision`, null, {
+            params: { accepted },
+            headers: authHeader(),
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error making client decision:', error);
+        throw error;
+    }
+};
+

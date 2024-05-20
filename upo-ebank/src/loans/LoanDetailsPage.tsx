@@ -1,15 +1,17 @@
-import { Box, Card, CardContent, Container, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Container, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../shared/ui/Loading";
 import Navbar from "../shared/ui/Navbar";
-import { getLoan, Loan } from "./services/LoanService";
+import { clientDecision, getLoan, Loan } from "./services/LoanService";
+import useAuth from "../hooks/useAuth";
 
 const LoanDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
     const [loan, setLoan] = useState<Loan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const { auth } = useAuth();
 
     useEffect(() => {
         const fetchLoan = async () => {
@@ -26,6 +28,21 @@ const LoanDetailsPage = () => {
 
         fetchLoan();
     }, [id, navigate]);
+
+
+    const handleClientDecision = async (accepted: boolean) => {
+        setIsLoading(true);
+        try {
+            await clientDecision(Number(id), accepted);
+            const updatedLoan = await getLoan(Number(id)); 
+            setLoan(updatedLoan);
+        } catch (error) {
+            console.error('Error client decision:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     if (isLoading) {
         return <Loading />;
@@ -56,6 +73,39 @@ const LoanDetailsPage = () => {
                         <Typography variant="body1"><strong>Total Repayment Amount:</strong> {loan.totalRepaymentAmount}</Typography>
                         <Typography variant="body1"><strong>Comment:</strong> {loan.comment}</Typography>
                     </CardContent>
+
+                    {(loan.status === 'APPROVED' && auth.roles.includes('USER_RIGHTS')) && (
+                              <Box mt={2} pb={4} display="flex" justifyContent="center">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => handleClientDecision(true)}
+                                    sx={{ mr: 2 }}
+                                >
+                                    Accept
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => handleClientDecision(false)}
+                                >
+                                    Reject
+                                </Button>
+                            </Box>
+                        )}
+
+                        {(loan.status === 'REQUESTED' && auth.roles.includes('APPROVE_LOANS')) && (
+                              <Box mt={2} pb={4} display="flex" justifyContent="center">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => navigate(`/loans/${loan.id}/decision`)}
+                                    sx={{ mr: 2 }}
+                                >
+                                    Approve/Reject Loan
+                                </Button>
+                            </Box>
+                        )}
                 </Card>
             </Container>
         </>

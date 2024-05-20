@@ -28,7 +28,7 @@ const LoanEmployeeDecisionPage = () => {
             try {
                 const loanData = await getLoan(Number(loanId));
                 console.log(loanData.employeeId, auth.id);
-                if (loanData.employeeId != auth.id) {
+                if (loanData.employeeId != auth.id || loanData.status != 'REQUESTED') {
                     navigate('/error', { state: { message: 'You cannot decide on this loan!' } });
                 }
             } catch (error) {
@@ -46,7 +46,7 @@ const LoanEmployeeDecisionPage = () => {
         setIsLoading(true);
         try {
             await approveOrRejectLoan(Number(loanId), decision);
-            navigate('/loans'); 
+            navigate(`/loans/employee/${auth.id}`); 
         } catch (error) {
             setErrors(error.response.data.errors);
         } finally {

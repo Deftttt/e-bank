@@ -1,5 +1,6 @@
 package com.upo.ebank.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -7,5 +8,7 @@ import lombok.Data;
 public class LoanDecision {
     @NotNull
     private boolean approved;
+
+    @NotBlank(message = "Must leave a comment!")
     private String comment;
 }

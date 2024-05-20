@@ -43,7 +43,7 @@ public class LoanController {
         return new PagedLoanResponse(loans, totalElements);
     }
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS')")
+    @PreAuthorize("hasAuthority('APPROVE_LOANS') or #clientId == principal.userId")
     @GetMapping("/client/{clientId}")
     public PagedLoanResponse getLoansByClient(@PathVariable Long clientId,
                                           @RequestParam(required = false) LoanStatus status,
