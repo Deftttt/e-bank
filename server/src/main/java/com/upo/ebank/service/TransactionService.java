@@ -2,15 +2,14 @@ package com.upo.ebank.service;
 
 import com.upo.ebank.model.BankAccount;
 import com.upo.ebank.model.Transaction;
-import com.upo.ebank.model.dto.CreateTransactionDTO;
-import com.upo.ebank.model.dto.TransactionDetailsDto;
-import com.upo.ebank.model.dto.TransactionDto;
+import com.upo.ebank.model.dto.transaction.CreateTransactionDTO;
+import com.upo.ebank.model.dto.transaction.TransactionDetailsDto;
+import com.upo.ebank.model.dto.transaction.TransactionDto;
 import com.upo.ebank.repository.BankAccountRepository;
 import com.upo.ebank.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.util.List;

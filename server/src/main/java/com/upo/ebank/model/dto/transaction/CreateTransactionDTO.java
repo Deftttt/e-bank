@@ -1,4 +1,4 @@
-package com.upo.ebank.model.dto;
+package com.upo.ebank.model.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

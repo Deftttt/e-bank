@@ -1,9 +1,9 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.Transaction;
-import com.upo.ebank.model.dto.CreateTransactionDTO;
-import com.upo.ebank.model.dto.TransactionDetailsDto;
-import com.upo.ebank.model.dto.TransactionDto;
+import com.upo.ebank.model.dto.transaction.CreateTransactionDTO;
+import com.upo.ebank.model.dto.transaction.TransactionDetailsDto;
+import com.upo.ebank.model.dto.transaction.TransactionDto;
 import com.upo.ebank.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
