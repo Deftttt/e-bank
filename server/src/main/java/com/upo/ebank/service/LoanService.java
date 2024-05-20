@@ -4,6 +4,7 @@ import com.upo.ebank.model.Client;
 import com.upo.ebank.model.Employee;
 import com.upo.ebank.model.Loan;
 import com.upo.ebank.model.dto.LoanDecision;
+import com.upo.ebank.model.dto.LoanDetailsDto;
 import com.upo.ebank.model.dto.LoanDto;
 import com.upo.ebank.model.dto.LoanRequest;
 import com.upo.ebank.model.enums.LoanStatus;
@@ -66,8 +67,42 @@ public class LoanService {
                 .collect(Collectors.toList());
     }
 
-    public Loan getLoan(Long id){
-        return loanRepository.findById(id).orElseThrow();
+    public LoanDetailsDto getLoan(Long id){
+        Loan loan = loanRepository.findById(id).orElseThrow();
+        return convertToDto(loan);
+    }
+
+    private LoanDetailsDto convertToDto(Loan loan) {
+        LoanDetailsDto loanDetailsDto = modelMapper.map(loan, LoanDetailsDto.class);
+        loanDetailsDto.setClientId(loan.getClient().getId());
+        loanDetailsDto.setClientFullName(loan.getClient().getFirstName() + " " + loan.getClient().getLastName());
+        loanDetailsDto.setEmployeeId(loan.getEmployee().getId());
+        loanDetailsDto.setEmployeeFullName(loan.getEmployee().getFirstName() + " " + loan.getEmployee().getLastName());
+        return loanDetailsDto;
+    }
+
+    public long getTotalLoansNumber(LoanStatus status) {
+        if (status != null) {
+            return loanRepository.countByStatus(status);
+        } else {
+            return loanRepository.count();
+        }
+    }
+
+    public long getTotalLoansNumberByEmployee(Long employeeId, LoanStatus status) {
+        if (status != null) {
+            return loanRepository.countByEmployeeIdAndStatus(employeeId, status);
+        } else {
+            return loanRepository.countByEmployeeId(employeeId);
+        }
+    }
+
+    public long getTotalLoansNumberByClient(Long clientId, LoanStatus status) {
+        if (status != null) {
+            return loanRepository.countByClientIdAndStatus(clientId, status);
+        } else {
+            return loanRepository.countByClientId(clientId);
+        }
     }
 
 
