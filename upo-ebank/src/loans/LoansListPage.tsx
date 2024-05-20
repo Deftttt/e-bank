@@ -1,29 +1,38 @@
 import { Box, Container, TablePagination } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../shared/ui/Loading";
 import Navbar from "../shared/ui/Navbar";
-import { getAllLoans } from "./services/LoanService";
+import { PagedLoanResponse, getAllLoans, getLoansByClient, getLoansByEmployee } from "./services/LoanService";
 import { LoanDto } from "./services/LoanService";
 import LoansTable from "./ui/LoansTable";
 import LoanStatusFilter from "./ui/LoanStatusFilter";
 
-const LoansAllPage = () => {
+const LoansListPage = () => {
     const [loans, setLoans] = useState<LoanDto[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const { employeeId, clientId } = useParams();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sort, setSort] = useState('id,asc');
     const [totalLoans, setTotalLoans] = useState(0);
     const [status, setStatus] = useState<string | undefined>(undefined);
+    
   
     useEffect(() => {
       const fetchLoans = async () => {
         setIsLoading(true);
         try {
-          const data = await getAllLoans(status, page, rowsPerPage, sort);
+          let data: PagedLoanResponse;
+          if (employeeId) {
+            data = await getLoansByEmployee(Number(employeeId), status, page, rowsPerPage, sort);
+          } else if (clientId) {
+            data = await getLoansByClient(Number(clientId), status, page, rowsPerPage, sort);
+          } else {
+            data = await getAllLoans(status, page, rowsPerPage, sort);
+          }
           setLoans(data.loans);
           setTotalLoans(data.totalElements);
         } catch (error) {
@@ -66,7 +75,11 @@ const LoansAllPage = () => {
       <>
       <Navbar />
       <Container maxWidth={false}>
-        <h1>Loans list</h1>
+      <h1>
+        {employeeId  ? `Employee of id ${employeeId} Loans:` :
+        clientId  ? `Client of id ${clientId} Loans:`  :
+        'All Loans:'}
+      </h1>
         <LoanStatusFilter onStatusChange={handleStatusChange} />
         <Box pb={4}>
           <LoansTable loans={loans} onSortChange={handleSortChange} />
@@ -80,8 +93,8 @@ const LoansAllPage = () => {
             style={{
                 display: 'flex',
                 justifyContent: 'center',
-                backgroundColor: 'white', // change this to match your color
-                color: 'black', // change this to match your color
+                backgroundColor: 'white', 
+                color: 'black', 
             }}
         />
         </Box>
@@ -90,4 +103,4 @@ const LoansAllPage = () => {
     );
   };
   
-  export default LoansAllPage;
+  export default LoansListPage;

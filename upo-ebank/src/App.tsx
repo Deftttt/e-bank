@@ -24,7 +24,7 @@ import ErrorPage from './error/ErrorPage';
 import RequireRole from './utils/RequireRoles';
 import SetupMfaPage from './auth/SetupMfaPage';
 import UserUpdatePage from './auth/UserUpdatePage';
-import LoansAllPage from './loans/LoansAllPage';
+import LoansListPage from './loans/LoansListPage';
 import MoneyTransferPage from './transactions/MoneyTransferPage';
 
 function App() {
@@ -61,7 +61,9 @@ function App() {
                   <Route path="/clients" element={<ClientAll />} />
                 </Route>
 
-                <Route path="/loans" element={<LoansAllPage />} />
+                <Route path="/loans" element={<LoansListPage />} />
+                <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
+                <Route path="/loans/client/:clientId" element={<LoansListPage />} />
 
 
                 <Route path="/setup-mfa" element={<SetupMfaPage />} />

@@ -78,6 +78,22 @@ public class LoanService {
         }
     }
 
+    public long getTotalLoansNumberByEmployee(Long employeeId, LoanStatus status) {
+        if (status != null) {
+            return loanRepository.countByEmployeeIdAndStatus(employeeId, status);
+        } else {
+            return loanRepository.countByEmployeeId(employeeId);
+        }
+    }
+
+    public long getTotalLoansNumberByClient(Long clientId, LoanStatus status) {
+        if (status != null) {
+            return loanRepository.countByClientIdAndStatus(clientId, status);
+        } else {
+            return loanRepository.countByClientId(clientId);
+        }
+    }
+
 
     public Loan requestLoan(Long clientId, LoanRequest loanRequest) {
         Client client = clientRepository.findById(clientId).orElseThrow();

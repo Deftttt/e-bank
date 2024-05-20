@@ -39,7 +39,7 @@ export const getAllLoans = async (status?: string, page: number = 0, size: numbe
     }
 };
 
-export const getLoansByEmployee = async (employeeId: number, status?: string, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<LoanDto[]> => {
+export const getLoansByEmployee = async (employeeId: number, status?: string, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
             status: status || '',
@@ -55,7 +55,7 @@ export const getLoansByEmployee = async (employeeId: number, status?: string, pa
     }
 };
 
-export const getLoansByClient = async (clientId: number, status?: string, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<LoanDto[]> => {
+export const getLoansByClient = async (clientId: number, status?: string, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
             status: status || '',

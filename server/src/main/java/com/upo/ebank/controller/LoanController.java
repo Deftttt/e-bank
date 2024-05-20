@@ -37,18 +37,22 @@ public class LoanController {
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS')")
     @GetMapping("/employee/{employeeId}")
-    public List<LoanDto> getLoansByEmployee(@PathVariable Long employeeId,
+    public PagedLoanResponse getLoansByEmployee(@PathVariable Long employeeId,
                                             @RequestParam(required = false) LoanStatus status,
                                             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        return loanService.getLoansByEmployee(employeeId, status, pageable);
+        List<LoanDto> loans = loanService.getLoansByEmployee(employeeId, status, pageable);
+        long totalElements = loanService.getTotalLoansNumberByEmployee(employeeId, status);
+        return new PagedLoanResponse(loans, totalElements);
     }
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS')")
     @GetMapping("/client/{clientId}")
-    public List<LoanDto> getLoansByClient(@PathVariable Long clientId,
+    public PagedLoanResponse getLoansByClient(@PathVariable Long clientId,
                                           @RequestParam(required = false) LoanStatus status,
                                           @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        return loanService.getLoansByClient(clientId, status, pageable);
+        List<LoanDto> loans = loanService.getLoansByClient(clientId, status, pageable);
+        long totalElements = loanService.getTotalLoansNumberByClient(clientId, status);
+        return new PagedLoanResponse(loans, totalElements);
     }
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS') or @loanService.isAssignedClient(principal.userId, #id)")
