@@ -2,8 +2,10 @@ package com.upo.ebank.controller;
 
 import com.upo.ebank.model.Transaction;
 import com.upo.ebank.model.dto.CreateTransactionDTO;
+import com.upo.ebank.model.dto.TransactionDetailsDto;
 import com.upo.ebank.model.dto.TransactionDto;
 import com.upo.ebank.service.TransactionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class TransactionController {
 
     @PreAuthorize("hasAuthority('VIEW_CLIENTS') or @transactionService.checkTransactionOwner(#id, principal.userId)")
     @GetMapping("/{id}")
-    public TransactionDto getTransactionById(@PathVariable Long id) {
+    public TransactionDetailsDto getTransactionById(@PathVariable Long id) {
         return transactionService.getTransactionById(id);
     }
     @PreAuthorize("hasAuthority('VIEW_CLIENTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
@@ -42,9 +44,11 @@ public class TransactionController {
         return transactionService.getTransactionByClientId(clientId, transactionType);
     }
 
-    @PostMapping
-    public Transaction createTransaction(@RequestBody CreateTransactionDTO createTransactionDTO) {
-        return transactionService.createTransaction(createTransactionDTO);
+    @PreAuthorize("@bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
+    @PostMapping("/account/{accountNumber}/transfer")
+    public Transaction transferMoney(@PathVariable String accountNumber,
+                                     @Valid @RequestBody CreateTransactionDTO createTransactionDTO) throws Exception {
+        return transactionService.transferMoney(accountNumber, createTransactionDTO);
     }
 
 }

@@ -22,6 +22,8 @@ public class Transaction {
 
     private Date transactionDate;
 
+    private String message;
+
     @ManyToOne
     @JoinColumn(name = "sender_account_id")
     private BankAccount senderAccount;
@@ -30,4 +32,11 @@ public class Transaction {
     @JoinColumn(name = "recipient_account_id")
     private BankAccount recipientAccount;
 
+    public Transaction(Long id, BigDecimal amount, Date transactionDate, BankAccount senderAccount, BankAccount recipientAccount) {
+        this.id = id;
+        this.amount = amount;
+        this.transactionDate = transactionDate;
+        this.senderAccount = senderAccount;
+        this.recipientAccount = recipientAccount;
+    }
 }
