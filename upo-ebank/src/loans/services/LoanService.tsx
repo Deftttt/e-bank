@@ -18,7 +18,12 @@ export interface LoanDto {
     loanTermMonths: number;
 }
 
-export const getAllLoans = async (status?: string, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<LoanDto[]> => {
+export interface PagedLoanResponse {
+    loans: LoanDto[];
+    totalElements: number;
+}
+
+export const getAllLoans = async (status?: string, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
             status: status || '',

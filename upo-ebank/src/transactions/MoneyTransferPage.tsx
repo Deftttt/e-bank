@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Box } from '@mui/material';
-import axios from 'axios';
 import { Typography } from '@mui/material';
 import { CreateTransactionDTO, createTransaction } from './services/TransactionService';
 import { useParams } from 'react-router-dom';

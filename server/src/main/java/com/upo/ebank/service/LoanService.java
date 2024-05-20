@@ -70,6 +70,14 @@ public class LoanService {
         return loanRepository.findById(id).orElseThrow();
     }
 
+    public long getTotalLoansNumber(LoanStatus status) {
+        if (status != null) {
+            return loanRepository.countByStatus(status);
+        } else {
+            return loanRepository.count();
+        }
+    }
+
 
     public Loan requestLoan(Long clientId, LoanRequest loanRequest) {
         Client client = clientRepository.findById(clientId).orElseThrow();

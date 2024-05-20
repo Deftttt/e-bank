@@ -4,6 +4,7 @@ import com.upo.ebank.model.Loan;
 import com.upo.ebank.model.dto.LoanDecision;
 import com.upo.ebank.model.dto.LoanDto;
 import com.upo.ebank.model.dto.LoanRequest;
+import com.upo.ebank.model.dto.PagedLoanResponse;
 import com.upo.ebank.model.enums.LoanStatus;
 import com.upo.ebank.security.UserPrincipal;
 import com.upo.ebank.service.LoanService;
@@ -27,9 +28,11 @@ public class LoanController {
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS')")
     @GetMapping("")
-    public List<LoanDto> getAllLoans(@RequestParam(required = false) LoanStatus status,
-                                     @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        return loanService.getLoans(status, pageable);
+    public PagedLoanResponse getAllLoans(@RequestParam(required = false) LoanStatus status,
+                                         @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        List<LoanDto> loans = loanService.getLoans(status, pageable);
+        long totalElements = loanService.getTotalLoansNumber(status);
+        return new PagedLoanResponse(loans, totalElements);
     }
 
     @PreAuthorize("hasAuthority('APPROVE_LOANS')")
