@@ -1,8 +1,6 @@
 package com.upo.ebank.model.dto.loan;
 
-import com.upo.ebank.model.dto.loan.LoanDto;
 import lombok.Data;
-
 import java.util.List;
 
 @Data

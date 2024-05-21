@@ -84,8 +84,7 @@ public class AuthService {
             user.setSecret(secretKey);
             userRepository.save(user);
         }
-        String qrCodeUrl = mfaService.generateQrCodeImageUri(user.getSecret());
-        return qrCodeUrl;
+        return mfaService.generateQrCodeImageUri(user.getSecret());
     }
 
     public void verifyMfaSetup(MfaVerificationRequest request){

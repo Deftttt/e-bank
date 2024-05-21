@@ -1,7 +1,5 @@
 package com.upo.ebank.model.enums;
 
-import com.auth0.jwt.algorithms.Algorithm;
-
 public enum RightName {
     VIEW_CLIENTS,
     EDIT_CLIENTS,
