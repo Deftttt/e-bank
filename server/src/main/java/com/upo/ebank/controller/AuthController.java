@@ -1,7 +1,7 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.RegisterConfirmationToken;
-import com.upo.ebank.model.dto.*;
+import com.upo.ebank.model.dto.auth.*;
 import com.upo.ebank.security.UserPrincipal;
 import com.upo.ebank.service.*;
 import jakarta.validation.Valid;

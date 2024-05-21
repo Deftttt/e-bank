@@ -54,7 +54,7 @@ export interface LoanDecision {
     comment?: string;
 }
 
-export const getAllLoans = async (status?: string, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedLoanResponse> => {
+export const getAllLoans = async (status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
             status: status || '',
@@ -70,7 +70,7 @@ export const getAllLoans = async (status?: string, page: number = 0, size: numbe
     }
 };
 
-export const getLoansByEmployee = async (employeeId: number, status?: string, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
+export const getLoansByEmployee = async (employeeId: number, status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
             status: status || '',
@@ -86,7 +86,7 @@ export const getLoansByEmployee = async (employeeId: number, status?: string, pa
     }
 };
 
-export const getLoansByClient = async (clientId: number, status?: string, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
+export const getLoansByClient = async (clientId: number, status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
     try {
         const params = new URLSearchParams({
             status: status || '',

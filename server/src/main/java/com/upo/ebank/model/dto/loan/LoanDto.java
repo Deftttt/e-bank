@@ -1,4 +1,4 @@
-package com.upo.ebank.model.dto;
+package com.upo.ebank.model.dto.loan;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.upo.ebank.model.enums.LoanStatus;

@@ -69,7 +69,7 @@ const UserUpdatePage = () => {
             onClose={handleCloseAlert}
         />
       </Box>
-
+      <Box pb={4}>
         <Grid container justifyContent="center">
           <Grid item xs={12} sm={8} md={10}>
             <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
@@ -84,6 +84,7 @@ const UserUpdatePage = () => {
             </Paper>
           </Grid>
         </Grid>
+        </Box>
       </Container>
     </>
   );

@@ -1,0 +1,97 @@
+import React, { useEffect, useState } from 'react';
+import { Box, Container, TablePagination } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import Loading from '../shared/ui/Loading';
+import Navbar from '../shared/ui/Navbar';
+import { BankAccount, PagedBankAccountResponse, getAllAccounts, getAccountsByClient, AccountType } from './services/AccountsService';
+import AccountsTable from './ui/AccountsTable';
+import AccountTypeFilter from './ui/AccountTypeFilter';
+
+const AccountsListPage = () => {
+  const [accounts, setAccounts] = useState<BankAccount[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sort, setSort] = useState('accountNumber,asc');
+  const [totalAccounts, setTotalAccounts] = useState(0);
+  const [accountType, setAccountType] = useState<AccountType | undefined>(undefined);
+  const navigate = useNavigate();
+  const { clientId } = useParams<{ clientId: string }>();
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      setIsLoading(true);
+      try {
+        let data: PagedBankAccountResponse;
+        if (clientId) {
+          data = await getAccountsByClient(clientId, page, rowsPerPage, sort, accountType);
+        } else {
+          data = await getAllAccounts(page, rowsPerPage, sort, accountType);
+        }
+        setAccounts(data.accounts);
+        setTotalAccounts(data.totalElements);
+      } catch (error) {
+        navigate('/error', { state: { message: 'Failed to load accounts' } });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAccounts();
+  }, [navigate, page, rowsPerPage, sort, accountType, clientId]);
+
+  const handleSortChange = (sortField: string) => {
+    const isAsc = sort.endsWith('asc');
+    const direction = isAsc ? 'desc' : 'asc';
+    setSort(`${sortField},${direction}`);
+  };
+
+  const handleTypeChange = (newType: string) => {
+    setAccountType(newType as AccountType);
+    setPage(0);
+  };
+
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <>
+      <Navbar />
+      <Container maxWidth={false}>
+        <h1>
+          {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}
+        </h1>
+        <AccountTypeFilter onTypeChange={handleTypeChange} />
+        <Box pb={4}>
+          <AccountsTable accounts={accounts} onSortChange={handleSortChange} />
+          <TablePagination
+            component="div"
+            count={totalAccounts}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              backgroundColor: 'white',
+              color: 'black',
+            }}
+          />
+        </Box>
+      </Container>
+    </>
+  );
+};
+
+export default AccountsListPage;

@@ -17,8 +17,6 @@ import ForgotPasswordPage from './auth/ForgotPasswordPage';
 import ResetPasswordPage from './auth/ResetPasswordPage';
 import ClientAll from './clients/ClientAll';
 import ClientById from './clients/ClientById';
-import AccountAll from './accounts/AccountsAll';
-import AccountsByClientId from './accounts/AccountsByClientId';
 import AccountsByNumber from './accounts/AccountsByNumber';
 import ErrorPage from './error/ErrorPage';
 import RequireRole from './utils/RequireRoles';
@@ -29,6 +27,8 @@ import MoneyTransferPage from './transactions/MoneyTransferPage';
 import LoanDetailsPage from './loans/LoanDetailsPage';
 import LoanRequestPage from './loans/LoanRequestPage';
 import LoanEmployeeDecisionPage from './loans/LoanEmployeeDecisionPage';
+import LoansMainPage from './loans/LoansMainPage';
+import AccountsListPage from './accounts/AccontsListPage';
 
 function App() {
 
@@ -56,14 +56,16 @@ function App() {
                 <Route path="/transactions/account/:accountNumber/transfer" element={<MoneyTransferPage />} />
 
                 <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
-                <Route path="/accounts/clients/:clientId" element={<AccountsByClientId />} />
-                <Route path="/accounts" element={<AccountAll />} />
+                <Route path="/accounts/clients/:clientId" element={<AccountsListPage />} />
+                <Route path="/accounts" element={<AccountsListPage />} />
 
                 <Route element={<RequireRole requiredRole={'VIEW_CLIENTS'} />}>
                   <Route path="/clients/:id" element={<ClientById />} />
                   <Route path="/clients" element={<ClientAll />} />
                 </Route>
 
+
+                <Route path="/loans-page" element={<LoansMainPage />} />
                 <Route path="/loans" element={<LoansListPage />} />
                 <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
                 <Route path="/loans/client/:clientId" element={<LoansListPage />} />

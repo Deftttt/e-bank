@@ -1,4 +1,4 @@
-package com.upo.ebank.model.dto;
+package com.upo.ebank.model.dto.loan;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../shared/ui/Loading";
 import Navbar from "../shared/ui/Navbar";
-import { PagedLoanResponse, getAllLoans, getLoansByClient, getLoansByEmployee } from "./services/LoanService";
+import { LoanStatus, PagedLoanResponse, getAllLoans, getLoansByClient, getLoansByEmployee } from "./services/LoanService";
 import { LoanDto } from "./services/LoanService";
 import LoansTable from "./ui/LoansTable";
 import LoanStatusFilter from "./ui/LoanStatusFilter";
@@ -18,7 +18,7 @@ const LoansListPage = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sort, setSort] = useState('id,asc');
     const [totalLoans, setTotalLoans] = useState(0);
-    const [status, setStatus] = useState<string | undefined>(undefined);
+    const [status, setStatus] = useState<LoanStatus | undefined>(undefined);
     
   
     useEffect(() => {
@@ -52,7 +52,7 @@ const LoansListPage = () => {
     };
 
     const handleStatusChange = (newStatus: string) => {
-        setStatus(newStatus);
+        setStatus(newStatus as LoanStatus);
         setPage(0); 
     };
 
@@ -76,9 +76,9 @@ const LoansListPage = () => {
       <Navbar />
       <Container maxWidth={false}>
       <h1>
-        {employeeId  ? `Employee of id ${employeeId} Loans:` :
-        clientId  ? `Client of id ${clientId} Loans:`  :
-        'All Loans:'}
+        {employeeId  ? `Loans assigned to employee ${employeeId}:` :
+        clientId  ? `Loans of client ${clientId}:`  :
+        'List of all loans:'}
       </h1>
         <LoanStatusFilter onStatusChange={handleStatusChange} />
         <Box pb={4}>

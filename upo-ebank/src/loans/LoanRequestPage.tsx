@@ -42,11 +42,11 @@ const LoanRequestPage = () => {
     return (
         <>
             <Navbar />
-            <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+            <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center'}}>
                 <Card sx={{ width: '100%', mt: 4 }}>
                     <CardContent>
-                        <Typography variant="h4" component="div" gutterBottom>
-                            Request a Loan
+                        <Typography variant="h4" component="div" gutterBottom textAlign="center">
+                            Loan request form
                         </Typography>
                         <form onSubmit={handleSubmit}>
                             <TextField

@@ -1,7 +1,7 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.Loan;
-import com.upo.ebank.model.dto.*;
+import com.upo.ebank.model.dto.loan.*;
 import com.upo.ebank.model.enums.LoanStatus;
 import com.upo.ebank.security.UserPrincipal;
 import com.upo.ebank.service.LoanService;

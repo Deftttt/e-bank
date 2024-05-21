@@ -3,7 +3,7 @@ package com.upo.ebank.service;
 import com.upo.ebank.model.Address;
 import com.upo.ebank.model.Client;
 import com.upo.ebank.model.dto.ClientDto;
-import com.upo.ebank.model.dto.SignUpRequest;
+import com.upo.ebank.model.dto.auth.SignUpRequest;
 import com.upo.ebank.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

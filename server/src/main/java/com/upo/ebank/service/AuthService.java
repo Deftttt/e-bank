@@ -4,10 +4,10 @@ import com.upo.ebank.exception.*;
 import com.upo.ebank.model.PasswordResetToken;
 import com.upo.ebank.model.RegisterConfirmationToken;
 import com.upo.ebank.model.User;
-import com.upo.ebank.model.dto.MfaVerificationRequest;
-import com.upo.ebank.model.dto.ResetPasswordRequest;
-import com.upo.ebank.model.dto.SignUpRequest;
-import com.upo.ebank.model.dto.LoginResponse;
+import com.upo.ebank.model.dto.auth.MfaVerificationRequest;
+import com.upo.ebank.model.dto.auth.ResetPasswordRequest;
+import com.upo.ebank.model.dto.auth.SignUpRequest;
+import com.upo.ebank.model.dto.auth.LoginResponse;
 import com.upo.ebank.repository.PasswordResetTokenRepository;
 import com.upo.ebank.repository.RegisterConfirmationTokenRepository;
 import com.upo.ebank.repository.UserRepository;
@@ -84,8 +84,7 @@ public class AuthService {
             user.setSecret(secretKey);
             userRepository.save(user);
         }
-        String qrCodeUrl = mfaService.generateQrCodeImageUri(user.getSecret());
-        return qrCodeUrl;
+        return mfaService.generateQrCodeImageUri(user.getSecret());
     }
 
     public void verifyMfaSetup(MfaVerificationRequest request){
