@@ -29,6 +29,7 @@ import MoneyTransferPage from './transactions/MoneyTransferPage';
 import LoanDetailsPage from './loans/LoanDetailsPage';
 import LoanRequestPage from './loans/LoanRequestPage';
 import LoanEmployeeDecisionPage from './loans/LoanEmployeeDecisionPage';
+import LoansMainPage from './loans/LoansMainPage';
 
 function App() {
 
@@ -64,6 +65,8 @@ function App() {
                   <Route path="/clients" element={<ClientAll />} />
                 </Route>
 
+
+                <Route path="/loans-page" element={<LoansMainPage />} />
                 <Route path="/loans" element={<LoansListPage />} />
                 <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
                 <Route path="/loans/client/:clientId" element={<LoansListPage />} />

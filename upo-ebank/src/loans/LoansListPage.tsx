@@ -76,9 +76,9 @@ const LoansListPage = () => {
       <Navbar />
       <Container maxWidth={false}>
       <h1>
-        {employeeId  ? `Employee of id ${employeeId} Loans:` :
-        clientId  ? `Client of id ${clientId} Loans:`  :
-        'All Loans:'}
+        {employeeId  ? `Loans assigned to employee ${employeeId}:` :
+        clientId  ? `Loans of client ${clientId}:`  :
+        'List of all loans:'}
       </h1>
         <LoanStatusFilter onStatusChange={handleStatusChange} />
         <Box pb={4}>

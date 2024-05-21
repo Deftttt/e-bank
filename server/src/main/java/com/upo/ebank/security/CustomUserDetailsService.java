@@ -30,6 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user instanceof Employee) {
             for (Right right : ((Employee) user).getPosition().getRights()) {
                 authorities.add(new SimpleGrantedAuthority(right.getName().toString()));
+                authorities.add(new SimpleGrantedAuthority(RightName.EMPLOYEE_RIGHTS.toString()));
             }
         } else if (user instanceof Client) {
             authorities.add(new SimpleGrantedAuthority(RightName.USER_RIGHTS.toString()));
