@@ -52,8 +52,8 @@ const LoansListPage = () => {
         setSort(`${sortField},${direction}`);
     };
 
-    const handleStatusChange = (newStatus: string) => {
-        setStatus(newStatus as LoanStatus);
+    const handleStatusChange = (newStatus: LoanStatus) => {
+        setStatus(newStatus);
         setPage(0); 
     };
 

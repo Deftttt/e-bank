@@ -5,10 +5,13 @@ import com.upo.ebank.model.Transaction;
 import com.upo.ebank.model.dto.transaction.CreateTransactionDTO;
 import com.upo.ebank.model.dto.transaction.TransactionDetailsDto;
 import com.upo.ebank.model.dto.transaction.TransactionDto;
+import com.upo.ebank.model.enums.TransactionType;
 import com.upo.ebank.repository.BankAccountRepository;
 import com.upo.ebank.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,13 +25,9 @@ public class TransactionService {
     private final BankAccountRepository bankAccountRepository;
     private final ModelMapper modelMapper;
 
-    public List<TransactionDto> getAllTransactions(){
-        List<Transaction> transactions = transactionRepository.findAll();
-
-        return transactions.stream()
-                .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
-                .collect(Collectors.toList());
-
+    public Page<TransactionDto> getAllTransactions(Pageable pageable) {
+        Page<Transaction> transactions = transactionRepository.findAll(pageable);
+        return transactions.map(transaction -> modelMapper.map(transaction, TransactionDto.class));
     }
 
 
@@ -86,34 +85,28 @@ public class TransactionService {
         return transactionRepository.findById(transactionId).orElseThrow();
     }
 
-    public List<TransactionDto> getTransactionBySenderAccountNumber(String accountNumber, String transactionType) {
-        List<Transaction> transactions;
-        if("outgoing".equals(transactionType)) {
-            transactions = transactionRepository.findOutgoingTransactionsBySenderAccountNumber(accountNumber);
-        } else if ("incoming".equals(transactionType)) {
-            transactions = transactionRepository.findIncomingTransactionsByAccountNumber(accountNumber);
+    public Page<TransactionDto> getTransactionBySenderAccountNumber(String accountNumber, TransactionType transactionType, Pageable pageable) {
+        Page<Transaction> transactions;
+        if (transactionType == TransactionType.OUTGOING) {
+            transactions = transactionRepository.findOutgoingTransactionsBySenderAccountNumber(accountNumber, pageable);
+        } else if (transactionType == TransactionType.INCOMING) {
+            transactions = transactionRepository.findIncomingTransactionsByAccountNumber(accountNumber, pageable);
         } else {
-            transactions = transactionRepository.findTransactionsByAccountNumber(accountNumber);
+            transactions = transactionRepository.findTransactionsByAccountNumber(accountNumber, pageable);
         }
-
-        return transactions.stream()
-                .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
-                .collect(Collectors.toList());
+        return transactions.map(transaction -> modelMapper.map(transaction, TransactionDto.class));
     }
 
-    public List<TransactionDto> getTransactionByClientId(Long clientId, String transactionType) {
-        List<Transaction> transactions;
-        if("outgoing".equals(transactionType)) {
-            transactions = transactionRepository.findOutgoingTransactionsByClientId(clientId);
-        } else if ("incoming".equals(transactionType)) {
-            transactions = transactionRepository.findIncomingTransactionsByClientId(clientId);
+    public Page<TransactionDto> getTransactionByClientId(Long clientId, TransactionType transactionType, Pageable pageable) {
+        Page<Transaction> transactions;
+        if (transactionType == TransactionType.OUTGOING) {
+            transactions = transactionRepository.findOutgoingTransactionsByClientId(clientId, pageable);
+        } else if (transactionType == TransactionType.INCOMING) {
+            transactions = transactionRepository.findIncomingTransactionsByClientId(clientId, pageable);
         } else {
-            transactions = transactionRepository.findTransactionsByClientId(clientId);
+            transactions = transactionRepository.findTransactionsByClientId(clientId, pageable);
         }
-
-        return transactions.stream()
-                .map(transaction -> modelMapper.map(transaction, TransactionDto.class))
-                .collect(Collectors.toList());
+        return transactions.map(transaction -> modelMapper.map(transaction, TransactionDto.class));
     }
 
     public boolean checkTransactionOwner(Long transactionId, Long userId) {

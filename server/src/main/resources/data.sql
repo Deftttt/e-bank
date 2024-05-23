@@ -29,6 +29,7 @@ INSERT INTO position_rights (_right_id, position_id) VALUES (1, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (2, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (3, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (4, 1);
+INSERT INTO position_rights (_right_id, position_id) VALUES (5, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (5, 2);
 
 INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (1, 1, '23/24', '37-700', 'Przemysl', 'Polska', 'Opalinskiego');
