@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { authHeader } from '../../utils/AuthHeader';
+import { PagedResponse } from '../../utils/PagedResponse';
 
 const API_BASE_URL = 'http://localhost:8080/accounts';
 
@@ -13,10 +14,6 @@ export interface BankAccount {
   clientId: number;
 }
 
-export interface PagedBankAccountResponse {
-  accounts: BankAccount[];
-  totalElements: number;
-}
 
 export const getAccountByNumber = async (accountNumber: string): Promise<BankAccount | null> => {
   try {
@@ -33,7 +30,7 @@ export const getAllAccounts = async (
   size: number = 10,
   sort: string = 'accountNumber,asc',
   accountType?: AccountType
-): Promise<PagedBankAccountResponse> => {
+): Promise<PagedResponse<BankAccount>> => {
   try {
     const params = new URLSearchParams({
       page: page.toString(),
@@ -45,7 +42,7 @@ export const getAllAccounts = async (
       params.append('accountType', accountType);
     }
 
-    const response = await axios.get<PagedBankAccountResponse>(`${API_BASE_URL}`, { params, headers: authHeader() });
+    const response = await axios.get<PagedResponse<BankAccount>>(`${API_BASE_URL}`, { params, headers: authHeader() });
     return response.data;
   } catch (error) {
     console.error('Error fetching all accounts:', error);
@@ -59,7 +56,7 @@ export const getAccountsByClient = async (
   size: number = 10,
   sort: string = 'accountNumber,asc',
   accountType?: AccountType
-): Promise<PagedBankAccountResponse> => {
+): Promise<PagedResponse<BankAccount>> => {
   try {
     const params = new URLSearchParams({
       page: page.toString(),
@@ -71,7 +68,7 @@ export const getAccountsByClient = async (
       params.append('accountType', accountType);
     }
 
-    const response = await axios.get<PagedBankAccountResponse>(`${API_BASE_URL}/clients/${clientId}`, { params, headers: authHeader() });
+    const response = await axios.get<PagedResponse<BankAccount>>(`${API_BASE_URL}/clients/${clientId}`, { params, headers: authHeader() });
     return response.data;
   } catch (error) {
     console.error('Error fetching accounts by client:', error);
