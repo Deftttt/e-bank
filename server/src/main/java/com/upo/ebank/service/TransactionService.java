@@ -1,5 +1,8 @@
 package com.upo.ebank.service;
 
+import com.upo.ebank.exception.BadCredentialsException;
+import com.upo.ebank.exception.BankAccountNotExistsException;
+import com.upo.ebank.exception.InsuficientBalanceException;
 import com.upo.ebank.model.BankAccount;
 import com.upo.ebank.model.Transaction;
 import com.upo.ebank.model.dto.transaction.CreateTransactionDTO;
@@ -51,21 +54,21 @@ public class TransactionService {
         return transaction;
     }
 
-    public void validateTransferRequest(CreateTransactionDTO createTransactionDTO, String senderAccountNumber) throws Exception {
-        validateAccountExists(createTransactionDTO.getRecipientAccountNumber(), "Recipient account not found");
+    public void validateTransferRequest(CreateTransactionDTO createTransactionDTO, String senderAccountNumber) {
+        validateAccountExists(createTransactionDTO.getRecipientAccountNumber());
         validateSufficientBalance(createTransactionDTO.getAmount(), senderAccountNumber);
     }
 
-    private void validateAccountExists(String accountNumber, String errorMessage) throws Exception {
+    private void validateAccountExists(String accountNumber) throws BankAccountNotExistsException {
         if (!bankAccountRepository.existsById(accountNumber)) {
-            throw new Exception(errorMessage);
+            throw new BankAccountNotExistsException("Bank account of given number does not exist");
         }
     }
 
-    private void validateSufficientBalance(BigDecimal amount, String senderAccountNumber) throws Exception {
+    private void validateSufficientBalance(BigDecimal amount, String senderAccountNumber) {
         BankAccount sender = bankAccountRepository.findByAccountNumber(senderAccountNumber);
         if (sender.getBalance().compareTo(amount) < 0) {
-            throw new Exception("Insufficient balance");
+            throw new InsuficientBalanceException("Insufficient balance");
         }
     }
 
