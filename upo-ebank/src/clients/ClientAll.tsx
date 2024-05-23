@@ -6,6 +6,7 @@ import Navbar from '../shared/ui/Navbar';
 import { ClientDto, getClients } from './services/ClientService';
 import { PagedResponse } from '../utils/PagedResponse';
 import ClientsTable from './ui/ClientTable';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const ClientsListPage = () => {
   const [clients, setClients] = useState<ClientDto[]>([]);
@@ -63,11 +64,35 @@ const ClientsListPage = () => {
     return <Loading />;
   }
 
+  if (clients.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <Container maxWidth={false}>
+        <h1>List of clients</h1>
+        <Box display="flex" alignItems="center" mb={2} width="100%">
+          <TextField
+            label="Search by Last Name"
+            variant="outlined"
+            value={searchValue}
+            onChange={handleSearchChange}
+            style={{ marginRight: '10px', flex: 1, backgroundColor: 'white' , borderRadius: '4px'}}
+          />
+          <Button variant="contained" color="primary" onClick={handleSearch}>
+            Search
+          </Button>
+        </Box>
+          <NoDataMessage message="No cients with given criteria available." />
+        </Container>
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar />
       <Container maxWidth={false}>
-        <h1>List of all clients</h1>
+        <h1>List of clients</h1>
         <Box display="flex" alignItems="center" mb={2} width="100%">
           <TextField
             label="Search by Last Name"

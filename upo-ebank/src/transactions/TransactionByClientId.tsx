@@ -7,6 +7,7 @@ import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import TransactionTypeFilter from './ui/TransactionTypeFilter';
 import { PagedResponse } from '../utils/PagedResponse';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const TransactionByClientId = () => {
   const { clientId } = useParams<{ clientId: string }>();
@@ -59,6 +60,21 @@ const TransactionByClientId = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (transactions.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <Container maxWidth={false}>
+        <h1>
+          {`Transactions for client: ${clientId}`}
+        </h1>
+        <TransactionTypeFilter onTypeChange={handleTypeChange} />
+          <NoDataMessage message="No transactions with given criteria available." />
+        </Container>
+      </>
+    );
   }
 
   return (

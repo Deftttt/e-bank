@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, AlertTitle, Box, Collapse, Container, Grid, IconButton, Paper, Typography } from '@mui/material';
-import { updateUser, getUser, UserUpdateDto } from './services/UserService';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
 import Navbar from '../shared/ui/Navbar';
-import UserUpdateForm from './ui/UserUpdateForm';
 import CustomAlert from '../shared/ui/CustomAlert';
+import UserUpdateForm from '../auth/ui/UserUpdateForm';
+import { UserUpdateDto, getUser, updateUser } from '../auth/services/UserService';
 
 const UserUpdatePage = () => {
   const { userId } = useParams<{ userId: string }>();

@@ -7,6 +7,7 @@ import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import TransactionTypeFilter from './ui/TransactionTypeFilter';
 import { PagedResponse } from '../utils/PagedResponse';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const TransactionByAccount = () => {
   const { accountNumber } = useParams<{ accountNumber: string }>();
@@ -59,6 +60,21 @@ const TransactionByAccount = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (transactions.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <Container maxWidth={false}>
+        <h1>
+         {`Transactions for account: ${accountNumber}`}
+        </h1>
+        <TransactionTypeFilter onTypeChange={handleTypeChange} />
+          <NoDataMessage message="No transactions with given criteria available." />
+        </Container>
+      </>
+    );
   }
 
   return (

@@ -6,6 +6,7 @@ import Navbar from '../shared/ui/Navbar';
 import TransactionsTable from './ui/TransactionsTable';
 import { Transaction, getAllTransactions } from './services/TransactionService';
 import { PagedResponse } from '../utils/PagedResponse';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const TransactionsListPage = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -54,6 +55,20 @@ const TransactionsListPage = () => {
     if (isLoading) {
         return <Loading />;
     }
+
+    if (transactions.length === 0) {
+        return (
+          <>
+            <Navbar />
+            <Container maxWidth={false}>
+            <h1>
+                List of all transactions:
+            </h1>
+              <NoDataMessage message="No transactions with given criteria available." />
+            </Container>
+          </>
+        );
+      }
 
     return (
         <>

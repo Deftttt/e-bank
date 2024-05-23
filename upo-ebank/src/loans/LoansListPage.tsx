@@ -8,6 +8,7 @@ import { LoanDto } from "./services/LoanService";
 import LoansTable from "./ui/LoansTable";
 import LoanStatusFilter from "./ui/LoanStatusFilter";
 import { PagedResponse } from "../utils/PagedResponse";
+import NoDataMessage from "../shared/NoDataMessage";
 
 const LoansListPage = () => {
     const [loans, setLoans] = useState<LoanDto[]>([]);
@@ -70,6 +71,24 @@ const LoansListPage = () => {
   
     if (isLoading) {
       return <Loading />;
+    }
+
+
+    if (loans.length === 0) {
+      return (
+        <>
+          <Navbar />
+          <Container maxWidth={false}>
+          <h1>
+            {employeeId  ? `Loans assigned to employee ${employeeId}:` :
+            clientId  ? `Loans of client ${clientId}:`  :
+            'List of all loans:'}
+          </h1>
+          <LoanStatusFilter onStatusChange={handleStatusChange} />
+            <NoDataMessage message="No loans with given criteria available." />
+          </Container>
+        </>
+      );
     }
   
     return (

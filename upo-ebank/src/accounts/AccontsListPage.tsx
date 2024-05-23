@@ -7,6 +7,7 @@ import { BankAccount, getAllAccounts, getAccountsByClient, AccountType } from '.
 import AccountsTable from './ui/AccountsTable';
 import AccountTypeFilter from './ui/AccountTypeFilter';
 import { PagedResponse } from '../utils/PagedResponse';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const AccountsListPage = () => {
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
@@ -63,6 +64,21 @@ const AccountsListPage = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (accounts.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <Container maxWidth={false}>
+        <h1>
+          {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}
+        </h1>
+        <AccountTypeFilter onTypeChange={handleTypeChange} />
+          <NoDataMessage message="No accounts with given criteria available." />
+        </Container>
+      </>
+    );
   }
 
   return (

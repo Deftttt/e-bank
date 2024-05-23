@@ -56,7 +56,7 @@ const HomePage = () => {
                         View and manage your bank accounts.
                       </Typography>
                       <Box mt={2}>
-                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/accounts/clients/${auth.id}`)}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/accounts-page`)}>
                           Go to Accounts
                         </Button>
                       </Box>
@@ -68,14 +68,14 @@ const HomePage = () => {
                   <Card elevation={3} sx={{ boxShadow: 3 }}>
                     <CardContent>
                       <Typography variant="h5" component="div" gutterBottom>
-                        Update Profile
+                        Manage your Account
                       </Typography>
                       <Typography variant="body2" component="div">
-                        Update your user profile information.
+                        Update your profile informations and security settings.
                       </Typography>
                       <Box mt={2}>
-                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/user-update/${auth.id}`)}>
-                          Update Profile
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/user-info`)}>
+                          Account Settings
                         </Button>
                       </Box>
                     </CardContent>
@@ -126,14 +126,14 @@ const HomePage = () => {
                   <Card elevation={3} sx={{ boxShadow: 3 }}>
                     <CardContent>
                       <Typography variant="h5" component="div" gutterBottom>
-                        Update Profile
+                        Manage your Account
                       </Typography>
                       <Typography variant="body2" component="div">
-                        Update your user profile information.
+                        Update your profile informations and security settings
                       </Typography>
                       <Box mt={2}>
-                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/user-update/${auth.id}`)}>
-                          Update Profile
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/user-info`)}>
+                          Account Settings
                         </Button>
                       </Box>
                     </CardContent>
@@ -168,7 +168,7 @@ const HomePage = () => {
                         Accounts management section.
                       </Typography>
                       <Box mt={2}>
-                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation('/accounts')}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation('/accounts-page')}>
                           Go to Accounts
                         </Button>
                       </Box>
@@ -193,8 +193,6 @@ const HomePage = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-
-
               </>
             )}
           </Grid>
