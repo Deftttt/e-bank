@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import axios from 'axios';
 import { authHeader } from '../../utils/AuthHeader';
+import { PagedResponse } from '../../utils/PagedResponse';
 
 export interface Client {
   id: number;
@@ -33,12 +34,18 @@ export interface ClientDto {
 
 
 const API_BASE_URL = 'http://localhost:8080/clients';
-export const getClients = async (): Promise<ClientDto[]> => {
+
+export const getClients = async (page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedResponse<ClientDto>> => {
   try {
-    const response = await axios.get<ClientDto[]>(`${API_BASE_URL}`, { headers: authHeader() });
+    const params = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+    });
+    const response = await axios.get<PagedResponse<ClientDto>>(`${API_BASE_URL}`, { params, headers: authHeader() });
     return response.data;
   } catch (error) {
-    console.error('Error fetching all clients:', error);
+    console.error('Error fetching clients:', error);
     throw error;
   }
 };

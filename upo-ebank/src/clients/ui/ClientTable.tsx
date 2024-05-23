@@ -1,29 +1,59 @@
-// TransactionTable.js
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Paper } from '@mui/material';
 import { ClientDto } from '../services/ClientService';
+import { useNavigate } from 'react-router-dom';
 
 
-const ClientTable = ( { clients }: { clients: ClientDto[] } ) => {
+
+const ClientsTable = ({ clients, onSortChange }: {clients: ClientDto[], onSortChange: (field: string) => void}) => {
+  const sortBy = (field: string) => () => {
+    onSortChange(field);
+  };
+  const navigate = useNavigate();
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
-            <TableCell>Phone Number</TableCell>
+            <TableCell>
+              <TableSortLabel onClick={sortBy('id')}>
+                ID
+              </TableSortLabel>
+            </TableCell>
+            <TableCell>
+              <TableSortLabel onClick={sortBy('firstName')}>
+                First Name
+              </TableSortLabel>
+            </TableCell>
+            <TableCell>
+              <TableSortLabel onClick={sortBy('lastName')}>
+                Last Name
+              </TableSortLabel>
+            </TableCell>
+            <TableCell>
+              <TableSortLabel onClick={sortBy('email')}>
+                Email
+              </TableSortLabel>
+            </TableCell>
+            <TableCell>
+              <TableSortLabel onClick={sortBy('phoneNumber')}>
+                Phone Number
+              </TableSortLabel>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {clients.map((client) => (
-            <TableRow key={client.id}>
+            <TableRow
+              key={client.id}
+              onClick={() => navigate(`/clients/${client.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <TableCell>{client.id}</TableCell>
-              <TableCell>{client.email}</TableCell>
               <TableCell>{client.firstName}</TableCell>
               <TableCell>{client.lastName}</TableCell>
+              <TableCell>{client.email}</TableCell>
               <TableCell>{client.phoneNumber}</TableCell>
             </TableRow>
           ))}
@@ -33,4 +63,4 @@ const ClientTable = ( { clients }: { clients: ClientDto[] } ) => {
   );
 };
 
-export default ClientTable;
+export default ClientsTable;
