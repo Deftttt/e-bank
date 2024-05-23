@@ -14,10 +14,20 @@ export interface BankAccount {
   clientId: number;
 }
 
+export interface BankAccountDetails {
+  accountNumber: string;
+  balance: number;
+  openingDate: string;
+  accountType: AccountType;
+  clientId: number;
+  clientFirstName: string;
+  clientLastName: string;
+}
 
-export const getAccountByNumber = async (accountNumber: string): Promise<BankAccount | null> => {
+
+export const getAccountByNumber = async (accountNumber: string): Promise<BankAccountDetails | null> => {
   try {
-    const response = await axios.get<BankAccount>(`${API_BASE_URL}/${accountNumber}`, { headers: authHeader() });
+    const response = await axios.get<BankAccountDetails>(`${API_BASE_URL}/${accountNumber}`, { headers: authHeader() });
     return response.data;
   } catch (error) {
     console.error('Error fetching account by number:', error);

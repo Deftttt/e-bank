@@ -29,6 +29,7 @@ import LoanRequestPage from './loans/LoanRequestPage';
 import LoanEmployeeDecisionPage from './loans/LoanEmployeeDecisionPage';
 import LoansMainPage from './loans/LoansMainPage';
 import AccountsListPage from './accounts/AccontsListPage';
+import TransactionsPage from './transactions/TransactionsMainPage';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="/secured" element={<SecuredPage />} />
 
+                <Route path="/transactions-page" element={<TransactionsPage />} />
                 <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
                 <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
                 <Route path="/transactions/:id" element={<TransactionDetail />} />

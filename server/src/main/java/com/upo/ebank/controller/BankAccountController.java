@@ -2,6 +2,7 @@ package com.upo.ebank.controller;
 
 import com.upo.ebank.model.BankAccount;
 import com.upo.ebank.model.dto.PagedResponse;
+import com.upo.ebank.model.dto.account.BankAccountDetailsDto;
 import com.upo.ebank.model.dto.account.BankAccountDto;
 import com.upo.ebank.model.enums.AccountType;
 import com.upo.ebank.service.BankAccountService;
@@ -31,7 +32,7 @@ public class BankAccountController {
 
     @PreAuthorize("hasAuthority('VIEW_ACCOUNTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
     @GetMapping("/{accountNumber}")
-    public BankAccount getAccount(@PathVariable String accountNumber) {
+    public BankAccountDetailsDto getAccount(@PathVariable String accountNumber) {
         return bankAccountService.getBankAccount(accountNumber);
     }
 

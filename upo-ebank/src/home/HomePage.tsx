@@ -150,7 +150,7 @@ const HomePage = () => {
                         View and manage transactions.
                       </Typography>
                       <Box mt={2}>
-                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation('/transactions')}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation('/transactions-page')}>
                           Go to Transactions
                         </Button>
                       </Box>

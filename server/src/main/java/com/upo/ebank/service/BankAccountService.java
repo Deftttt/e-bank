@@ -1,7 +1,10 @@
 package com.upo.ebank.service;
 
 import com.upo.ebank.model.BankAccount;
+import com.upo.ebank.model.Loan;
+import com.upo.ebank.model.dto.account.BankAccountDetailsDto;
 import com.upo.ebank.model.dto.account.BankAccountDto;
+import com.upo.ebank.model.dto.loan.LoanDetailsDto;
 import com.upo.ebank.model.enums.AccountType;
 import com.upo.ebank.repository.BankAccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,12 +63,20 @@ public class BankAccountService {
         }
     }
 
-    public BankAccount getBankAccount(String accountNumber){
-        return bankAccountRepository.findById(accountNumber).orElseThrow();
+    public BankAccountDetailsDto getBankAccount(String accountNumber){
+        BankAccount account = bankAccountRepository.findById(accountNumber).orElseThrow();
+        return convertToDto(account);
+    }
+    private BankAccountDetailsDto convertToDto(BankAccount account) {
+        BankAccountDetailsDto bankAccountDetailsDto = modelMapper.map(account, BankAccountDetailsDto.class);
+        bankAccountDetailsDto.setClientFirstName(account.getClient().getFirstName());
+        bankAccountDetailsDto.setClientLastName(account.getClient().getLastName());
+
+        return bankAccountDetailsDto;
     }
 
     public boolean checkAccountOwner(String accountNumber, Long customerId) {
-        BankAccount bankAccount = getBankAccount(accountNumber);
+        BankAccount bankAccount = bankAccountRepository.findById(accountNumber).orElseThrow();;
         return bankAccount.getClient().getId().equals(customerId);
     }
 
