@@ -176,6 +176,24 @@ const HomePage = () => {
                   </Card>
                 </Grid>
 
+                <Grid item xs={12} sm={6} md={4}>
+                  <Card elevation={3} sx={{ boxShadow: 3 }}>
+                    <CardContent>
+                      <Typography variant="h5" component="div" gutterBottom>
+                        Clients
+                      </Typography>
+                      <Typography variant="body2" component="div">
+                        List of bank clients.
+                      </Typography>
+                      <Box mt={2}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation('/clients')}>
+                          Go to Clients
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
 
               </>
             )}

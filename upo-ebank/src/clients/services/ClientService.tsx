@@ -35,17 +35,18 @@ export interface ClientDto {
 
 const API_BASE_URL = 'http://localhost:8080/clients';
 
-export const getClients = async (page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedResponse<ClientDto>> => {
+export const getClients = async (lastName?: string, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedResponse<ClientDto>> => {
   try {
     const params = new URLSearchParams({
+      lastName: lastName || '',
       page: page.toString(),
       size: size.toString(),
-      sort,
+      sort
     });
     const response = await axios.get<PagedResponse<ClientDto>>(`${API_BASE_URL}`, { params, headers: authHeader() });
     return response.data;
   } catch (error) {
-    console.error('Error fetching clients:', error);
+    console.error('Error fetching all clients:', error);
     throw error;
   }
 };

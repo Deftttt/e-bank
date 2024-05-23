@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, TablePagination } from '@mui/material';
+import { Box, Container, TablePagination, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
 import Navbar from '../shared/ui/Navbar';
@@ -14,13 +14,15 @@ const ClientsListPage = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sort, setSort] = useState('id,asc');
   const [totalClients, setTotalClients] = useState(0);
+  const [lastName, setLastName] = useState<string | undefined>(undefined);
+  const [searchValue, setSearchValue] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClients = async () => {
       setIsLoading(true);
       try {
-        const data: PagedResponse<ClientDto> = await getClients(page, rowsPerPage, sort);
+        const data: PagedResponse<ClientDto> = await getClients(lastName, page, rowsPerPage, sort);
         setClients(data.content);
         setTotalClients(data.totalElements);
       } catch (error) {
@@ -31,12 +33,21 @@ const ClientsListPage = () => {
     };
 
     fetchClients();
-  }, [navigate, page, rowsPerPage, sort]);
+  }, [navigate, page, rowsPerPage, sort, lastName]);
 
   const handleSortChange = (sortField: string) => {
     const isAsc = sort.endsWith('asc');
     const direction = isAsc ? 'desc' : 'asc';
     setSort(`${sortField},${direction}`);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSearch = () => {
+    setLastName(searchValue);
+    setPage(0);
   };
 
   const handleChangePage = (_event: unknown, newPage: number) => {
@@ -57,6 +68,18 @@ const ClientsListPage = () => {
       <Navbar />
       <Container maxWidth={false}>
         <h1>List of all clients</h1>
+        <Box display="flex" alignItems="center" mb={2} width="100%">
+          <TextField
+            label="Search by Last Name"
+            variant="outlined"
+            value={searchValue}
+            onChange={handleSearchChange}
+            style={{ marginRight: '10px', flex: 1, backgroundColor: 'white' , borderRadius: '4px'}}
+          />
+          <Button variant="contained" color="primary" onClick={handleSearch}>
+            Search
+          </Button>
+        </Box>
         <Box pb={4}>
           <ClientsTable clients={clients} onSortChange={handleSortChange} />
           <TablePagination

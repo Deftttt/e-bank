@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,9 +19,11 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping("")
-    public PagedResponse<ClientDto> getAllClients(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        List<ClientDto> clients = clientService.getClients(pageable);
-        long totalElements = clientService.getTotalClientsNumber();
+    public PagedResponse<ClientDto> getAllClients(
+            @RequestParam(required = false) String lastName,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        List<ClientDto> clients = clientService.getClients(lastName, pageable);
+        long totalElements = clientService.getTotalClientsNumber(lastName);
         return new PagedResponse<>(clients, totalElements);
     }
 

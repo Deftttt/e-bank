@@ -6,5 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
-    Page<Client> findAll(Pageable pageable);
+    Page<Client> findByLastNameStartingWithIgnoreCase(String lastName, Pageable pageable);
+    long countByLastNameStartingWithIgnoreCase(String lastName);
 }
