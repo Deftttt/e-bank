@@ -21,7 +21,7 @@ import AccountsByNumber from './accounts/AccountsByNumber';
 import ErrorPage from './error/ErrorPage';
 import RequireRole from './utils/RequireRoles';
 import SetupMfaPage from './auth/SetupMfaPage';
-import UserUpdatePage from './auth/UserUpdatePage';
+import UserUpdatePage from './users/UserUpdatePage';
 import LoansListPage from './loans/LoansListPage';
 import MoneyTransferPage from './transactions/MoneyTransferPage';
 import LoanDetailsPage from './loans/LoanDetailsPage';
@@ -29,6 +29,9 @@ import LoanRequestPage from './loans/LoanRequestPage';
 import LoanEmployeeDecisionPage from './loans/LoanEmployeeDecisionPage';
 import LoansMainPage from './loans/LoansMainPage';
 import AccountsListPage from './accounts/AccontsListPage';
+import TransactionsPage from './transactions/TransactionsMainPage';
+import AccountsMainPage from './accounts/AccountsMainPage';
+import UserInfoPage from './users/UserInfoPage';
 
 function App() {
 
@@ -49,12 +52,14 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="/secured" element={<SecuredPage />} />
 
+                <Route path="/transactions-page" element={<TransactionsPage />} />
                 <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
                 <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
                 <Route path="/transactions/:id" element={<TransactionDetail />} />
                 <Route path="/transactions" element={<TransactionAll />} />
                 <Route path="/transactions/account/:accountNumber/transfer" element={<MoneyTransferPage />} />
 
+                <Route path="/accounts-page" element={<AccountsMainPage />} />
                 <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
                 <Route path="/accounts/clients/:clientId" element={<AccountsListPage />} />
                 <Route path="/accounts" element={<AccountsListPage />} />
@@ -82,9 +87,8 @@ function App() {
 
                 
 
-
+                <Route path="/user-info" element={<UserInfoPage />} />
                 <Route path="/setup-mfa" element={<SetupMfaPage />} />
-
                 <Route path="/user-update/:userId" element={<UserUpdatePage />} />
 
             </Route>

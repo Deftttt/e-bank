@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../shared/ui/Loading";
 import Navbar from "../shared/ui/Navbar";
-import { LoanStatus, PagedLoanResponse, getAllLoans, getLoansByClient, getLoansByEmployee } from "./services/LoanService";
+import { LoanStatus, getAllLoans, getLoansByClient, getLoansByEmployee } from "./services/LoanService";
 import { LoanDto } from "./services/LoanService";
 import LoansTable from "./ui/LoansTable";
 import LoanStatusFilter from "./ui/LoanStatusFilter";
+import { PagedResponse } from "../utils/PagedResponse";
+import NoDataMessage from "../shared/NoDataMessage";
 
 const LoansListPage = () => {
     const [loans, setLoans] = useState<LoanDto[]>([]);
@@ -25,7 +27,7 @@ const LoansListPage = () => {
       const fetchLoans = async () => {
         setIsLoading(true);
         try {
-          let data: PagedLoanResponse;
+          let data: PagedResponse<LoanDto>;
           if (employeeId) {
             data = await getLoansByEmployee(Number(employeeId), status, page, rowsPerPage, sort);
           } else if (clientId) {
@@ -33,7 +35,7 @@ const LoansListPage = () => {
           } else {
             data = await getAllLoans(status, page, rowsPerPage, sort);
           }
-          setLoans(data.loans);
+          setLoans(data.content);
           setTotalLoans(data.totalElements);
         } catch (error) {
           navigate('/error', { state: { message: 'Failed to load loans' } });
@@ -51,8 +53,8 @@ const LoansListPage = () => {
         setSort(`${sortField},${direction}`);
     };
 
-    const handleStatusChange = (newStatus: string) => {
-        setStatus(newStatus as LoanStatus);
+    const handleStatusChange = (newStatus: LoanStatus) => {
+        setStatus(newStatus);
         setPage(0); 
     };
 
@@ -69,6 +71,24 @@ const LoansListPage = () => {
   
     if (isLoading) {
       return <Loading />;
+    }
+
+
+    if (loans.length === 0) {
+      return (
+        <>
+          <Navbar />
+          <Container maxWidth={false}>
+          <h1>
+            {employeeId  ? `Loans assigned to employee ${employeeId}:` :
+            clientId  ? `Loans of client ${clientId}:`  :
+            'List of all loans:'}
+          </h1>
+          <LoanStatusFilter onStatusChange={handleStatusChange} />
+            <NoDataMessage message="No loans with given criteria available." />
+          </Container>
+        </>
+      );
     }
   
     return (

@@ -1,9 +1,10 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { LoanStatus } from '../services/LoanService';
 
-const LoanStatusFilter = ({ onStatusChange }: { onStatusChange: (status: string) => void }) => {
+const LoanStatusFilter = ({ onStatusChange: onStatusChange }: { onStatusChange: (status: LoanStatus) => void }) => {
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        onStatusChange(event.target.value as string);
+        onStatusChange(event.target.value as LoanStatus);
     };
 
     return (

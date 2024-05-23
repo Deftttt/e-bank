@@ -3,6 +3,18 @@ INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, las
 INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 3, '728119146', 'piotrstasicki2@gmail.com', 'Piotr', 'Stasicki', '$2a$10$aCGR0e3BrvkMWkerE3/e.Oz1fPkgXHxHEjx2o/Oid0HDs6EQrkHsW', null);
 INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 4, '889381290', 'piotrstasicki3@gmail.com', 'Kong', 'Strong', '$2a$10$Aa43f50LIn969ld23dql3exLgA20ZuwKmJewH/zHhizQAjFw0yXYG', null);
 INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 5, '889381291', 'piotrstasicki4@gmail.com', 'Kong2', 'Strong2', '$2a$10$tm72W9mUdtNU3f5TZE578ea87FZI8v7NXcJv90SJrlJ0x1lq8tjMy', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 6, '998877665', 'client6@example.com', 'Anna', 'Kowalska', '$2a$10$pEQoaRobw3t3syFdLWWnLO5/mG8aqC6Ml.LxxXrV5q0s92TWj.goC', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 7, '778899001', 'client7@example.com', 'Piotr', 'Nowak', '$2a$10$dgmG6OC/8HptDIDiKj0ZW.GnVcK7vQ3M2w2F.4l6Oi9dfX2SJ1hZa', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 8, '665544332', 'client8@example.com', 'Maria', 'Wiśniewska', '$2a$10$UIaJ0uF1lmtpP7CCOwML6.LqUMRLxX0ECdJsNfOxgsBGMJxaM8KCW', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 9, '445566778', 'client9@example.com', 'Krzysztof', 'Wójcik', '$2a$10$99l8FmUTYWedjzF3CQmCoeQhk9czbqHROcvtRo1yQWtwI2EoeDvCO', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 10, '334455667', 'client10@example.com', 'Ewa', 'Kowalczyk', '$2a$10$Wd1OKlxF9Wo9RQCMqW107epdrfXbXNuywf11pb9aI6/T962Nn4j3C', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 11, '223344556', 'client11@example.com', 'Jan', 'Zając', '$2a$10$yLYXKyo5rTiI2/shkRyo2eE7AODBS5NXEyp0cB/cCo7wwYVw8aRVi', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 12, '998877665', 'client12@example.com', 'Michał', 'Kowal', '$2a$10$GLiGL8dRTAc9oHrn2uLqrOn7DCwKpKBRITJGkDSpdNO7QHY8lkcTW', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 13, '112233445', 'client13@example.com', 'Agnieszka', 'Szczepańska', '$2a$10$e8MrlEmtAiy0hKc/zrniX.IRt1zGt65ja5S5L0iE6PEuNgeSzCsn6', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 14, '556677889', 'client14@example.com', 'Barbara', 'Kamińska', '$2a$10$mgfaIlZVVAuyXY5eiDcHF.b0wq0hNsFLcmWPzBvjlES4sT1gYrzdK', null);
+INSERT INTO user (enabled, mfa_enabled, id, phone_number, email, first_name, last_name, password, secret) VALUES (true, false, 15, '667788990', 'client15@example.com', 'Tomasz', 'Mazur', '$2a$10$jMXqW.a66biTNdQTDrAsjOlwyva9tTPeZLPnMi9fWiiAlsUTy3Ane', null);
+
+
 
 INSERT INTO _right (id, name) VALUES (1, 'APPROVE_LOANS');
 INSERT INTO _right (id, name) VALUES (2, 'VIEW_CLIENTS');
@@ -17,6 +29,7 @@ INSERT INTO position_rights (_right_id, position_id) VALUES (1, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (2, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (3, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (4, 1);
+INSERT INTO position_rights (_right_id, position_id) VALUES (5, 1);
 INSERT INTO position_rights (_right_id, position_id) VALUES (5, 2);
 
 INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (1, 1, '23/24', '37-700', 'Przemysl', 'Polska', 'Opalinskiego');
@@ -25,6 +38,19 @@ INSERT INTO address (id, user_id, local_number, post_code, city, country, street
 INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (4, 3, '10a/37', '36-721', 'Kraków', 'Polska', 'Norymberska');
 INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (5, 4, '51', '36-721', 'Kraków', 'Polska', 'Zachodnia');
 INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (6, 5, '4', '36-721', 'Kraków', 'Polska', 'Pawia');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (7, 6, '1A', '00-001', 'Warszawa', 'Polska', 'Aleje Jerozolimskie');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (8, 7, '2B', '00-002', 'Kraków', 'Polska', 'Floriańska');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (9, 8, '3C', '00-003', 'Łódź', 'Polska', 'Piotrkowska');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (10, 8, '', '00-009', 'Krasnystaw', 'Polska', 'Czarna');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (11, 9, '4D', '00-004', 'Wrocław', 'Polska', 'Świdnicka');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (12, 10, '5E', '00-005', 'Poznań', 'Polska', 'Półwiejska');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (13, 11, '6F', '00-006', 'Gdańsk', 'Polska', 'Długa');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (14, 12, '7G', '00-007', 'Szczecin', 'Polska', 'Wojska Polskiego');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (15, 12, '89', '00-001', 'Warszawa', 'Polska', '3 maja');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (16, 13, '8H', '00-008', 'Lublin', 'Polska', 'Lubartowska');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (17, 14, '9I', '00-009', 'Katowice', 'Polska', 'Stawowa');
+INSERT INTO address (id, user_id, local_number, post_code, city, country, street) VALUES (18, 15, '10J', '00-010', 'Białystok', 'Polska', 'Lipowa');
+
 
 INSERT INTO employee (id, position_id, department) VALUES (3, 1, 'DEPARTMENT_1');
 INSERT INTO employee (id, position_id, department) VALUES (4, 2, 'DEPARTMENT_2');
@@ -32,6 +58,16 @@ INSERT INTO employee (id, position_id, department) VALUES (5, 1, 'DEPARTMENT_2')
 
 INSERT INTO client (id, pesel) VALUES (1, '89123458901');
 INSERT INTO client (id, pesel) VALUES (2, '02779856702');
+INSERT INTO client (id, pesel) VALUES (6, '12345678901');
+INSERT INTO client (id, pesel) VALUES (7, '22345678902');
+INSERT INTO client (id, pesel) VALUES (8, '32345678903');
+INSERT INTO client (id, pesel) VALUES (9, '42345678904');
+INSERT INTO client (id, pesel) VALUES (10, '52345678905');
+INSERT INTO client (id, pesel) VALUES (11, '62345678906');
+INSERT INTO client (id, pesel) VALUES (12, '72345678907');
+INSERT INTO client (id, pesel) VALUES (13, '82345678908');
+INSERT INTO client (id, pesel) VALUES (14, '92345678909');
+INSERT INTO client (id, pesel) VALUES (15, '02345678900');
 
 INSERT INTO register_confirmation_token_seq (next_val) VALUES (1);
 

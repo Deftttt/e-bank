@@ -9,11 +9,12 @@ import java.util.Date;
 
 @Data
 public class CreateTransactionDTO {
-    @NotNull(message = "Pole nie może być puste")
-    @Positive(message = "Kwota musi być dodatnia")
+    @NotNull(message = "Field cannot be null")
+    @Positive(message = "Amount must be positive number")
     private BigDecimal amount;
     private Date transactionDate = new Date();
+    @NotBlank(message = "Transaction title cannot be empty")
     private String message;
-    @NotBlank(message = "Pole nie może być puste")
+    @NotBlank(message = "Recipient account number cannot be empty")
     private String recipientAccountNumber;
 }

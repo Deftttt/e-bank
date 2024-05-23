@@ -35,6 +35,24 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InsuficientBalanceException.class)
+    public ResponseEntity<?> handleInsuficientBalanceException(Exception exception, WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("amount", exception.getMessage());
+
+        ExceptionDetails exceptionDetails = new ExceptionDetails(new Date(), "Validation Failed", request.getDescription(false), errors);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BankAccountNotExistsException.class)
+    public ResponseEntity<?> handleBankAccountNotExistsException(Exception exception, WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("recipientAccountNumber", exception.getMessage());
+
+        ExceptionDetails exceptionDetails = new ExceptionDetails(new Date(), "Validation Failed", request.getDescription(false), errors);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(EmailExistsException.class)
     public ResponseEntity<ExceptionDetails> emailInUseExceptionHandling(Exception exception, WebRequest request) {
         Map<String, String> errors = new HashMap<>();

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { authHeader } from '../../utils/AuthHeader';
+import { PagedResponse } from '../../utils/PagedResponse';
 
 const API_URL = 'http://localhost:8080/loans'; 
 
@@ -18,10 +19,6 @@ export interface LoanDto {
     loanTermMonths: number;
 }
 
-export interface PagedLoanResponse {
-    loans: LoanDto[];
-    totalElements: number;
-}
 
 export interface Loan {
     id: number;
@@ -54,7 +51,7 @@ export interface LoanDecision {
     comment?: string;
 }
 
-export const getAllLoans = async (status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedLoanResponse> => {
+export const getAllLoans = async (status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedResponse<LoanDto>> => {
     try {
         const params = new URLSearchParams({
             status: status || '',
@@ -70,7 +67,7 @@ export const getAllLoans = async (status?: LoanStatus, page: number = 0, size: n
     }
 };
 
-export const getLoansByEmployee = async (employeeId: number, status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
+export const getLoansByEmployee = async (employeeId: number, status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedResponse<LoanDto>> => {
     try {
         const params = new URLSearchParams({
             status: status || '',
@@ -86,7 +83,7 @@ export const getLoansByEmployee = async (employeeId: number, status?: LoanStatus
     }
 };
 
-export const getLoansByClient = async (clientId: number, status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedLoanResponse> => {
+export const getLoansByClient = async (clientId: number, status?: LoanStatus, page: number = 0, size: number = 10, sort: string = 'amount,asc'): Promise<PagedResponse<LoanDto>> => {
     try {
         const params = new URLSearchParams({
             status: status || '',

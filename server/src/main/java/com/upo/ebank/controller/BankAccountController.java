@@ -1,8 +1,9 @@
 package com.upo.ebank.controller;
 
 import com.upo.ebank.model.BankAccount;
+import com.upo.ebank.model.dto.PagedResponse;
+import com.upo.ebank.model.dto.account.BankAccountDetailsDto;
 import com.upo.ebank.model.dto.account.BankAccountDto;
-import com.upo.ebank.model.dto.account.PagedBankAccountResponse;
 import com.upo.ebank.model.enums.AccountType;
 import com.upo.ebank.service.BankAccountService;
 import lombok.RequiredArgsConstructor;
@@ -22,27 +23,27 @@ public class BankAccountController {
 
     @PreAuthorize("hasAuthority('VIEW_ACCOUNTS')")
     @GetMapping("")
-    public PagedBankAccountResponse getAllAccounts(@RequestParam(required = false) AccountType accountType,
-                                                   @PageableDefault(sort = "accountNumber", direction = Sort.Direction.ASC) Pageable pageable) {
+    public PagedResponse<BankAccountDto> getAllAccounts(@RequestParam(required = false) AccountType accountType,
+                                        @PageableDefault(sort = "accountNumber", direction = Sort.Direction.ASC) Pageable pageable) {
         List<BankAccountDto> accounts = bankAccountService.getBankAccounts(accountType, pageable);
         long totalElements = bankAccountService.getTotalAccountsNumber(accountType);
-        return new PagedBankAccountResponse(accounts, totalElements);
+        return new PagedResponse<>(accounts, totalElements);
     }
 
     @PreAuthorize("hasAuthority('VIEW_ACCOUNTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
     @GetMapping("/{accountNumber}")
-    public BankAccount getAccount(@PathVariable String accountNumber) {
+    public BankAccountDetailsDto getAccount(@PathVariable String accountNumber) {
         return bankAccountService.getBankAccount(accountNumber);
     }
 
     @PreAuthorize("hasAuthority('VIEW_ACCOUNTS') or #clientId == principal.userId")
     @GetMapping("/clients/{clientId}")
-    public PagedBankAccountResponse getAccountsByClientId(@PathVariable Long clientId,
+    public PagedResponse<BankAccountDto> getAccountsByClientId(@PathVariable Long clientId,
                                                           @RequestParam(required = false) AccountType accountType,
                                                           @PageableDefault(sort = "accountNumber", direction = Sort.Direction.ASC) Pageable pageable) {
         List<BankAccountDto> accounts = bankAccountService.getBankAccountsByClientId(clientId, accountType, pageable);
         long totalElements = bankAccountService.getTotalAccountsNumberByClientId(clientId, accountType);
-        return new PagedBankAccountResponse(accounts, totalElements);
+        return new PagedResponse<>(accounts, totalElements);
     }
 
 }

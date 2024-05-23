@@ -1,46 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import { Transaction, getAllTransactions } from './services/TransactionService';
-import TransactionTable from './ui/TransactionsTable';
-import { Container } from '@mui/material';
-import Navbar from '../shared/ui/Navbar';
+import { Box, Container, TablePagination, TextField, Button } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
-import { useNavigate } from 'react-router-dom';
+import Navbar from '../shared/ui/Navbar';
+import TransactionsTable from './ui/TransactionsTable';
+import { Transaction, getAllTransactions } from './services/TransactionService';
+import { PagedResponse } from '../utils/PagedResponse';
+import NoDataMessage from '../shared/NoDataMessage';
 
-const TransactionAll = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+const TransactionsListPage = () => {
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [sort, setSort] = useState('id,asc');
+    const [totalTransactions, setTotalTransactions] = useState(0);
+    const { accountNumber, clientId } = useParams();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getAllTransactions();
-        setTransactions(data);
-      } catch (error) {
-        console.error('Error loading transactions:', error);
-        navigate('/error', { state: { message: 'Failed to load all transactions' } });
-      } finally {
-        setIsLoading(false);
-      }
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            setIsLoading(true);
+            try {
+                let data: PagedResponse<Transaction>;
+                data = await getAllTransactions(page, rowsPerPage, sort);
+                setTransactions(data.content);
+                setTotalTransactions(data.totalElements);
+            } catch (error) {
+                navigate('/error', { state: { message: 'Failed to load transactions' } });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchTransactions();
+    }, [navigate, page, rowsPerPage, sort, accountNumber, clientId]);
+
+    const handleSortChange = (sortField: string) => {
+        const isAsc = sort.endsWith('asc');
+        const direction = isAsc ? 'desc' : 'asc';
+        setSort(`${sortField},${direction}`);
     };
 
-    fetchTransactions();
-  }, [navigate]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+    const handleChangePage = (_event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
 
-  return (
-    <>
-      <Navbar />
-      <Container maxWidth={false}>
-        <h1>All Transactions</h1>
-        <TransactionTable transactions={transactions} />
-      </Container>
-    </>
-  );
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (transactions.length === 0) {
+        return (
+          <>
+            <Navbar />
+            <Container maxWidth={false}>
+            <h1>
+                List of all transactions:
+            </h1>
+              <NoDataMessage message="No transactions with given criteria available." />
+            </Container>
+          </>
+        );
+      }
+
+    return (
+        <>
+            <Navbar />
+            <Container maxWidth={false}>
+                <h1>
+                  List of all transactions:
+                </h1>
+                    <TransactionsTable transactions={transactions} onSortChange={handleSortChange} />
+                    <TablePagination
+                        component="div"
+                        count={totalTransactions}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            backgroundColor: 'white',
+                            color: 'black',
+                        }}
+                    />
+            </Container>
+        </>
+    );
 };
 
-export default TransactionAll;
+export default TransactionsListPage;

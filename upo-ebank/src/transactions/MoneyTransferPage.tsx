@@ -1,68 +1,88 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField, Button, Box } from '@mui/material';
-import { Typography } from '@mui/material';
+import { TextField, Button, Box, Card, CardContent, Container, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CreateTransactionDTO, createTransaction } from './services/TransactionService';
-import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import Navbar from '../shared/ui/Navbar';
+import Loading from '../shared/ui/Loading';
 
 const MoneyTransferPage: React.FC = () => {
   const { accountNumber } = useParams<{ accountNumber: string }>();
-  const { register, handleSubmit, formState: { errors } } = useForm<CreateTransactionDTO>();
-  const [error, setError] = useState({});
+  const { register, handleSubmit } = useForm<CreateTransactionDTO>();
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (data: CreateTransactionDTO) => {
+    setIsLoading(true);
     try {
-      const response = await createTransaction(accountNumber, data);
-      console.log(response);
-    } catch (error) {
-      console.error('Error creating transaction:', error);
-      setError(error.response.data.errors);
+      await createTransaction(accountNumber as string, data);
+      navigate(`/transactions/account/${accountNumber}`);
+    } catch (errors) {
+      console.error('Error creating transaction:', errors);
+      setErrors(errors.response.data.errors);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
 
-return (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100vh',
-      padding: "20px"
-    }}
-  >
-    <Typography variant="h6" gutterBottom>
-      Uzupełnij dane przelewu:
-    </Typography>
-    {error && <Typography color="error">{error.amount}</Typography>} 
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        label="Amount"
-        {...register('amount')}
-        error={error.amount}
-        helperText={error.amount} 
-      />
-      <TextField
-        label="Message"
-        {...register('message')}
-      />
-      <TextField value={accountNumber} disabled/>
-      <TextField
-        label="Recipient Account Number"
-        {...register('recipientAccountNumber')}
-        error={error.recipientAccountNumber}
-        helperText={error.recipientAccountNumber}
-      />
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
-      </Box>
-    </form>
-  </Box>
-);
-}
+  return (
+    <>
+      <Navbar />
+      <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Card sx={{ width: '100%', mt: 4 }}>
+          <CardContent>
+            <Typography variant="h4" component="div" gutterBottom textAlign="center">
+              Money Transfer Form
+            </Typography>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Amount"
+                type="number"
+                {...register('amount')}
+                error={!!errors.amount}
+                helperText={errors.amount}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Transaction title"
+                error={!!errors.message}
+                helperText={errors.message}
+                {...register('message')}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Sender Account Number"
+                value={accountNumber}
+                disabled
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Recipient Account Number"
+                {...register('recipientAccountNumber')}
+                error={!!errors.recipientAccountNumber}
+                helperText={errors.recipientAccountNumber}
+              />
+              <Box mt={2}>
+                <Button type="submit" variant="contained" color="primary" fullWidth>
+                  Submit
+                </Button>
+              </Box>
+            </form>
+          </CardContent>
+        </Card>
+      </Container>
+    </>
+  );
+};
 
 export default MoneyTransferPage;

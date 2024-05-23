@@ -3,9 +3,11 @@ import { Box, Container, TablePagination } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
 import Navbar from '../shared/ui/Navbar';
-import { BankAccount, PagedBankAccountResponse, getAllAccounts, getAccountsByClient, AccountType } from './services/AccountsService';
+import { BankAccount, getAllAccounts, getAccountsByClient, AccountType } from './services/AccountsService';
 import AccountsTable from './ui/AccountsTable';
 import AccountTypeFilter from './ui/AccountTypeFilter';
+import { PagedResponse } from '../utils/PagedResponse';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const AccountsListPage = () => {
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
@@ -22,13 +24,13 @@ const AccountsListPage = () => {
     const fetchAccounts = async () => {
       setIsLoading(true);
       try {
-        let data: PagedBankAccountResponse;
+        let data: PagedResponse<BankAccount>;
         if (clientId) {
           data = await getAccountsByClient(clientId, page, rowsPerPage, sort, accountType);
         } else {
           data = await getAllAccounts(page, rowsPerPage, sort, accountType);
         }
-        setAccounts(data.accounts);
+        setAccounts(data.content);
         setTotalAccounts(data.totalElements);
       } catch (error) {
         navigate('/error', { state: { message: 'Failed to load accounts' } });
@@ -62,6 +64,21 @@ const AccountsListPage = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (accounts.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <Container maxWidth={false}>
+        <h1>
+          {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}
+        </h1>
+        <AccountTypeFilter onTypeChange={handleTypeChange} />
+          <NoDataMessage message="No accounts with given criteria available." />
+        </Container>
+      </>
+    );
   }
 
   return (
