@@ -97,4 +97,12 @@ INSERT INTO loan (amount, interest_rate, loan_term, monthly_repayment_amount, st
 INSERT INTO loan (amount, interest_rate, loan_term, monthly_repayment_amount, start_date, total_repayment_amount, application_date, client_id, decision_date, employee_id, id, comment, loan_purpose, status) VALUES (58000.00, 3.2, 42, 1527.62, '2024-06-13', 76560.00, '2024-05-07 16:40:06.674724', 2, '2024-05-17 13:56:06.674724', 3, 12, 'After careful verification, the loan application has been approved.', 'Moving expenses', 'ACCEPTED');
 
 
+INSERT INTO ebank_database.time_deposit (deposit_amount, end_date, start_date, bank_account_number, deposit_type, status) VALUES
+                                                                                                                          (1000.00, '2024-06-01 12:00:00.000000', '2024-05-01 12:00:00.000000', '0987654321', 'ONE_MONTH', 'ACTIVE'),
+                                                                                                                          (5000.00, '2024-11-01 12:00:00.000000', '2024-05-01 12:00:00.000000', '5432109876', 'SIX_MONTHS', 'ACTIVE'),
+                                                                                                                          (10000.00, '2025-05-01 12:00:00.000000', '2024-05-01 12:00:00.000000', '0987654321', 'TWELVE_MONTHS', 'ACTIVE'),
+                                                                                                                          (20000.00, '2026-05-01 12:00:00.000000', '2024-05-01 12:00:00.000000', '1234567890', 'TWENTY_FOUR_MONTHS', 'ACTIVE'),
+                                                                                                                          (1500.00, '2024-06-01 12:00:00.000000', '2024-05-01 12:00:00.000000', '1234567890', 'ONE_MONTH', 'ACTIVE');
+
+
 

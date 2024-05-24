@@ -58,6 +58,7 @@ public class WebSecurityConfig {
                         //.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/deposits/**").permitAll()
                         .requestMatchers("/loans/**").authenticated()
                         .requestMatchers("/users/**").authenticated()
                         .requestMatchers("/clients/**").hasAuthority(RightName.VIEW_CLIENTS.toString())
