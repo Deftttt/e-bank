@@ -17,4 +17,5 @@ public class BankAccountDetailsDto {
     private Long clientId;
     private String clientFirstName;
     private String clientLastName;
+    private boolean isBlocked;
 }

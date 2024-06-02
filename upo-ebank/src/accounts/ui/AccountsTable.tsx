@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Paper, Chip } from '@mui/material';
 import { BankAccount } from '../services/AccountsService';
 import { useNavigate } from 'react-router-dom';
 import AccountTypeChip from './AccountTypeChip';
@@ -42,6 +42,7 @@ const AccountsTable: React.FC<Props> = ({ accounts, onSortChange }) => {
                 Client ID
               </TableSortLabel>
             </TableCell>
+            <TableCell>Blocked Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -56,6 +57,15 @@ const AccountsTable: React.FC<Props> = ({ accounts, onSortChange }) => {
               <TableCell>{account.openingDate}</TableCell>
               <TableCell><AccountTypeChip accountType={account.accountType} /></TableCell>
               <TableCell>{account.clientId}</TableCell>
+              <TableCell>
+                <Chip
+                  label={account.blocked ? 'Blocked' : 'Active'}
+                  sx={{
+                    backgroundColor: account.blocked ? 'red' : 'green',
+                    color: 'white'
+                  }}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

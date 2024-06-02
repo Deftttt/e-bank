@@ -44,8 +44,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BankAccountNotExistsException.class)
-    public ResponseEntity<?> handleBankAccountNotExistsException(Exception exception, WebRequest request) {
+    @ExceptionHandler(BankAccountException.class)
+    public ResponseEntity<?> handleBankAccountException(Exception exception, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
         errors.put("recipientAccountNumber", exception.getMessage());
 
@@ -64,6 +64,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoUserWithEmailException.class)
     public ResponseEntity<?> handleNoUserWithEmailException(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccountBlockedException.class)
+    public ResponseEntity<?> handleAccountBlockedException(AccountBlockedException exception, WebRequest request) {
         return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 

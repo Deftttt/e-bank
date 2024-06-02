@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { BankAccount, BankAccountDetails, getAccountByNumber } from './services/AccountsService';
+import { BankAccountDetails, getAccountByNumber, blockAccount, unblockAccount } from './services/AccountsService';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
-import { Container, Card, CardContent, Typography, Grid, Button } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Button, Chip } from '@mui/material';
 import AccountTypeChip from './ui/AccountTypeChip';
+import useAuth from '../hooks/useAuth';
 
 const AccountsByNumber = () => {
   const { accountNumber } = useParams<{ accountNumber: string }>();
   const [account, setAccount] = useState<BankAccountDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const isEmployee = auth?.roles?.includes('EMPLOYEE_RIGHTS');
+  const isClient = auth?.roles?.includes('USER_RIGHTS');
 
   useEffect(() => {
     const fetchAccount = async () => {
@@ -27,6 +31,34 @@ const AccountsByNumber = () => {
 
     fetchAccount();
   }, [accountNumber, navigate]);
+
+  const handleBlockAccount = async () => {
+    if (account) {
+      try {
+        await blockAccount(account.accountNumber);
+        const updatedAccount = await getAccountByNumber(account.accountNumber);
+        setAccount(updatedAccount);
+      } catch (error) {
+        console.error('Error blocking account:', error);
+      }
+    }
+  };
+
+  const handleToggleBlockStatus = async () => {
+    if (account) {
+      try {
+        if (account.blocked) {
+          await unblockAccount(account.accountNumber);
+        } else {
+          await blockAccount(account.accountNumber);
+        }
+        const updatedAccount = await getAccountByNumber(account.accountNumber);
+        setAccount(updatedAccount);
+      } catch (error) {
+        console.error('Error toggling block status:', error);
+      }
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -59,17 +91,64 @@ const AccountsByNumber = () => {
                   <Typography variant="body2" sx={{ marginBottom: '10px' }}>
                     <strong>Owner:</strong> {account.clientFirstName + ' ' + account.clientLastName}
                   </Typography>
+                  <Typography variant="body2" sx={{ marginBottom: '10px' }}>
+                    <strong>Status:</strong> 
+                    <Chip
+                      label={account.blocked ? 'Blocked' : 'Active'}
+                      sx={{
+                        backgroundColor: account.blocked ? 'red' : 'green',
+                        color: 'white',
+                        marginLeft: '10px'
+                      }}
+                    />
+                  </Typography>
                 </Grid>
+                {isEmployee && (
+                  <Grid item xs={12}>
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      fullWidth
+                      onClick={handleToggleBlockStatus}
+                    >
+                      {account.blocked ? 'Unblock Account' : 'Block Account'}
+                    </Button>
+                  </Grid>
+                )}
+                {isClient && !account.blocked && (
+                  <Grid item xs={12}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={() => navigate(`/transactions/account/${accountNumber}/transfer`)}
+                    >
+                      Transfer Money from this Account
+                    </Button>
+                  </Grid>
+                )}
                 <Grid item xs={12}>
-                  <Button variant="contained" color="primary" fullWidth onClick={() => navigate(`/transactions/account/${accountNumber}/transfer`)}>
-                    Transfer Money from this Account
-                  </Button>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button variant="contained" color="secondary" fullWidth onClick={() => navigate(`/transactions/account/${accountNumber}`)}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                    onClick={() => navigate(`/transactions/account/${accountNumber}`)}
+                  >
                     View Transactions from this Account
                   </Button>
                 </Grid>
+                {isClient && !account.blocked && (
+                  <Grid item xs={12}>
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      fullWidth
+                      onClick={handleBlockAccount}
+                    >
+                      Block Account
+                    </Button>
+                  </Grid>
+                )}
               </Grid>
             </CardContent>
           </Card>
