@@ -32,6 +32,8 @@ import AccountsListPage from './accounts/AccontsListPage';
 import TransactionsPage from './transactions/TransactionsMainPage';
 import AccountsMainPage from './accounts/AccountsMainPage';
 import UserInfoPage from './users/UserInfoPage';
+import CreateAccountPage from './accounts/CreateAccountPage';
+import CreateClientAccountPage from './accounts/CreateClientAccountPage';
 
 function App() {
 
@@ -63,6 +65,10 @@ function App() {
                 <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
                 <Route path="/accounts/clients/:clientId" element={<AccountsListPage />} />
                 <Route path="/accounts" element={<AccountsListPage />} />
+                <Route path="/create-account" element={<CreateAccountPage />} />
+
+                <Route path="/create-account/clients/:clientId" element={<CreateClientAccountPage />} />
+
 
                 <Route element={<RequireRole requiredRole={'VIEW_CLIENTS'} />}>
                   <Route path="/clients/:id" element={<ClientById />} />
@@ -83,8 +89,6 @@ function App() {
                 <Route element={<RequireRole requiredRole={'APPROVE_LOANS'} />}>
                   <Route path="/loans/:loanId/decision" element={<LoanEmployeeDecisionPage />} />
                 </Route>
-
-
                 
 
                 <Route path="/user-info" element={<UserInfoPage />} />

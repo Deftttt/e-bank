@@ -15,4 +15,5 @@ public class BankAccountDto {
     private Date openingDate;
     private AccountType accountType;
     private Long clientId;
+    private boolean isBlocked;
 }

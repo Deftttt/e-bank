@@ -1,7 +1,6 @@
 package com.upo.ebank.service;
 
-import com.upo.ebank.exception.BadCredentialsException;
-import com.upo.ebank.exception.BankAccountNotExistsException;
+import com.upo.ebank.exception.BankAccountException;
 import com.upo.ebank.exception.InsuficientBalanceException;
 import com.upo.ebank.model.BankAccount;
 import com.upo.ebank.model.Transaction;
@@ -18,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +37,9 @@ public class TransactionService {
         BankAccount sender = bankAccountRepository.findByAccountNumber(accountNumber);
         BankAccount recipient = bankAccountRepository.findById(createTransactionDTO.getRecipientAccountNumber()).orElseThrow();
 
+        ensureAccountIsNotBlocked(sender);
+        ensureAccountIsNotBlocked(recipient);
+
         sender.setBalance(sender.getBalance().subtract(createTransactionDTO.getAmount()));
         bankAccountRepository.save(sender);
 
@@ -57,11 +57,18 @@ public class TransactionService {
     public void validateTransferRequest(CreateTransactionDTO createTransactionDTO, String senderAccountNumber) {
         validateAccountExists(createTransactionDTO.getRecipientAccountNumber());
         validateSufficientBalance(createTransactionDTO.getAmount(), senderAccountNumber);
+        validateDifferentAccounts(createTransactionDTO.getRecipientAccountNumber(), senderAccountNumber);
     }
 
-    private void validateAccountExists(String accountNumber) throws BankAccountNotExistsException {
+    private void validateAccountExists(String accountNumber) throws BankAccountException {
         if (!bankAccountRepository.existsById(accountNumber)) {
-            throw new BankAccountNotExistsException("Bank account of given number does not exist");
+            throw new BankAccountException("Bank account of given number does not exist");
+        }
+    }
+
+    private void validateDifferentAccounts(String recipientAccountNumber, String senderAccountNumber) {
+        if (recipientAccountNumber.equals(senderAccountNumber)) {
+            throw new BankAccountException("Sender and recipient account number must be diffrent");
         }
     }
 
@@ -118,6 +125,11 @@ public class TransactionService {
                 || transaction.getRecipientAccount().getClient().getId().equals(userId));
     }
 
+    private void ensureAccountIsNotBlocked(BankAccount account) {
+        if (account.isBlocked()) {
+            throw new IllegalStateException("Account is blocked");
+        }
+    }
 
 
 }

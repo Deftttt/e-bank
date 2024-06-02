@@ -12,6 +12,7 @@ export interface BankAccount {
   openingDate: string;
   accountType: AccountType;
   clientId: number;
+  blocked: boolean;
 }
 
 export interface BankAccountDetails {
@@ -22,6 +23,15 @@ export interface BankAccountDetails {
   clientId: number;
   clientFirstName: string;
   clientLastName: string;
+  blocked: boolean;
+}
+
+export interface CreateClientBankAccountDto {
+  accountType: AccountType;
+}
+
+export interface CreateEmployeeBankAccountDto extends CreateClientBankAccountDto {
+  initialDeposit: number;
 }
 
 
@@ -82,6 +92,43 @@ export const getAccountsByClient = async (
     return response.data;
   } catch (error) {
     console.error('Error fetching accounts by client:', error);
+    throw error;
+  }
+};
+
+
+export const createBankAccount = async (data: CreateClientBankAccountDto): Promise<void> => {
+  try {
+    await axios.post(`${API_BASE_URL}`, data, { headers: authHeader() });
+  } catch (error) {
+    console.error('Error creating account:', error);
+    throw error;
+  }
+};
+
+export const createAccountForClient = async (clientId: string, data: CreateEmployeeBankAccountDto): Promise<void> => {
+  try {
+    await axios.post(`${API_BASE_URL}/clients/${clientId}`, data, { headers: authHeader() });
+  } catch (error) {
+    console.error('Error creating account for client:', error);
+    throw error;
+  }
+};
+
+export const blockAccount = async (accountNumber: string): Promise<void> => {
+  try {
+    await axios.post(`${API_BASE_URL}/${accountNumber}/block`, null, { headers: authHeader() });
+  } catch (error) {
+    console.error('Error blocking account:', error);
+    throw error;
+  }
+};
+
+export const unblockAccount = async (accountNumber: string): Promise<void> => {
+  try {
+    await axios.post(`${API_BASE_URL}/${accountNumber}/unblock`, null, { headers: authHeader() });
+  } catch (error) {
+    console.error('Error unblocking account:', error);
     throw error;
   }
 };
