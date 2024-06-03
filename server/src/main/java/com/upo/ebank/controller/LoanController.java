@@ -25,7 +25,7 @@ public class LoanController {
 
     private final LoanService loanService;
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS')")
+    @PreAuthorize("hasAuthority('VIEW_LOANS')")
     @GetMapping("")
     public PagedResponse<LoanDto> getAllLoans(@RequestParam(required = false) LoanStatus status,
                                      @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -34,7 +34,7 @@ public class LoanController {
         return new PagedResponse<>(loans, totalElements);
     }
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS')")
+    @PreAuthorize("hasAuthority('VIEW_LOANS')")
     @GetMapping("/employee/{employeeId}")
     public PagedResponse<LoanDto> getLoansByEmployee(@PathVariable Long employeeId,
                                             @RequestParam(required = false) LoanStatus status,
@@ -44,7 +44,7 @@ public class LoanController {
         return new PagedResponse<>(loans, totalElements);
     }
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS') or #clientId == principal.userId")
+    @PreAuthorize("hasAuthority('VIEW_LOANS') or #clientId == principal.userId")
     @GetMapping("/client/{clientId}")
     public PagedResponse<LoanDto> getLoansByClient(@PathVariable Long clientId,
                                           @RequestParam(required = false) LoanStatus status,
@@ -54,12 +54,13 @@ public class LoanController {
         return new PagedResponse<>(loans, totalElements);
     }
 
-    @PreAuthorize("hasAuthority('APPROVE_LOANS') or @loanService.isAssignedClient(principal.userId, #id)")
+    @PreAuthorize("hasAuthority('VIEW_LOANS') or @loanService.isAssignedClient(principal.userId, #id)")
     @GetMapping("/{id}")
     public LoanDetailsDto getLoan(@PathVariable Long id) {
         return loanService.getLoan(id);
     }
 
+    @PreAuthorize("hasAuthority('USER_RIGHTS')")
     @PostMapping("/request")
     public ResponseEntity<Loan> requestLoan(@AuthenticationPrincipal UserPrincipal userPrincipal, @Valid @RequestBody LoanRequest loanRequest) {
         Loan loan = loanService.requestLoan(userPrincipal.getUserId(), loanRequest);

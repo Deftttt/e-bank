@@ -26,7 +26,7 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @PreAuthorize("hasAuthority('VIEW_CLIENTS')")
+    @PreAuthorize("hasAuthority('VIEW_TRANSACTIONS')")
     @GetMapping("")
     public PagedResponse<TransactionDto> getAllTransactions(
             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -34,12 +34,12 @@ public class TransactionController {
         return new PagedResponse<>(transactions.getContent(), transactions.getTotalElements());
     }
 
-    @PreAuthorize("hasAuthority('VIEW_CLIENTS') or @transactionService.checkTransactionOwner(#id, principal.userId)")
+    @PreAuthorize("hasAuthority('VIEW_TRANSACTIONS') or @transactionService.checkTransactionOwner(#id, principal.userId)")
     @GetMapping("/{id}")
     public TransactionDetailsDto getTransactionById(@PathVariable Long id) {
         return transactionService.getTransactionById(id);
     }
-    @PreAuthorize("hasAuthority('VIEW_CLIENTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
+    @PreAuthorize("hasAuthority('VIEW_TRANSACTIONS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
     @GetMapping("/account/{accountNumber}")
     public PagedResponse<TransactionDto> getTransactionBySenderAccountNumber(
             @PathVariable String accountNumber,
@@ -49,7 +49,7 @@ public class TransactionController {
         return new PagedResponse<>(transactions.getContent(), transactions.getTotalElements());
     }
 
-    @PreAuthorize("hasAuthority('VIEW_CLIENTS') or #clientId == principal.userId")
+    @PreAuthorize("hasAuthority('VIEW_TRANSACTIONS') or #clientId == principal.userId")
     @GetMapping("/client/{clientId}")
     public PagedResponse<TransactionDto> getTransactionByClientId(
             @PathVariable Long clientId,
