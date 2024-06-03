@@ -8,6 +8,7 @@ import AccountsTable from './ui/AccountsTable';
 import AccountTypeFilter from './ui/AccountTypeFilter';
 import { PagedResponse } from '../utils/PagedResponse';
 import NoDataMessage from '../shared/NoDataMessage';
+import { useTheme } from '@mui/material/styles';
 
 const AccountsListPage = () => {
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
@@ -19,6 +20,7 @@ const AccountsListPage = () => {
   const [accountType, setAccountType] = useState<AccountType | undefined>(undefined);
   const navigate = useNavigate();
   const { clientId } = useParams<{ clientId: string }>();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -71,10 +73,10 @@ const AccountsListPage = () => {
       <>
         <Navbar />
         <Container maxWidth={false}>
-        <h1>
-          {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}
-        </h1>
-        <AccountTypeFilter onTypeChange={handleTypeChange} />
+          <h1>
+            {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}
+          </h1>
+          <AccountTypeFilter onTypeChange={handleTypeChange} />
           <NoDataMessage message="No accounts with given criteria available." />
         </Container>
       </>
@@ -101,8 +103,8 @@ const AccountsListPage = () => {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              backgroundColor: 'white',
-              color: 'black',
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
             }}
           />
         </Box>

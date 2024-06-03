@@ -1,13 +1,21 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 const AccountTypeFilter = ({ onTypeChange }: { onTypeChange: (type: string) => void }) => {
+    const theme = useTheme();
+
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         onTypeChange(event.target.value as string);
     };
 
     return (
-        <FormControl variant="outlined" fullWidth margin="normal" style={{ backgroundColor: 'white', borderRadius: '4px' }}>
+        <FormControl
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            style={{ backgroundColor: theme.palette.background.paper, borderRadius: '4px' }}
+        >
             <InputLabel id="account-type-label">Account Type</InputLabel>
             <Select
                 labelId="account-type-label"

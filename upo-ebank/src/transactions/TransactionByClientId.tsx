@@ -8,6 +8,7 @@ import Loading from '../shared/ui/Loading';
 import TransactionTypeFilter from './ui/TransactionTypeFilter';
 import { PagedResponse } from '../utils/PagedResponse';
 import NoDataMessage from '../shared/NoDataMessage';
+import { useTheme } from '@mui/material/styles';
 
 const TransactionByClientId = () => {
   const { clientId } = useParams<{ clientId: string }>();
@@ -19,6 +20,7 @@ const TransactionByClientId = () => {
   const [totalTransactions, setTotalTransactions] = useState(0);
   const [transactionType, setTransactionType] = useState<TransactionType | undefined>(undefined);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -97,8 +99,8 @@ const TransactionByClientId = () => {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              backgroundColor: 'white',
-              color: 'black',
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
             }}
         />
         </Box>

@@ -1,33 +1,43 @@
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import useAuth from '../../hooks/useAuth';
-import { Box } from '@mui/material';
+import { Box, FormControlLabel, Switch } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function MenuAppBar() {
-
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
+  const { toggleTheme, mode } = useTheme();
 
   const handleLogout = () => {
     logout();
-  }
+  };
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <Box onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', flexGrow: 1 }}>
-          <IconButton edge="start" color="inherit" aria-label="home">
-            <HomeIcon />
-          </IconButton>
-          <Typography variant="h6" component="div">
-            Upo E-Bank
-          </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', flexGrow: 1, gap: 2 }}>
+      <Box onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center'}}>
+        <IconButton edge="start" color="inherit" aria-label="home">
+          <HomeIcon />
+        </IconButton>
+        <Typography variant="h6" component="div">
+          Upo E-Bank
+        </Typography>
         </Box>
+        <FormControlLabel
+          control={<Switch checked={mode === 'dark'} onChange={toggleTheme} />}
+          label={mode === 'dark' ? 'Dark Mode' : 'Light Mode'}
+          sx={{ marginRight: 2 }}
+        />
+      </Box>
+
         {!auth ? (
           <Box display="flex" alignItems="center">
             <Button variant="contained" size="large" href='/login' sx={{ bgcolor: 'primary.light', mr: 2 }}>Login</Button>
@@ -44,5 +54,4 @@ export default function MenuAppBar() {
       </Toolbar>
     </AppBar>
   );
-
 }

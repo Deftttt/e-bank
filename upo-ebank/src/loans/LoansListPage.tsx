@@ -9,12 +9,14 @@ import LoansTable from "./ui/LoansTable";
 import LoanStatusFilter from "./ui/LoanStatusFilter";
 import { PagedResponse } from "../utils/PagedResponse";
 import NoDataMessage from "../shared/NoDataMessage";
+import { useTheme } from '@mui/material/styles';
 
 const LoansListPage = () => {
     const [loans, setLoans] = useState<LoanDto[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const { employeeId, clientId } = useParams();
+    const theme = useTheme();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -111,10 +113,10 @@ const LoansListPage = () => {
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             style={{
-                display: 'flex',
-                justifyContent: 'center',
-                backgroundColor: 'white', 
-                color: 'black', 
+              display: 'flex',
+              justifyContent: 'center',
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
             }}
         />
         </Box>

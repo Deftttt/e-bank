@@ -95,18 +95,19 @@ const ClientById = () => {
                 View Client Transactions
               </Button>
             </Box>
-            {auth?.roles?.includes('VIEW_LOANS') && (
-              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Button variant="contained" color="secondary" onClick={() => navigate(`/loans/client/${id}`)}>
-                  View Client Loans
-                </Button>
-              </Box>
-            )}
 
             {auth?.roles?.includes('VIEW_ACCOUNTS') && (
               <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Button variant="contained" color="success" onClick={() => navigate(`/accounts/clients/${id}`)}>
                   View Client Accounts
+                </Button>
+              </Box>
+            )}
+
+            {auth?.roles?.includes('VIEW_LOANS') && (
+              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
+                  View Client Loans
                 </Button>
               </Box>
             )}
