@@ -1,14 +1,22 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { LoanStatus } from '../services/LoanService';
 
-const LoanStatusFilter = ({ onStatusChange: onStatusChange }: { onStatusChange: (status: LoanStatus) => void }) => {
+const LoanStatusFilter = ({ onStatusChange }: { onStatusChange: (status: LoanStatus) => void }) => {
+    const theme = useTheme();
+
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         onStatusChange(event.target.value as LoanStatus);
     };
 
     return (
-        <FormControl variant="outlined" fullWidth margin="normal" style={{ backgroundColor: 'white', borderRadius: '4px' }}>
+        <FormControl
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            style={{ backgroundColor: theme.palette.background.paper, borderRadius: '4px' }}
+        >
             <InputLabel id="loan-status-label">Loan Status</InputLabel>
             <Select
                 labelId="loan-status-label"

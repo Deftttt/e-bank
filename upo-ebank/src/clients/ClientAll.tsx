@@ -7,6 +7,7 @@ import { ClientDto, getClients } from './services/ClientService';
 import { PagedResponse } from '../utils/PagedResponse';
 import ClientsTable from './ui/ClientTable';
 import NoDataMessage from '../shared/NoDataMessage';
+import { useTheme } from '@mui/material/styles';
 
 const ClientsListPage = () => {
   const [clients, setClients] = useState<ClientDto[]>([]);
@@ -18,6 +19,7 @@ const ClientsListPage = () => {
   const [lastName, setLastName] = useState<string | undefined>(undefined);
   const [searchValue, setSearchValue] = useState<string>('');
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -117,8 +119,8 @@ const ClientsListPage = () => {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              backgroundColor: 'white',
-              color: 'black',
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
             }}
           />
         </Box>

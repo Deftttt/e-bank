@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Container, Card, CardContent, Typography, Grid } from '@mui/material';
+import { Container, Card, CardContent, Typography, Grid, Button, Box } from '@mui/material';
 import { Client, getClient } from './services/ClientService';
 import { useParams } from 'react-router-dom';
 import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const ClientById = () => {
   const { id } = useParams<{ id: string }>();
   const [client, setClients] = useState<Client>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   useEffect(() => {
     const fetchClient = async () => {
@@ -87,7 +89,39 @@ const ClientById = () => {
                 </div>
               ))}
             </CardContent>
+
+            <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Button variant="contained" color="primary" onClick={() => navigate(`/transactions/client/${id}`)}>
+                View Client Transactions
+              </Button>
+            </Box>
+
+            {auth?.roles?.includes('VIEW_ACCOUNTS') && (
+              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Button variant="contained" color="success" onClick={() => navigate(`/accounts/clients/${id}`)}>
+                  View Client Accounts
+                </Button>
+              </Box>
+            )}
+
+            {auth?.roles?.includes('VIEW_LOANS') && (
+              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
+                  View Client Loans
+                </Button>
+              </Box>
+            )}
+
+            {auth?.roles?.includes('MANAGE_ACCOUNTS') && (
+              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Button variant="contained" color="secondary" onClick={() => navigate(`/create-account/clients/${id}`)}>
+                  Create Account for Client
+                </Button>
+              </Box>
+            )}
+
           </Card>
+          
         )}
       </Container>
     </>

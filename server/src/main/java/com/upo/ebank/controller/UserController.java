@@ -14,16 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getUsers();
-    }
-
     @PreAuthorize("#id == principal.userId")
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable Long id) {
-
         return userService.getUser(id);
     }
 

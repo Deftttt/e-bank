@@ -7,6 +7,7 @@ import TransactionsTable from './ui/TransactionsTable';
 import { Transaction, getAllTransactions } from './services/TransactionService';
 import { PagedResponse } from '../utils/PagedResponse';
 import NoDataMessage from '../shared/NoDataMessage';
+import { useTheme } from '@mui/material/styles';
 
 const TransactionsListPage = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -17,6 +18,7 @@ const TransactionsListPage = () => {
     const [totalTransactions, setTotalTransactions] = useState(0);
     const { accountNumber, clientId } = useParams();
     const navigate = useNavigate();
+    const theme = useTheme();
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -88,9 +90,9 @@ const TransactionsListPage = () => {
                         style={{
                             display: 'flex',
                             justifyContent: 'center',
-                            backgroundColor: 'white',
-                            color: 'black',
-                        }}
+                            backgroundColor: theme.palette.background.default,
+                            color: theme.palette.text.primary,
+                          }}
                     />
             </Container>
         </>

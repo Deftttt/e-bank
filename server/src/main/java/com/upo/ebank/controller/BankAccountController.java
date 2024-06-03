@@ -70,14 +70,14 @@ public class BankAccountController {
     }
 
 
-    @PreAuthorize("hasAuthority('EMPLOYEE_RIGHTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
+    @PreAuthorize("hasAuthority('MANAGE_ACCOUNTS') or @bankAccountService.checkAccountOwner(#accountNumber, principal.userId)")
     @PostMapping("/{accountNumber}/block")
     public ResponseEntity<Void> blockAccount(@PathVariable String accountNumber) {
         bankAccountService.blockAccount(accountNumber);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAuthority('EMPLOYEE_RIGHTS')")
+    @PreAuthorize("hasAuthority('MANAGE_ACCOUNTS')")
     @PostMapping("/{accountNumber}/unblock")
     public ResponseEntity<Void> unblockAccount(@PathVariable String accountNumber) {
         bankAccountService.unblockAccount(accountNumber);

@@ -7,6 +7,7 @@ import com.upo.ebank.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,11 +59,13 @@ public class AuthController {
         return ResponseEntity.ok("Password reset successfully!");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/setup-mfa")
     public String setupMfa(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return authService.setupMfa(userPrincipal.getEmail());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/verify-mfa")
     public ResponseEntity<?> verifyMfa(@RequestBody MfaVerificationRequest request) {
         authService.verifyMfaSetup(request);

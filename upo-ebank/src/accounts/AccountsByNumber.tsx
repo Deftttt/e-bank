@@ -13,7 +13,7 @@ const AccountsByNumber = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { auth } = useAuth();
-  const isEmployee = auth?.roles?.includes('EMPLOYEE_RIGHTS');
+  const isEmployee = auth?.roles?.includes('MANAGE_ACCOUNTS');
   const isClient = auth?.roles?.includes('USER_RIGHTS');
 
   useEffect(() => {
