@@ -52,7 +52,6 @@ function App() {
             <Route path="reset-password" element={<ResetPasswordPage />} />
 
             <Route element={<RequireAuth />}>
-              <Route path="/secured" element={<SecuredPage />} />
 
                 <Route path="/transactions-page" element={<TransactionsPage />} />
                 <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
@@ -67,18 +66,17 @@ function App() {
                 <Route path="/accounts" element={<AccountsListPage />} />
                 <Route path="/create-account" element={<CreateAccountPage />} />
 
-                <Route path="/create-account/clients/:clientId" element={<CreateClientAccountPage />} />
-
+                <Route element={<RequireRole requiredRole={'MANAGE_ACCOUNTS'} />}>
+                  <Route path="/create-account/clients/:clientId" element={<CreateClientAccountPage />} />
+                </Route>
+                
 
                 <Route element={<RequireRole requiredRole={'VIEW_CLIENTS'} />}>
                   <Route path="/clients/:id" element={<ClientById />} />
                   <Route path="/clients" element={<ClientAll />} />
                 </Route>
 
-
                 <Route path="/loans-page" element={<LoansMainPage />} />
-                <Route path="/loans" element={<LoansListPage />} />
-                <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
                 <Route path="/loans/client/:clientId" element={<LoansListPage />} />
                 <Route path="/loans/:id" element={<LoanDetailsPage />} />
 
@@ -86,6 +84,11 @@ function App() {
                   <Route path="/request-loan" element={<LoanRequestPage />} />
                 </Route>
 
+                <Route element={<RequireRole requiredRole={'VIEW_LOANS'} />}>
+                  <Route path="/loans" element={<LoansListPage />} />
+                  <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
+                </Route>
+                
                 <Route element={<RequireRole requiredRole={'APPROVE_LOANS'} />}>
                   <Route path="/loans/:loanId/decision" element={<LoanEmployeeDecisionPage />} />
                 </Route>
