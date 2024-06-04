@@ -34,6 +34,10 @@ import AccountsMainPage from './accounts/AccountsMainPage';
 import UserInfoPage from './users/UserInfoPage';
 import CreateAccountPage from './accounts/CreateAccountPage';
 import CreateClientAccountPage from './accounts/CreateClientAccountPage';
+import DepositsListPage from './deposits/DepositsListPage';
+import DepositDetailsPage from './deposits/DepositsDetailsPage';
+import RequestDepositPage from './deposits/DepositRequestPage';
+import DepositsMainPage from './deposits/DepositsMainPage';
 
 function App() {
 
@@ -91,6 +95,16 @@ function App() {
                 
                 <Route element={<RequireRole requiredRole={'APPROVE_LOANS'} />}>
                   <Route path="/loans/:loanId/decision" element={<LoanEmployeeDecisionPage />} />
+                </Route>
+
+                <Route path="/deposits-page" element={<DepositsMainPage />} />
+
+                <Route path="/deposits" element={<DepositsListPage />} />
+                <Route path="/deposits/account/:accountNumber" element={<DepositsListPage />} />
+                <Route path="/deposits/:id" element={<DepositDetailsPage />} />
+
+                <Route element={<RequireRole requiredRole={'USER_RIGHTS'} />}>
+                  <Route path="/request-deposit" element={<RequestDepositPage />} />
                 </Route>
                 
 
