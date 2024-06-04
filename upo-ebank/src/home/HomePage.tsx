@@ -180,6 +180,26 @@ const HomePage = () => {
                 </Grid>
               )}
 
+              {auth?.roles?.includes('VIEW_DEPOSITS') && (
+                <Grid item xs={12} sm={6} md={4}>
+                  <Card elevation={3} sx={{ boxShadow: 3 }}>
+                    <CardContent>
+                      <Typography variant="h5" component="div" gutterBottom>
+                        Deposits
+                      </Typography>
+                      <Typography variant="body2" component="div">
+                        Deposits management section.
+                      </Typography>
+                      <Box mt={2}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation('/deposits-page')}>
+                          Go to Deposits
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              )}
+
                 <Grid item xs={12} sm={6} md={4}>
                   <Card elevation={3} sx={{ boxShadow: 3 }}>
                     <CardContent>

@@ -1,7 +1,6 @@
-package com.upo.ebank.model.dto;
+package com.upo.ebank.model.dto.deposits;
 
 import com.upo.ebank.model.enums.DepositStatus;
-import com.upo.ebank.model.enums.DepositType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.Data;
@@ -17,6 +16,8 @@ public class TimeDepositDetailsDto {
 
     private BigDecimal depositAmount;
 
+    private BigDecimal finalAmount;
+
     private Date startDate;
 
     private Date endDate;
@@ -24,7 +25,8 @@ public class TimeDepositDetailsDto {
     private DepositStatus status;
 
     private int months;
-    private BigDecimal interestRate;
+
+    private double interestRate;
 
     private String clientFirstName;
 

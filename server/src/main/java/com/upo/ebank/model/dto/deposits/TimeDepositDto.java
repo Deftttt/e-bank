@@ -1,12 +1,10 @@
-package com.upo.ebank.model.dto;
+package com.upo.ebank.model.dto.deposits;
 
 import com.upo.ebank.model.enums.DepositStatus;
 import com.upo.ebank.model.enums.DepositType;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -23,6 +21,8 @@ public class TimeDepositDto {
     private DepositStatus status;
 
     private DepositType depositType;
+
+    private String AccountNumber;
 
 }
 

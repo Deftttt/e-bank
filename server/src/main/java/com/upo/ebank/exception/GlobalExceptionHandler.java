@@ -44,6 +44,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InsufficientBalanceForDepositException.class)
+    public ResponseEntity<?> handleInsufficientBalanceForDepositException(Exception exception, WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("depositAmount", exception.getMessage());
+
+        ExceptionDetails exceptionDetails = new ExceptionDetails(new Date(), "Validation Failed", request.getDescription(false), errors);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BankAccountException.class)
     public ResponseEntity<?> handleBankAccountException(Exception exception, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
@@ -52,6 +61,7 @@ public class GlobalExceptionHandler {
         ExceptionDetails exceptionDetails = new ExceptionDetails(new Date(), "Validation Failed", request.getDescription(false), errors);
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
+
 
     @ExceptionHandler(EmailExistsException.class)
     public ResponseEntity<ExceptionDetails> emailInUseExceptionHandling(Exception exception, WebRequest request) {
@@ -64,6 +74,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoUserWithEmailException.class)
     public ResponseEntity<?> handleNoUserWithEmailException(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DepositAlreadyCanceledException.class)
+    public ResponseEntity<?> DepositAlreadyCanceledException(Exception exception, WebRequest request) {
         return new ResponseEntity<>(new ExceptionDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 

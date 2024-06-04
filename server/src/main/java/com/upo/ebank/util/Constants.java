@@ -8,4 +8,5 @@ public class Constants {
     public static final String RESET_PASSWORD_URL = "http://localhost:5173/reset-password?token=";
     public static final String RESET_PASSWORD_EMAIL_SUBJECT = "Reset your password";
     public static final String RESET_PASSWORD_EMAIL_MESSAGE = "Please click on the following link to reset password to your account: ";
+
 }
