@@ -67,6 +67,21 @@ export const getTimeDepositsByAccountNumber = async (accountNumber: string, page
     }
 };
 
+export const getTimeDepositsByClientId = async (clientId: string, page: number = 0, size: number = 10, sort: string = 'id,asc'): Promise<PagedResponse<TimeDepositDto>> => {
+    try {
+        const params = new URLSearchParams({
+            page: page.toString(),
+            size: size.toString(),
+            sort
+        });
+        const response = await axios.get(`${API_URL}/client/${clientId}`, { params, headers: authHeader() });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching time deposits for client ${clientId}:`, error);
+        throw error;
+    }
+};
+
 export const getTimeDeposit = async (id: number): Promise<TimeDepositDetailsDto> => {
     try {
         const response = await axios.get(`${API_URL}/${id}`, { headers: authHeader() });

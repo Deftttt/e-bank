@@ -30,16 +30,19 @@ const DepositDetailsPage = () => {
     }, [id, navigate]);
 
     const handleCancel = async () => {
-        setIsLoading(true);
-        try {
+        if (id) {
+          setIsLoading(true);
+          try {
             await cancelTimeDeposit(Number(id));
-            navigate('/deposits');
-        } catch (error) {
+            const updatedDeposit = await getTimeDeposit(Number(id));
+            setDeposit(updatedDeposit);
+          } catch (error) {
             console.error('Error cancelling deposit:', error);
-        } finally {
+          } finally {
             setIsLoading(false);
+          }
         }
-    };
+      };
 
     if (isLoading) {
         return <Loading />;

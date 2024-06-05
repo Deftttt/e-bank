@@ -14,7 +14,6 @@ public class CreateTransactionDTO {
     @Positive(message = "Amount must be positive number")
     private BigDecimal amount;
 
-    @FutureOrPresent(message = "Transaction date must be in the future or present")
     private Date transactionDate = new Date();
 
     @NotBlank(message = "Transaction title cannot be empty")

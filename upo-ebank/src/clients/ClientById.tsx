@@ -102,13 +102,23 @@ const ClientById = () => {
               </Box>
             )}
 
-            {auth?.roles?.includes('VIEW_LOANS') && (
-              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
-                  View Client Loans
-                </Button>
-              </Box>
-            )}
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+              {auth?.roles?.includes('VIEW_LOANS') && (
+                <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
+                  <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
+                    View Client Loans
+                  </Button>
+                </Box>
+              )}
+
+              {auth?.roles?.includes('VIEW_DEPOSITS') && (
+                <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
+                  <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
+                    View Client Deposits
+                  </Button>
+                </Box>
+              )}
+            </Box>
 
             {auth?.roles?.includes('MANAGE_ACCOUNTS') && (
               <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

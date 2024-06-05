@@ -3,7 +3,6 @@ import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { confirmRegistration } from './services/AuthService';
 import CustomAlert from '../shared/ui/CustomAlert';
-import Navbar from '../shared/ui/Navbar';
 import { useTheme } from '@mui/material/styles';
 
 const RegisterConfirmPage: React.FC = () => {
@@ -44,7 +43,6 @@ const RegisterConfirmPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"

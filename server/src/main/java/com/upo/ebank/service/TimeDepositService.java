@@ -117,6 +117,16 @@ public class TimeDepositService {
         timeDepositRepository.save(deposit);
     }
 
+    public List<TimeDepositDto> getTimeDepositsByClientId(Long clientId, Pageable pageable) {
+        return timeDepositRepository.findByBankAccountClientId(clientId, pageable).stream()
+                .map(timeDeposit -> modelMapper.map(timeDeposit, TimeDepositDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public long getTotalDepositsNumberByClientId(Long clientId) {
+        return timeDepositRepository.countByBankAccountClientId(clientId);
+    }
+
 
     public boolean checkDepositOwner(Long depositId, Long userId) {
         TimeDeposit deposit = timeDepositRepository.findById(depositId).orElseThrow();

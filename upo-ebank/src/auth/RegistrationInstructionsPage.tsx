@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Button, CircularProgress } from '@mui/material';
 import { resendConfirmationEmail } from './services/AuthService';
 import { useLocation } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 
 const RegistrationInstructionsPage = () => {
   const location = useLocation();
@@ -32,7 +31,6 @@ const RegistrationInstructionsPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"
