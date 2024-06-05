@@ -2,7 +2,6 @@ import { Box, Container, TablePagination } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../shared/ui/Loading";
-import Navbar from "../shared/ui/Navbar";
 import { DepositStatus, getAllTimeDeposits, getTimeDepositsByAccountNumber } from "./services/DepositsService";
 import { TimeDepositDto } from "./services/DepositsService";
 import DepositsTable from "./ui/DepositsTable";
@@ -72,7 +71,6 @@ const DepositsListPage = () => {
     if (deposits.length === 0) {
         return (
             <>
-                <Navbar />
                 <Container maxWidth={false}>
                     <h1>
                         {accountNumber ? `Deposits for account ${accountNumber}:` : 'List of all deposits:'}
@@ -85,7 +83,6 @@ const DepositsListPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth={false}>
                 <h1>
                     {accountNumber ? `Deposits for account ${accountNumber}:` : 'List of all deposits:'}

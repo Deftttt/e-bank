@@ -2,7 +2,6 @@
     import { Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
     import { useNavigate } from 'react-router-dom';
     import useAuth from '../hooks/useAuth';
-    import Navbar from '../shared/ui/Navbar';
 
     const LoansPage = () => {
     const navigate = useNavigate();
@@ -17,7 +16,6 @@
 
     return (
         <>
-        <Navbar />
         <Container maxWidth="lg">
             <Box
             display="flex"

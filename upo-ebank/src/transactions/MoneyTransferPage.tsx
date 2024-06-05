@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { TextField, Button, Box, Card, CardContent, Container, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CreateTransactionDTO, createTransaction } from './services/TransactionService';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 
 const MoneyTransferPage: React.FC = () => {
@@ -32,7 +31,6 @@ const MoneyTransferPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Card sx={{ width: '100%', mt: 4 }}>
           <CardContent>

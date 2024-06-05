@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, CardContent, Container, Typography, Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
-import Navbar from '../shared/ui/Navbar';
 import { getTimeDeposit, cancelTimeDeposit, TimeDepositDetailsDto } from './services/DepositsService';
 import useAuth from '../hooks/useAuth';
 import DepositStatusChip from './ui/DepositStatusChip';
@@ -48,7 +47,6 @@ const DepositDetailsPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth={false}>
                 {deposit && (
                     <Card sx={{ margin: '20px auto', padding: '20px', maxWidth: '600px' }} variant="outlined">

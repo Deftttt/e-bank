@@ -107,9 +107,9 @@ INSERT INTO bank_account (balance, client_id, opening_date, account_number, acco
 INSERT INTO bank_account (balance, client_id, opening_date, account_number, account_type, is_blocked) VALUES (1000.00, 1, '2024-05-13 02:33:06.560000', '76123456785091168560947874', 'PERSONAL_ACCOUNT', false);
 INSERT INTO bank_account (balance, client_id, opening_date, account_number, account_type, is_blocked) VALUES (1500.00, 2, '2024-05-13 02:33:06.560000', '84123456788988384542428350', 'PERSONAL_ACCOUNT', false);
 
-INSERT INTO transaction (amount, id, transaction_date, recipient_account_id, sender_account_id) VALUES (500.00, 1, '2024-05-13 02:33:06.639000', '31123456782427179921005413', '76123456785091168560947874');
-INSERT INTO transaction (amount, id, transaction_date, recipient_account_id, sender_account_id) VALUES (300.00, 2, '2024-05-13 02:33:06.639000', '84123456788988384542428350', '76123456785091168560947874');
-INSERT INTO transaction (amount, id, transaction_date, recipient_account_id, sender_account_id) VALUES (200.00, 3, '2024-05-13 02:33:06.639000', '84123456788988384542428350', '31123456782427179921005413');
+INSERT INTO transaction (amount, id, transaction_date, recipient_account_id, sender_account_id, message) VALUES (500.00, 1, '2024-05-13 02:33:06.639000', '31123456782427179921005413', '76123456785091168560947874', 'Charity Donation');
+INSERT INTO transaction (amount, id, transaction_date, recipient_account_id, sender_account_id, message) VALUES (300.00, 2, '2024-05-13 02:33:06.639000', '84123456788988384542428350', '76123456785091168560947874', 'Medical Expenses');
+INSERT INTO transaction (amount, id, transaction_date, recipient_account_id, sender_account_id, message) VALUES (200.00, 3, '2024-05-13 02:33:06.639000', '84123456788988384542428350', '31123456782427179921005413', 'Internet Subscription');
 
 INSERT INTO loan (amount, interest_rate, loan_term, monthly_repayment_amount, start_date, total_repayment_amount, application_date, client_id, decision_date, employee_id, id, comment, loan_purpose, status) VALUES (15000.00, null, 10, null, '2024-05-23', null, '2024-05-13 02:33:06.674724', 1, null, 104, 1, null, 'Motorcycle purchase', 'REQUESTED');
 INSERT INTO loan (amount, interest_rate, loan_term, monthly_repayment_amount, start_date, total_repayment_amount, application_date, client_id, decision_date, employee_id, id, comment, loan_purpose, status) VALUES (20000.00, null, 16, null, '2024-05-28', null, '2024-05-11 02:33:06.674724', 1, null, 105, 2, null, 'Home renovation', 'REQUESTED');

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Container, TablePagination } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
-import Navbar from '../shared/ui/Navbar';
 import { BankAccount, getAllAccounts, getAccountsByClient, AccountType } from './services/AccountsService';
 import AccountsTable from './ui/AccountsTable';
 import AccountTypeFilter from './ui/AccountTypeFilter';
@@ -71,7 +70,6 @@ const AccountsListPage = () => {
   if (accounts.length === 0) {
     return (
       <>
-        <Navbar />
         <Container maxWidth={false}>
           <h1>
             {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}
@@ -85,7 +83,7 @@ const AccountsListPage = () => {
 
   return (
     <>
-      <Navbar />
+
       <Container maxWidth={false}>
         <h1>
           {clientId ? `Accounts of client ${clientId}:` : 'All Accounts'}

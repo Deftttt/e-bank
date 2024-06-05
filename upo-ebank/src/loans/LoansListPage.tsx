@@ -2,7 +2,6 @@ import { Box, Container, TablePagination } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../shared/ui/Loading";
-import Navbar from "../shared/ui/Navbar";
 import { LoanStatus, getAllLoans, getLoansByClient, getLoansByEmployee } from "./services/LoanService";
 import { LoanDto } from "./services/LoanService";
 import LoansTable from "./ui/LoansTable";
@@ -79,7 +78,6 @@ const LoansListPage = () => {
     if (loans.length === 0) {
       return (
         <>
-          <Navbar />
           <Container maxWidth={false}>
           <h1>
             {employeeId  ? `Loans assigned to employee ${employeeId}:` :
@@ -95,7 +93,6 @@ const LoansListPage = () => {
   
     return (
       <>
-      <Navbar />
       <Container maxWidth={false}>
       <h1>
         {employeeId  ? `Loans assigned to employee ${employeeId}:` :

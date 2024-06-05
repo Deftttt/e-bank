@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Container, TablePagination, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
-import Navbar from '../shared/ui/Navbar';
 import { ClientDto, getClients } from './services/ClientService';
 import { PagedResponse } from '../utils/PagedResponse';
 import ClientsTable from './ui/ClientTable';
@@ -69,7 +68,6 @@ const ClientsListPage = () => {
   if (clients.length === 0) {
     return (
       <>
-        <Navbar />
         <Container maxWidth={false}>
         <h1>List of clients</h1>
         <Box display="flex" alignItems="center" mb={2} width="100%">
@@ -92,7 +90,6 @@ const ClientsListPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth={false}>
         <h1>List of clients</h1>
         <Box display="flex" alignItems="center" mb={2} width="100%">

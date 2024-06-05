@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, CardContent, Container, Typography, Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
-import Navbar from '../shared/ui/Navbar';
 import { clientDecision, getLoan, Loan } from './services/LoanService';
 import useAuth from '../hooks/useAuth';
 import LoanStatusChip from './ui/LoanStatusChip';
@@ -49,7 +48,6 @@ const LoanDetailsPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth={false}>
                 {loan && (
                     <Card sx={{ margin: '20px auto', padding: '20px', maxWidth: '600px' }} variant="outlined">

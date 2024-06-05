@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import Navbar from '../shared/ui/Navbar';
 
 const AccountsMainPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ const AccountsMainPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"

@@ -3,7 +3,6 @@ import { Box, Container, TablePagination, Typography } from '@mui/material';
 import { Transaction, TransactionType, getTransactionsByClient } from './services/TransactionService';
 import TransactionsTable from './ui/TransactionsTable';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import TransactionTypeFilter from './ui/TransactionTypeFilter';
 import { PagedResponse } from '../utils/PagedResponse';
@@ -67,7 +66,6 @@ const TransactionByClientId = () => {
   if (transactions.length === 0) {
     return (
       <>
-        <Navbar />
         <Container maxWidth={false}>
         <h1>
           {`Transactions for client: ${clientId}`}
@@ -81,7 +79,6 @@ const TransactionByClientId = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth={false}>
       <h1>
         {`Transactions for client: ${clientId}`}

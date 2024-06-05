@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
 import { ResetPasswordData, resetPassword } from '../auth/services/AuthService';
-import Navbar from '../shared/ui/Navbar';
 import { useTheme } from '@mui/material/styles';
 
 const ResetPasswordPage = () => {
@@ -43,7 +42,6 @@ const ResetPasswordPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"

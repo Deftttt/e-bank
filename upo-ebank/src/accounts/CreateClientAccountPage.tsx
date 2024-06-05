@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Box, Card, CardContent, Container, Typography, MenuItem, Select, InputLabel, FormControl, TextField } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { AccountType, CreateEmployeeBankAccountDto, createAccountForClient } from './services/AccountsService';
 
@@ -35,7 +34,6 @@ const CreateClientAccountPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Card sx={{ width: '100%', mt: 4 }}>
           <CardContent> 

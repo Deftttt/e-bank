@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Transaction, TransactionDetailDTO, getTransactionById } from './services/TransactionService';
 import { useParams } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, CardContent, Typography, Grid, Button } from '@mui/material';
@@ -37,7 +36,6 @@ const TransactionDetail = () => {
   
   return (
     <>
-      <Navbar />
       <Container maxWidth={false}>
   {transaction && (
     <Card sx={{ margin: '20px auto', padding: '20px', maxWidth: '600px' }} variant="outlined">
@@ -74,7 +72,7 @@ const TransactionDetail = () => {
           <Grid item xs={12}>
             <PDFDownloadLink
               document={<PDFFile transaction={transaction} />}
-              fileName="transaction.pdf"
+              fileName="transaction-confirmation.pdf"
             >
               {({ blob, url, loading, error }) =>
                 loading ? 'Loading document...' : <Button variant="contained">Download Transaction Detail</Button>
