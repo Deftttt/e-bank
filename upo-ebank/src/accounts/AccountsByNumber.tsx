@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BankAccountDetails, getAccountByNumber, blockAccount, unblockAccount } from './services/AccountsService';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { Container, Card, CardContent, Typography, Grid, Button, Chip } from '@mui/material';
 import AccountTypeChip from './ui/AccountTypeChip';
@@ -66,7 +65,6 @@ const AccountsByNumber = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth={false}>
         {account && (
           <Card sx={{ margin: '20px auto', padding: '20px', maxWidth: '600px' }} variant="outlined">

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Box, Card, CardContent, Container, Typography, MenuItem, Select, InputLabel, FormControl, TextField } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { AccountType, CreateEmployeeBankAccountDto, createAccountForClient } from './services/AccountsService';
+import NoDataMessage from '../shared/NoDataMessage';
 
 const accountTypes: AccountType[] = ['PERSONAL_ACCOUNT', 'STUDENT_ACCOUNT', 'RETIREMENT_ACCOUNT', 'INVESTMENT_ACCOUNT'];
 
@@ -35,9 +35,8 @@ const CreateClientAccountPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <Card sx={{ width: '100%', mt: 4 }}>
+        <Card sx={{ width: '100%', mt: 2 }}>
           <CardContent> 
             <Typography variant="h4" component="div" gutterBottom textAlign="center">
               Create Client Account Form

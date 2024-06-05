@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import Navbar from '../shared/ui/Navbar';
 
 const AccountsMainPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ const AccountsMainPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"
@@ -131,6 +129,32 @@ const AccountsMainPage = () => {
                     </CardContent>
                   </Card>
                 </Grid>
+
+                {auth.roles.includes('MANAGE_ACCOUNTS') && (
+                <Grid item xs={12} sm={6} md={4}>
+                  <Card elevation={3} sx={{ boxShadow: 3 }}>
+                    <CardContent>
+                      <Typography variant="h5" component="div" gutterBottom>
+                        Create Bank Account for Client
+                      </Typography>
+                      <Typography variant="body2" component="div">
+                      </Typography>
+                      <Box mt={2}>
+                        <TextField
+                          fullWidth
+                          margin="normal"
+                          label="Client ID"
+                          value={clientId}
+                          onChange={(e) => setClientId(e.target.value)}
+                        />
+                        <Button variant="contained" color="primary" fullWidth onClick={() => handleNavigation(`/create-account/clients/${clientId}`)}>
+                          Create Account
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                )}
 
               </>
             )}

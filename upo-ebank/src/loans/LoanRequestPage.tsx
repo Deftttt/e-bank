@@ -2,7 +2,6 @@ import { Box, Button, Card, CardContent, Container, TextField, Typography } from
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestLoan, LoanRequest } from "./services/LoanService";
-import Navbar from "../shared/ui/Navbar";
 import Loading from "../shared/ui/Loading";
 
 const LoanRequestPage = () => {
@@ -41,7 +40,6 @@ const LoanRequestPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center'}}>
                 <Card sx={{ width: '100%', mt: 4 }}>
                     <CardContent>

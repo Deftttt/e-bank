@@ -2,7 +2,6 @@ import { Box, Button, Card, CardContent, Container, TextField, Typography, MenuI
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestTimeDeposit, TimeDepositRequest, DepositType } from "./services/DepositsService";
-import Navbar from "../shared/ui/Navbar";
 import Loading from "../shared/ui/Loading";
 import useAuth from "../hooks/useAuth";
 import { BankAccount, getAccountsByClient } from "../accounts/services/AccountsService";
@@ -64,7 +63,6 @@ const RequestDepositPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center'}}>
                 <Card sx={{ width: '100%', mt: 4 }}>
                     <CardContent>

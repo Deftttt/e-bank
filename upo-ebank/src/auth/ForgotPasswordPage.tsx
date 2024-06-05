@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
 import { sendForgotPasswordEmail } from './services/AuthService';
-import Navbar from '../shared/ui/Navbar';
 import { useTheme } from '@mui/material/styles';
 
 const ForgotPasswordPage = () => {
@@ -43,7 +42,6 @@ const ForgotPasswordPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"

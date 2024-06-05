@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TimeDepositRepository extends JpaRepository<TimeDeposit, Long> {
-
-    long countByBankAccountAccountNumber(String accountNumber);
-
     Page<TimeDeposit> findByBankAccountAccountNumber(String accountNumber, Pageable pageable);
+    long countByBankAccountAccountNumber(String accountNumber);
+    Page<TimeDeposit> findByBankAccountClientId(Long clientId, Pageable pageable);
+    long countByBankAccountClientId(Long clientId);
 }

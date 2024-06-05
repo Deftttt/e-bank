@@ -58,4 +58,13 @@ public class TimeDepositController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAuthority('VIEW_DEPOSITS') or #clientId == principal.userId")
+    @GetMapping("/client/{clientId}")
+    public PagedResponse<TimeDepositDto> getTimeDepositsByClientId(@PathVariable Long clientId,
+                                                                   @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        List<TimeDepositDto> deposits = timeDepositService.getTimeDepositsByClientId(clientId, pageable);
+        long totalElements = timeDepositService.getTotalDepositsNumberByClientId(clientId);
+        return new PagedResponse<>(deposits, totalElements);
+    }
+
 }

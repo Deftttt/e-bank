@@ -61,7 +61,7 @@ public class BankAccountController {
         return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('EMPLOYEE_RIGHTS')")
+    @PreAuthorize("hasAuthority('MANAGE_ACCOUNTS')")
     @PostMapping("/clients/{clientId}")
     public ResponseEntity<BankAccount> createAccountForClient(@PathVariable Long clientId,
                                                                  @Valid @RequestBody EmployeeCreateBankAccountDto createBankAccountDto) {

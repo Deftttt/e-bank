@@ -2,7 +2,6 @@ import { Box, Button, Card, CardContent, Container, FormControlLabel, Radio, Rad
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { approveOrRejectLoan, getLoan, LoanDecision } from "./services/LoanService";
-import Navbar from "../shared/ui/Navbar";
 import useAuth from "../hooks/useAuth";
 
 const LoanEmployeeDecisionPage = () => {
@@ -56,7 +55,6 @@ const LoanEmployeeDecisionPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
                 <Card sx={{ width: '100%', mt: 4 }}>
                     <CardContent>

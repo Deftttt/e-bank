@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import Navbar from '../shared/ui/Navbar';
 
 const UserInfoPage = () => {
   const navigate = useNavigate();
@@ -10,7 +9,6 @@ const UserInfoPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"

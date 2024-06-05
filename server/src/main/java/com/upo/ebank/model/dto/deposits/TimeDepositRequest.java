@@ -17,6 +17,7 @@ public class TimeDepositRequest {
     @DecimalMin(value = "100", inclusive = false, message = "Amount must be greater than 100")
     private BigDecimal depositAmount;
 
+    @FutureOrPresent(message = "Start date must be in the future or present")
     private Date startDate = new Date();
 
     @Valid

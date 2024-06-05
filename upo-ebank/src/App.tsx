@@ -61,14 +61,20 @@ function App() {
                 <Route path="/transactions/account/:accountNumber" element={<TransactionByAccount />} />
                 <Route path="/transactions/client/:clientId" element={<TransactionByClientId />} />
                 <Route path="/transactions/:id" element={<TransactionDetail />} />
-                <Route path="/transactions" element={<TransactionAll />} />
                 <Route path="/transactions/account/:accountNumber/transfer" element={<MoneyTransferPage />} />
 
                 <Route path="/accounts-page" element={<AccountsMainPage />} />
                 <Route path="/accounts/:accountNumber" element={<AccountsByNumber />} />
                 <Route path="/accounts/clients/:clientId" element={<AccountsListPage />} />
-                <Route path="/accounts" element={<AccountsListPage />} />
-                <Route path="/create-account" element={<CreateAccountPage />} />
+                
+                
+                <Route element={<RequireRole requiredRole={'VIEW_TRANSACTIONS'} />}>
+                  <Route path="/transactions" element={<TransactionAll />} />
+                </Route>
+
+                <Route element={<RequireRole requiredRole={'VIEW_ACCOUNTS'} />}>
+                  <Route path="/accounts" element={<AccountsListPage />} />
+                </Route>
 
                 <Route element={<RequireRole requiredRole={'MANAGE_ACCOUNTS'} />}>
                   <Route path="/create-account/clients/:clientId" element={<CreateClientAccountPage />} />
@@ -84,10 +90,6 @@ function App() {
                 <Route path="/loans/client/:clientId" element={<LoansListPage />} />
                 <Route path="/loans/:id" element={<LoanDetailsPage />} />
 
-                <Route element={<RequireRole requiredRole={'USER_RIGHTS'} />}>
-                  <Route path="/request-loan" element={<LoanRequestPage />} />
-                </Route>
-
                 <Route element={<RequireRole requiredRole={'VIEW_LOANS'} />}>
                   <Route path="/loans" element={<LoansListPage />} />
                   <Route path="/loans/employee/:employeeId" element={<LoansListPage />} />
@@ -99,12 +101,18 @@ function App() {
 
                 <Route path="/deposits-page" element={<DepositsMainPage />} />
 
-                <Route path="/deposits" element={<DepositsListPage />} />
+                <Route element={<RequireRole requiredRole={'VIEW_DEPOSITS'} />}>
+                  <Route path="/deposits" element={<DepositsListPage />} />
+                </Route>
+
                 <Route path="/deposits/account/:accountNumber" element={<DepositsListPage />} />
+                <Route path="/deposits/client/:clientId" element={<DepositsListPage />} />
                 <Route path="/deposits/:id" element={<DepositDetailsPage />} />
 
                 <Route element={<RequireRole requiredRole={'USER_RIGHTS'} />}>
                   <Route path="/request-deposit" element={<RequestDepositPage />} />
+                  <Route path="/request-loan" element={<LoanRequestPage />} />
+                  <Route path="/create-account" element={<CreateAccountPage />} />
                 </Route>
                 
 

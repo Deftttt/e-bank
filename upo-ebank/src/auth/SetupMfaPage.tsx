@@ -3,7 +3,6 @@ import { getMfaQrCode, verifyMfaSetup, MfaVerification } from '../auth/services/
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import { useTheme } from '@mui/material/styles';
 
 const SetupMfaPage = () => {
@@ -49,7 +48,6 @@ const SetupMfaPage = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth="lg">
         <Box
           display="flex"

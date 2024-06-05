@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Container, TablePagination, TextField, Button } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../shared/ui/Loading';
-import Navbar from '../shared/ui/Navbar';
 import TransactionsTable from './ui/TransactionsTable';
 import { Transaction, getAllTransactions } from './services/TransactionService';
 import { PagedResponse } from '../utils/PagedResponse';
@@ -61,7 +60,6 @@ const TransactionsListPage = () => {
     if (transactions.length === 0) {
         return (
           <>
-            <Navbar />
             <Container maxWidth={false}>
             <h1>
                 List of all transactions:
@@ -74,7 +72,6 @@ const TransactionsListPage = () => {
 
     return (
         <>
-            <Navbar />
             <Container maxWidth={false}>
                 <h1>
                   List of all transactions:

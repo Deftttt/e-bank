@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Container, Card, CardContent, Typography, Grid, Button, Box } from '@mui/material';
 import { Client, getClient } from './services/ClientService';
 import { useParams } from 'react-router-dom';
-import Navbar from '../shared/ui/Navbar';
 import Loading from '../shared/ui/Loading';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
@@ -37,7 +36,6 @@ const ClientById = () => {
 
   return (
     <>
-      <Navbar />
       <Container maxWidth={false}>
         {client && (
           <Card sx={{ margin: '20px auto', padding: '20px', maxWidth: '600px' }} variant="outlined">
@@ -104,13 +102,23 @@ const ClientById = () => {
               </Box>
             )}
 
-            {auth?.roles?.includes('VIEW_LOANS') && (
-              <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
-                  View Client Loans
-                </Button>
-              </Box>
-            )}
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+              {auth?.roles?.includes('VIEW_LOANS') && (
+                <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
+                  <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
+                    View Client Loans
+                  </Button>
+                </Box>
+              )}
+
+              {auth?.roles?.includes('VIEW_DEPOSITS') && (
+                <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
+                  <Button variant="contained" color="warning" onClick={() => navigate(`/loans/client/${id}`)}>
+                    View Client Deposits
+                  </Button>
+                </Box>
+              )}
+            </Box>
 
             {auth?.roles?.includes('MANAGE_ACCOUNTS') && (
               <Box sx={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
